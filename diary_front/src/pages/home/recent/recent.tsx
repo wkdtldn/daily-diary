@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import "./recent.css";
 import ContentBox from "../../../components/ContentBox/ContentBox";
-import { SelectedDate, dateState } from "../../../hooks/recoil/dateState";
-import { useRecoilValue } from "recoil";
 import { diary_by_month } from "../../../api/diary";
 
 type InputDatePicker = string | number | readonly string[] | undefined;

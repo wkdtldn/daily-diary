@@ -1,6 +1,6 @@
 import "./home.css";
 
-import { Route, Routes, useNavigate, Link } from "react-router-dom";
+import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import Header from "../../components/Layout/Header/Header";
 import Footer from "../../components/Layout/Footer/Footer";
 import CalendarPage from "./calendar/calendar";
@@ -34,7 +34,7 @@ function HomePage() {
       }
     };
     checkAuthentication();
-  }, []);
+  }, [navigate]);
 
   if (isAuthenticated === null) {
     return <div>Loading..</div>;
