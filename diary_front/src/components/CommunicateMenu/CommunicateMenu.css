@@ -1,0 +1,25 @@
+.preview-content-reaction__wrapper {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  .preview-content-reaction {
+    width: 30px;
+    height: 100%;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .preview-content-reaction__like {
+    font-size: 17px;
+  }
+  .preview-content-reaction__comment {
+    font-size: 15px;
+  }
+  .preview-content-reaction__share {
+    font-size: 17px;
+  }
+}

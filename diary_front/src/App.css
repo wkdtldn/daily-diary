@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Grandiflora+One&family=Noto+Serif+KR:wght@200..900&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #eaeaea;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  width: 430px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 1px 1px 3px rgb(163, 163, 163), -1px -1px 3px rgb(157, 156, 156);
+  overflow: hidden;
+}

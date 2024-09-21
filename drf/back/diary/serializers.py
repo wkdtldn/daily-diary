@@ -1,0 +1,67 @@
+from rest_framework.exceptions import ValidationError
+from rest_framework import serializers
+from .models import UserModel, Diary, Comment
+
+
+# User
+class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    username = serializers.CharField(required=True, allow_blank=False, max_length=150)
+    name = serializers.CharField(required=True, allow_blank=False, max_length=100)
+    email = serializers.EmailField(required=True, allow_blank=False, max_length=254)
+    password = serializers.CharField(
+        required=True, allow_blank=False, max_length=128, write_only=True
+    )
+
+    def create(self, validated_data):
+        user = UserModel(
+            username=validated_data.get("username"),
+            email=validated_data.get("email"),
+            name=validated_data.get("name"),
+        )
+        user.set_password(validated_data.get("password"))
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.username = validated_data.get("username", instance.username)
+        instance.email = validated_data.get("email", instance.email)
+        instance.password = validated_data.get("password", instance.password)
+        instance.save()
+
+        return instance
+
+
+# Comment
+class CommentSerializer(serializers.ModelSerializer):
+    writer_name = serializers.CharField(source="writer.username", read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+    def create(self, validated_data):
+        validated_data["writer"] = self.context["request"].user
+        return Comment.objects.create(**validated_data)
+
+
+# Diary
+class DiarySerializer(serializers.ModelSerializer):
+    writer_name = serializers.CharField(source="writer.username", read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Diary
+        fields = "__all__"
+        read_only_fields = ("writer",)
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        writer = request.user if request and request.user.is_authenticated else None
+
+        if writer is None:
+            raise ValidationError("Authentication credentials are required.")
+
+        validated_data["writer"] = writer
+        return Diary.objects.create(**validated_data)
