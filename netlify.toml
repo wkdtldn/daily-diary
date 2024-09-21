@@ -1,0 +1,3 @@
+from = "/*"
+to = "/diary_front/build/index.html"
+status = 200
