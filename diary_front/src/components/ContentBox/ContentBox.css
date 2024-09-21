@@ -51,6 +51,10 @@
     .content-middle-writer {
       color: gray;
       text-decoration-line: none;
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .content-middle-writer:hover {
       text-decoration-line: underline;
