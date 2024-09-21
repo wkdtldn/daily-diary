@@ -44,7 +44,7 @@ class LoginView(APIView):
 class LogoutView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         logout(request)
         return JsonResponse(
             {"details": "Successfully logged out."}, status=status.HTTP_200_OK

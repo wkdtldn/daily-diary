@@ -1,6 +1,21 @@
 import { NavigateFunction } from "react-router-dom";
 import { fetchCookies } from "./token";
 
+export const userSearch = async (username: string) => {
+  const csrfToken = await fetchCookies();
+
+  const res = await fetch(`http://127.0.0.1:8000/api/user/${username}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken!,
+    },
+    credentials: "include",
+  });
+  const data = await res.json();
+  return data;
+};
+
 export const login = async (
   username: string,
   password: string,
@@ -26,6 +41,26 @@ export const login = async (
     navigate("/home");
   } else {
     console.error("Login failed");
+  }
+};
+
+export const logout = async (navigate: NavigateFunction): Promise<void> => {
+  const csrfToken = await fetchCookies();
+
+  const res = await fetch("http://127.0.0.1:8000/api/logout/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken!,
+    },
+    credentials: "include",
+  });
+
+  if (res.ok) {
+    console.log("Logout successful");
+    navigate("/login");
+  } else {
+    console.error("Logout failed");
   }
 };
 

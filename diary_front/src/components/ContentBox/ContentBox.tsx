@@ -33,12 +33,11 @@ const ContentBox: React.FC<ContentBoxProps> = ({
       </div>
       <div className="content-middle">
         <span className="content-middle-date">
-          {date_.getFullYear()}년 {date_.getMonth() + 1}월 {date_.getDate()}일
+          {date_.getFullYear()}년 {date_.getMonth() + 1}월 {date_.getDate()}일{" "}
           {get_day(date_.getDay())}요일
         </span>
-        {/* <span className="content-middle-title">나의 생일 파티</span> */}
         <div className="content-middle__detail-wrapper">
-          <Link to={`/user/${writer}`} className="content-middle-writer">
+          <Link to={`/home/user/${writer}`} className="content-middle-writer">
             @{writer}
           </Link>
           <span className="content-middle-timeline">

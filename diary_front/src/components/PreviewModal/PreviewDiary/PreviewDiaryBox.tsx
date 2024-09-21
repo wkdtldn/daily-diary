@@ -29,7 +29,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
     <div className="preview-content-main">
       <div className="preview-content-main__header">
         <p className="preview-content-main__header-title">
-          <Link to={"/user/username"}>{writer}</Link>의 일기
+          <Link to={`/home/user/${writer}`}>{writer}</Link>의 일기
         </p>
       </div>
       <div

@@ -14,6 +14,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import { check_auth } from "../../api/user";
 import { useRecoilState } from "recoil";
 import { userState } from "../../hooks/recoil/userState";
+import UserProfile from "./user/[...username]";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ function HomePage() {
       }
     };
     checkAuthentication();
-  }, [navigate]);
+  }, []);
 
   if (isAuthenticated === null) {
     return <div>Loading..</div>;
@@ -53,6 +54,7 @@ function HomePage() {
               <Route path="/recent" element={<RecentPage />}></Route>
               <Route path="/write" element={<WritePage />}></Route>
               <Route path="/profile" element={<ProfilePage />}></Route>
+              <Route path="/user/:username" element={<UserProfile />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
           </div>

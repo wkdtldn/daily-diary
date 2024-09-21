@@ -15,13 +15,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 25px;
+  gap: 20px;
 }
 
 .login-input-wrapper {
   position: relative;
   width: 260px;
-  height: 30px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;

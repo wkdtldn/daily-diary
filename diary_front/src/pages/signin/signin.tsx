@@ -32,6 +32,14 @@ function SigninPage() {
       <h1 className="signin-title">회원가입</h1>
       <form className="signin-form" onSubmit={submit}>
         <div className="signin-input-wrapper">
+          <input
+            id="id"
+            name="username"
+            type="text"
+            className="signin-input signin-input__username"
+            placeholder="아이디를 입력해주세요"
+            required
+          />
           <button
             tabIndex={-1}
             type="button"
@@ -44,16 +52,16 @@ function SigninPage() {
               alt="clear-icon"
             />
           </button>
-          <input
-            id="id"
-            name="username"
-            type="text"
-            className="signin-input signin-input__username"
-            placeholder="아이디를 입력해주세요"
-            required
-          />
         </div>
         <div className="signin-input-wrapper">
+          <input
+            id="email"
+            name="email"
+            type="email"
+            className="signin-input signin-input__email"
+            placeholder="이메일을 입력해주세요"
+            required
+          />
           <button
             tabIndex={-1}
             type="button"
@@ -66,16 +74,16 @@ function SigninPage() {
               alt="clear-icon"
             />
           </button>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            className="signin-input signin-input__email"
-            placeholder="이메일을 입력해주세요"
-            required
-          />
         </div>
         <div className="signin-input-wrapper">
+          <input
+            id="name"
+            name="name"
+            type="text"
+            className="signin-input signin-input_name"
+            placeholder="이름을 입력해주세요"
+            required
+          />
           <button
             tabIndex={-1}
             type="button"
@@ -88,16 +96,16 @@ function SigninPage() {
               alt="clear-icon"
             />
           </button>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            className="signin-input signin-input_name"
-            placeholder="이름을 입력해주세요"
-            required
-          />
         </div>
         <div className="signin-input-wrapper">
+          <input
+            id="password"
+            name="password"
+            type="password"
+            className="signin-input signin-input__password"
+            placeholder="비밀번호를 입력해주세요"
+            required
+          />
           <button
             tabIndex={-1}
             type="button"
@@ -110,14 +118,6 @@ function SigninPage() {
               alt="clear-icon"
             />
           </button>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            className="signin-input signin-input__password"
-            placeholder="비밀번호를 입력해주세요"
-            required
-          />
         </div>
         <button tabIndex={-1} type="submit" className="signin-submit">
           회원가입

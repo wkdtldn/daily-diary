@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_extensions",
     "corsheaders",
-    "sslserver",
     "diary",
 ]
 
@@ -83,6 +82,7 @@ from corsheaders.defaults import default_headers
 CORS_ALLOW_ALL_ORIGINS = True  # 모든 요청에 대해 허용
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React 개발 서버 주소
+    "https://d-diary.netlify.app",
 ]
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "x-csrftoken",  # CSRF 토큰을 요청 헤더에 포함할 때 필요
@@ -102,8 +102,9 @@ CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",  # React 개발 서버 주소
+    "https://main--d-diary.netlify.app",
 ]
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "main--d-diary.netlify.app"]
 
 # Secure
 SESSION_COOKIE_SAMESITE = "None"
