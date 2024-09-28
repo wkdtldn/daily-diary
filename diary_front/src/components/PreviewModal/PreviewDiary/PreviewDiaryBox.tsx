@@ -39,7 +39,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
             "X-CSRFToken": csrftoken!,
           },
         });
-        if (res.data) {
+        if (res.data[0]) {
           setCommentValue(res.data);
         } else {
           setCommentValue(null);
