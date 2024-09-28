@@ -1,4 +1,5 @@
 import "./calendar.css";
+import "./calendarStyle.css";
 import "react-calendar/dist/Calendar.css";
 
 import React, { useEffect, useRef, useState } from "react";
