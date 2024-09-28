@@ -72,7 +72,11 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
       </div>
       <div
         className={`preview-comment-wrapper ${
-          CommentShowState ? "" : "comment-close"
+          CommentShowState
+            ? CommentValue
+              ? ""
+              : "preview-comment-wrapper__no-comment"
+            : "comment-close"
         }`}
       >
         {CommentValue ? (
@@ -80,8 +84,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
         ) : (
           <div
             style={{
-              width: "100%",
-              height: "100%",
+              flex: 1,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
