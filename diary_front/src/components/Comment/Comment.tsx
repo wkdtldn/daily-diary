@@ -3,6 +3,12 @@ import "./Comment.css";
 
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 
+interface CommentProps {
+  writer: string;
+  created_at: string;
+  comment: string;
+}
+
 const Comment: React.FC = () => {
   const [like, setLike] = useState<boolean>(false);
 
