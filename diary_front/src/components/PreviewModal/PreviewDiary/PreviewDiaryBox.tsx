@@ -5,6 +5,7 @@ import CommunicateMenu from "../../CommunicateMenu/CommunicateMenu";
 import Comment from "../../Comment/Comment";
 import { api } from "../../../api/axiosInstance";
 import { IoMdArrowRoundForward } from "react-icons/io";
+import { fetchCookies } from "../../../api/token";
 
 interface PreviewModalDiaryBoxProps {
   id: string;
@@ -25,12 +26,19 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
 
   const [CommentShowState, setCommentShowState] = useState<boolean>(false);
 
+  const [CommentInputValue, setCommentInputValue] = useState<string>("");
+
   const [CommentValue, setCommentValue] = useState<object | null>(null);
 
   useEffect(() => {
     if (CommentShowState) {
       const load_comment = async () => {
-        const res = await api.get(`/api/diary/comment?id=${id}`);
+        const csrftoken = await fetchCookies();
+        const res = await api.get(`/api/diary/comment?id=${id}`, {
+          headers: {
+            "X-CSRFToken": csrftoken!,
+          },
+        });
         if (res.data) {
           setCommentValue(res.data);
         } else {
@@ -43,6 +51,29 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
 
   const handleCommentState = () => {
     setCommentShowState(!CommentShowState);
+  };
+
+  const createComment = () => {
+    if (CommentInputValue) {
+      const write_comment = async () => {
+        const csrftoken = await fetchCookies();
+        await api.post(
+          "/api/comment/write",
+          {
+            diary: id,
+            comment: CommentInputValue,
+          },
+          {
+            headers: {
+              "X-CSRFToken": csrftoken!,
+            },
+          }
+        );
+      };
+      write_comment();
+    } else {
+      alert("댓글을 작성해주세요");
+    }
   };
 
   return (
@@ -95,11 +126,13 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
         )}
         <div className="comment-write">
           <input
+            value={CommentInputValue}
+            onChange={(e) => setCommentInputValue(e.target.value)}
             type="text"
             className="comment-write__input"
             placeholder="댓글을 입력해주세요."
           />
-          <button className="comment-write__submit">
+          <button className="comment-write__submit" onClick={createComment}>
             <IoMdArrowRoundForward fontSize={15} color="white" />
           </button>
         </div>
