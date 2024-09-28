@@ -62,8 +62,8 @@
   flex-direction: column;
   margin-bottom: 10px;
 }
-.preview-comment-wrapper__no-comment {
-  height: 150px;
+.no-comment {
+  height: 150px !important;
 }
 
 .comment-close {
@@ -95,5 +95,5 @@
   border-radius: 20px;
   border: 3.5px solid white;
   background-color: rgb(42, 42, 254);
-  box-shadow: 1px 1px 3px rgb(178, 178, 178);
+  box-shadow: 1px 1px 3px rgb(148, 148, 148);
 }
