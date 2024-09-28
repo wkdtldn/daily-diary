@@ -67,10 +67,10 @@ function CalendarPage() {
         <Calendar
           value={value}
           onChange={handleDateClick}
-          locale="ko"
+          locale="en"
           calendarType="gregory"
           formatDay={(locale, date) => date.getDate().toString()}
-          minDetail="year"
+          showNeighboringMonth={false}
           prev2Label={null}
           next2Label={null}
         />
