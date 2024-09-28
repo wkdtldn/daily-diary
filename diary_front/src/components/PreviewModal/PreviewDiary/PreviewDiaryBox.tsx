@@ -58,7 +58,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
       const write_comment = async () => {
         const csrftoken = await fetchCookies();
         await api.post(
-          "/api/comment/write",
+          "/api/comment/write/",
           {
             diary: id,
             comment: CommentInputValue,
