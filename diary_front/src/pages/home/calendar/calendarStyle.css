@@ -22,10 +22,10 @@
 .react-calendar__month-view__weekdays {
   height: 35px;
 }
-
+/* 
 .react-calendar__month-view__days__day--weekend abbr {
   color: red;
-}
+} */
 .react-calendar__month-view__weekdays__weekday abbr[title="일요일"],
 .react-calendar__month-view__weekdays__weekday abbr[title="토요일"] {
   color: red;
@@ -49,6 +49,10 @@
   justify-content: flex-start;
   align-items: center;
   padding: 7px 10px !important;
+}
+
+.react-calendar__tile--now {
+  background-color: none;
 }
 
 .react-calendar__tile:enabled:hover,

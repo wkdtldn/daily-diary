@@ -17,53 +17,54 @@
   align-items: flex-start;
   justify-content: center;
   overflow: hidden;
-  .comment-profile__img {
-    width: 35px;
-    border-radius: 50%;
-  }
+}
+.comment-profile__img {
+  width: 35px;
+  border-radius: 50%;
 }
 
 .comment-main {
   height: 100%;
   display: flex;
   flex-direction: column;
-  .comment-main__info-box {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 5px;
-    .comment-main-username {
-      height: 17px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: auto;
-      max-width: 133px;
-      font-size: 14.5px;
-      font-weight: bold;
-    }
-    .comment-main-created_at {
-      color: gray;
-      font-size: 14px;
-      font-weight: normal;
-    }
-  }
-  .comment-main-detail {
-    width: auto;
-    height: auto;
-    padding-top: 3px;
-    font-size: 15px;
-  }
-  .comment-main__reaction-history-box {
-    display: flex;
-    margin: 7px 0;
-    font-size: 13.5px;
-    font-weight: 450;
-    color: rgb(117, 117, 117);
-    gap: 12px;
-  }
+}
+.comment-main__info-box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+.comment-main-username {
+  height: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: auto;
+  max-width: 133px;
+  font-size: 14.5px;
+  font-weight: bold;
+}
+.comment-main-created_at {
+  color: gray;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.comment-main-detail {
+  width: auto;
+  height: auto;
+  padding-top: 3px;
+  font-size: 15px;
+}
+.comment-main__reaction-history-box {
+  display: flex;
+  margin: 7px 0;
+  font-size: 13.5px;
+  font-weight: 450;
+  color: rgb(117, 117, 117);
+  gap: 12px;
 }
 
 .comment-reaction {
@@ -72,10 +73,10 @@
   padding-top: 10px;
   align-items: flex-start;
   justify-content: center;
-  .comment-reaction__heart {
-    width: 100%;
-    border: none;
-    background: none;
-    font-size: larger;
-  }
+}
+.comment-reaction__heart {
+  width: 100%;
+  border: none;
+  background: none;
+  font-size: larger;
 }
