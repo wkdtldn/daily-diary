@@ -24,10 +24,9 @@ function LoginPage() {
 
     if (username && password) {
       alert("제발 돼라");
-      try {
-        const csrftoken = await fetchCookies();
-
-        const res = await api.post(
+      const csrftoken = await fetchCookies();
+      await api
+        .post(
           "/api/login/",
           {
             username: username,
@@ -38,16 +37,14 @@ function LoginPage() {
               "X-CSRFToken": csrftoken!,
             },
           }
-        );
-        if (res.status === 200) {
-          alert("로그인 성공!");
-          navigate("/home");
-        } else {
-          alert("로그인 실패!");
-        }
-      } catch (error) {
-        alert(error);
-      }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            alert("로그인 성공!");
+            navigate("/home");
+          }
+        })
+        .catch((error) => alert(error));
     }
   };
 
