@@ -27,7 +27,17 @@ SECRET_KEY = "django-insecure-4%s#+n+85)7mvbqto(7n$f#52-922$o3k-roxr^x&k9_0ljqdw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "main--d-diary.netlify.app",
+    "d-diary.netlify.app",
+    "https://cc84-121-135-218-25.ngrok-free.app",
+]
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
 # Application definition
@@ -41,6 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_extensions",
+    "sslserver",
     "corsheaders",
     "diary",
 ]
@@ -82,7 +93,12 @@ from corsheaders.defaults import default_headers
 CORS_ALLOW_ALL_ORIGINS = True  # 모든 요청에 대해 허용
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React 개발 서버 주소
+    "http://localhost:8081",
+    "http://192.168.40.18:3000",
+    "https://main--d-diary.netlify.app",
+    "http://192.168.40.15:3000",
     "https://d-diary.netlify.app",
+    "http://192.168.219.103:8081",
 ]
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "x-csrftoken",  # CSRF 토큰을 요청 헤더에 포함할 때 필요
@@ -102,9 +118,13 @@ CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",  # React 개발 서버 주소
+    "http://localhost:8081",
+    "http://192.168.40.18:3000",
+    "http://192.168.40.15:3000",
     "https://main--d-diary.netlify.app",
+    "https://d-diary.netlify.app",
+    "http://192.168.219.103:8081",
 ]
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "main--d-diary.netlify.app"]
 
 # Secure
 SESSION_COOKIE_SAMESITE = "None"

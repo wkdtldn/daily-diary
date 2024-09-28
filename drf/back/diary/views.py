@@ -16,6 +16,10 @@ from .models import UserModel, Diary, Comment
 from .serializers import UserSerializer, DiarySerializer, CommentSerializer
 
 
+def test_request(request):
+    return JsonResponse({"details": "successful request"}, status=status.HTTP_200_OK)
+
+
 # Other
 @ensure_csrf_cookie
 def get_csrf_token(request):
@@ -32,6 +36,7 @@ class LoginView(APIView):
         password = request.data.get("password")
 
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
             return JsonResponse({"details": "login success"}, status=status.HTTP_200_OK)
@@ -130,3 +135,19 @@ class CommentCreateView(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_context(self):
+        return {"request": self.request}  # 요청 객체를 serializer의 context에 추가
+
+
+class CommentDetalView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        id = request.query_params.get("id")
+        print(id)
+        if id:
+            comment = Comment.objects.filter(diary=id).order_by("-created_at")
+
+        serializer = CommentSerializer(comment, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -40,9 +40,18 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = "__all__"
+        read_only_fields = ("writer",)
 
     def create(self, validated_data):
-        validated_data["writer"] = self.context["request"].user
+        request = self.context.get("request")
+        writer = request.user if request and request.user.is_authenticated else None
+
+        print(writer)
+
+        if writer is None:
+            raise ValidationError("Authentication credentials are required.")
+
+        validated_data["writer"] = writer
         return Comment.objects.create(**validated_data)
 
 

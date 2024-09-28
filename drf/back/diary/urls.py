@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("test_request/", views.test_request, name="test"),
     ## Other
     # Token / csrf
     path("token/csrf/", views.get_csrf_token, name="csrf-token"),
@@ -27,5 +28,11 @@ urlpatterns = [
     path("diary/remove/", views.DiaryDestoryView.as_view(), name="diary-remove"),
     ## Comment
     # create
-    path("comment/create/", views.CommentCreateView.as_view(), name="comment-create"),
+    path("comment/write/", views.CommentCreateView.as_view(), name="comment-create"),
+    # search
+    path(
+        "comment/",
+        views.CommentDetalView.as_view(),
+        name="comment-search",
+    ),
 ]

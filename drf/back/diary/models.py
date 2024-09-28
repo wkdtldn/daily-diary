@@ -7,6 +7,12 @@ from datetime import datetime
 # User
 class UserModel(AbstractUser):
     name = models.CharField(max_length=100, null=False, verbose_name="name")
+    # profile_img = models.ImageField(
+    #     upload_to="profile_imgs/",
+    #     default="profile_imgs/profile-default-imgs-for-not-edit-person.png",
+    #     blank=True,
+    #     null=True,
+    # )
 
     groups = models.ManyToManyField(
         Group,
@@ -48,5 +54,6 @@ class Comment(models.Model):
         blank=False,
         on_delete=models.CASCADE,
     )
-    created_at = models.DateField(auto_now_add=True, null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     comment = models.TextField(null=False)
+    like = models.IntegerField(default=0)
