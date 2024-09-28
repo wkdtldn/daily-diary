@@ -21,6 +21,7 @@ function LoginPage() {
     let password = formData.get("password") as string;
 
     if (username && password) {
+      alert("제발 돼라");
       login(username, password, navigate);
     }
   };
