@@ -15,6 +15,15 @@ interface PreviewModalDiaryBoxProps {
   like: number;
 }
 
+type Comment = {
+  id: string;
+  writer: string;
+  diary: number;
+  like: number;
+  created_at: string;
+  comment: string;
+};
+
 const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
   id,
   writer,
@@ -28,7 +37,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
 
   const [CommentInputValue, setCommentInputValue] = useState<string>("");
 
-  const [CommentValue, setCommentValue] = useState<object | null>(null);
+  const [CommentValue, setCommentValue] = useState<Comment[] | null>(null);
 
   useEffect(() => {
     if (CommentShowState) {
@@ -111,7 +120,16 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
         }`}
       >
         {CommentValue ? (
-          <Comment />
+          CommentValue.map((comment, value) => (
+            <Comment
+              id={comment.id}
+              writer={comment.writer}
+              comment={comment.comment}
+              created_at={comment.created_at}
+              like_count={comment.like}
+              key={value}
+            />
+          ))
         ) : (
           <div
             style={{
