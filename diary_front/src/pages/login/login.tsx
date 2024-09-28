@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import { FormEvent } from "react";
 import { login } from "../../api/user";
+import { fetchCookies } from "../../api/token";
+import { api } from "../../api/axiosInstance";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -22,7 +24,30 @@ function LoginPage() {
 
     if (username && password) {
       alert("제발 돼라");
-      login(username, password, navigate);
+      try {
+        const csrftoken = await fetchCookies();
+
+        const res = await api.post(
+          "/api/login/",
+          {
+            username: username,
+            password: password,
+          },
+          {
+            headers: {
+              "X-CSRFToken": csrftoken!,
+            },
+          }
+        );
+        if (res.status === 200) {
+          alert("로그인 성공!");
+          navigate("/home");
+        } else {
+          alert("로그인 실패!");
+        }
+      } catch (error) {
+        alert(error);
+      }
     }
   };
 
