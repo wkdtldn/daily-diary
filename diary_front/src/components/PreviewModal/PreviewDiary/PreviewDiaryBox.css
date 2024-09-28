@@ -6,39 +6,40 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  .preview-content-main__header {
-    height: 30px;
-    box-sizing: border-box;
-    width: 95%;
-    padding: 0 5px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    .preview-content-main__header-title {
-      font-size: 16px;
-      font-weight: 350;
-      a {
-        color: black;
-        text-decoration-line: none;
-      }
-      a:hover {
-        text-decoration-line: underline;
-      }
-    }
+}
+
+.preview-content-main__header {
+  height: 30px;
+  box-sizing: border-box;
+  width: 95%;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.preview-content-main__header-title {
+  font-size: 16px;
+  font-weight: 350;
+  a {
+    color: black;
+    text-decoration-line: none;
   }
-  .preview-content-main__detail {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px;
-    height: auto;
-    border: 1px solid black;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    overflow: hidden;
-    .preview-content-main__detail-contents {
-      word-wrap: break-word;
-    }
+  a:hover {
+    text-decoration-line: underline;
   }
+}
+.preview-content-main__detail {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+.preview-content-main__detail-contents {
+  word-wrap: break-word;
 }
 
 .not_seemore {
