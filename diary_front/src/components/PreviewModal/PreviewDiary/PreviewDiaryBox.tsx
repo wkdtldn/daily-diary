@@ -34,7 +34,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
     if (CommentShowState) {
       const load_comment = async () => {
         const csrftoken = await fetchCookies();
-        const res = await api.get(`/api/diary/comment/?id=${id}`, {
+        const res = await api.get(`/api/comment/?id=${id}`, {
           headers: {
             "X-CSRFToken": csrftoken!,
           },
