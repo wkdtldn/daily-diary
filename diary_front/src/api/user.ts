@@ -1,19 +1,16 @@
 import { NavigateFunction } from "react-router-dom";
 import { fetchCookies } from "./token";
+import { api } from "./axiosInstance";
 
 export const userSearch = async (username: string) => {
   const csrfToken = await fetchCookies();
 
-  const res = await fetch(`http://127.0.0.1:8000/api/user/${username}`, {
-    method: "GET",
+  const res = await api.get(`/api/user/${username}`, {
     headers: {
-      "Content-Type": "application/json",
       "X-CSRFToken": csrfToken!,
     },
-    credentials: "include",
   });
-  const data = await res.json();
-  return data;
+  return res.data;
 };
 
 export const login = async (
@@ -23,20 +20,20 @@ export const login = async (
 ): Promise<void> => {
   const csrfToken = await fetchCookies();
 
-  const res = await fetch("http://127.0.0.1:8000/api/login/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrfToken!,
-    },
-    credentials: "include",
-    body: JSON.stringify({
+  const res = await api.post(
+    "/api/login/",
+    {
       username: username,
       password: password,
-    }),
-  });
+    },
+    {
+      headers: {
+        "X-CSRFToken": csrfToken!,
+      },
+    }
+  );
 
-  if (res.ok) {
+  if (res.status === 200) {
     console.log("Login successful");
     navigate("/home");
   } else {
@@ -47,16 +44,13 @@ export const login = async (
 export const logout = async (navigate: NavigateFunction): Promise<void> => {
   const csrfToken = await fetchCookies();
 
-  const res = await fetch("http://127.0.0.1:8000/api/logout/", {
-    method: "GET",
+  const res = await api.get("/api/logout/", {
     headers: {
-      "Content-Type": "application/json",
       "X-CSRFToken": csrfToken!,
     },
-    credentials: "include",
   });
 
-  if (res.ok) {
+  if (res.status === 200) {
     console.log("Logout successful");
     navigate("/login");
   } else {
@@ -73,21 +67,22 @@ export const signin = async (
 ): Promise<void> => {
   const csrftoken = await fetchCookies();
 
-  const res = await fetch("http://127.0.0.1:8000/api/signup/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrftoken!,
-    },
-    body: JSON.stringify({
+  const res = await api.post(
+    "/api/signup/",
+    {
       username: username,
       password: password,
       name: name,
       email: email,
-    }),
-  });
+    },
+    {
+      headers: {
+        "X-CSRFToken": csrftoken!,
+      },
+    }
+  );
 
-  if (res.ok) {
+  if (res.status === 201) {
     console.log("Signin successful");
     navigate("/login");
   } else {
@@ -97,17 +92,13 @@ export const signin = async (
 
 export const check_auth = async () => {
   const csrftoken = await fetchCookies();
-  const res = await fetch("http://127.0.0.1:8000/api/user/", {
-    method: "GET",
-    credentials: "include",
+  const res = await api.get("/api/user/", {
     headers: {
-      "Content-Type": "application/json",
       "X-CSRFToken": csrftoken!,
     },
   });
-  if (res.ok) {
-    const data = await res.json();
-    return { status: true, user: data };
+  if (res.status === 200) {
+    return { status: true, user: res.data };
   } else {
     return { status: false };
   }
