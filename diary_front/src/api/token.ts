@@ -1,6 +1,7 @@
 import { api } from "./axiosInstance";
 
-export const fetchCookies = async (): Promise<string> => {
+export const fetchCookies = async () => {
   const res = await api.get("/api/token/csrf/");
-  return res.data.csrftoken;
+  console.log(res.data);
+  return res.data;
 };
