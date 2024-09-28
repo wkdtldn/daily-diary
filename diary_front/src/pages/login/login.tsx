@@ -24,27 +24,31 @@ function LoginPage() {
 
     if (username && password) {
       alert("제발 돼라");
-      const csrftoken = await fetchCookies();
-      await api
-        .post(
-          "/api/login/",
-          {
-            username: username,
-            password: password,
-          },
-          {
-            headers: {
-              "X-CSRFToken": csrftoken!,
+      try {
+        const csrftoken = await fetchCookies();
+        await api
+          .post(
+            "/api/login/",
+            {
+              username: username,
+              password: password,
             },
-          }
-        )
-        .then((res) => {
-          if (res.status === 200) {
-            alert("로그인 성공!");
-            navigate("/home");
-          }
-        })
-        .catch((error) => alert(error));
+            {
+              headers: {
+                "X-CSRFToken": csrftoken!,
+              },
+            }
+          )
+          .then((res) => {
+            if (res.status === 200) {
+              alert("로그인 성공!");
+              navigate("/home");
+            }
+          })
+          .catch((error) => alert(error));
+      } catch (error) {
+        alert(error);
+      }
     }
   };
 
