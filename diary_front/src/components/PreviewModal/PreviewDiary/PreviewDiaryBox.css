@@ -56,11 +56,14 @@
 
 .preview-comment-wrapper {
   width: 100%;
-  flex: 1;
   display: flex;
-  height: 150px;
+  height: auto;
   flex-direction: column;
   margin-bottom: 10px;
+}
+
+.no_comment {
+  height: 150px !important;
 }
 
 .comment-close {
