@@ -19,7 +19,7 @@ const Header = () => {
         {menuOn ? <IoClose /> : <IoMenu />}
       </button>
       <span className="header-title">{login_user.name}의 일기장</span>
-      <button className="header-btn" onClick={() => navigate("/profile")}>
+      <button className="header-btn" onClick={() => navigate("/home/profile")}>
         내 정보
       </button>
       <Menu on={menuOn} status={() => setMenuOn(false)} />

@@ -4,12 +4,20 @@ import "./Comment.css";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 
 interface CommentProps {
+  id: string;
   writer: string;
   created_at: string;
   comment: string;
+  like_count: number;
 }
 
-const Comment: React.FC = () => {
+const Comment: React.FC<CommentProps> = ({
+  id,
+  writer,
+  created_at,
+  comment,
+  like_count,
+}) => {
   const [like, setLike] = useState<boolean>(false);
 
   return (
@@ -25,19 +33,18 @@ const Comment: React.FC = () => {
       </div>
       <div className="comment-main">
         <div className="comment-main__info-box">
-          <span className="comment-main-username">jangsiwoo9108</span>
-          <span className="comment-main-created_at">8/28 - 5:24 PM</span>
+          <span className="comment-main-username">{writer}</span>
+          <span className="comment-main-created_at">{created_at}</span>
         </div>
-        <span className="comment-main-detail">댓글 입니다 오해 ㄴㄴ</span>
+        <span className="comment-main-detail">{comment}</span>
         <div className="comment-main__reaction-history-box">
           <span
             className="comment-main__reaction__heart-history"
             onClick={() => setLike(!like)}
           >
-            좋아요 1,932개
+            좋아요 {like_count}개
           </span>
           <span className="comment-main__reaction__comment">답글 달기</span>
-          {/* <div className="comment-main__reaction__comment"></div> */}
         </div>
       </div>
       <div className="comment-reaction">

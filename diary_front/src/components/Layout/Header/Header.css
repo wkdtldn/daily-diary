@@ -3,7 +3,8 @@
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  padding: 10px;
   align-items: center;
   border-bottom: 1.5px solid rgb(175, 175, 175);
 }
@@ -14,6 +15,7 @@
 }
 
 .header-btn {
+  font-size: 16px;
   width: 75px;
   height: 100%;
   display: flex;
