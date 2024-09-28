@@ -32,7 +32,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "main--d-diary.netlify.app",
     "d-diary.netlify.app",
-    "db90-121-135-218-25.ngrok-free.app",
+    "fcff-121-135-218-25.ngrok-free.app",
 ]
 
 

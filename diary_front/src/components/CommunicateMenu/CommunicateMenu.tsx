@@ -7,6 +7,7 @@ import { TfiComment, TfiCommentAlt } from "react-icons/tfi";
 import { IoShareSocialOutline } from "react-icons/io5";
 
 type CommunicateMenuProps = {
+  diary_id: string;
   showState: boolean;
   handleFunction: () => void;
 };

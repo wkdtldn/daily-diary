@@ -113,6 +113,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
           {content}
         </div>
         <CommunicateMenu
+          diary_id={id}
           showState={CommentShowState}
           handleFunction={handleCommentState}
         />
