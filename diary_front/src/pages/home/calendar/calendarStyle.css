@@ -1,14 +1,14 @@
 .react-calendar {
-  width: 100%;
+  width: 100% !important;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .react-calendar__navigation {
-  height: 60px;
+  height: 60px !important;
   border-bottom: 1.3px solid gray;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 .react-calendar__navigation button {
   font-size: 15.5px;
@@ -31,4 +31,13 @@
   abbr {
     text-decoration-line: none;
   }
+}
+
+.react-calendar__tile {
+  text-align: center;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
