@@ -43,7 +43,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
     if (CommentShowState) {
       const load_comment = async () => {
         const csrftoken = await fetchCookies();
-        const res = await api.get(`/api/comment/?id=${id}`, {
+        const res = await api.get(`/api/comments/${id}`, {
           headers: {
             "X-CSRFToken": csrftoken!,
           },
@@ -59,7 +59,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
   }, [CommentShowState]);
 
   const handleCommentLike = async (comment_id: number) => {
-    const res = await api.get(`/api/comment/${comment_id}/like/`);
+    const res = await api.get(`/api/comments/${comment_id}/like/`);
     if (res.data) {
     }
   };
@@ -73,7 +73,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
       const write_comment = async () => {
         const csrftoken = await fetchCookies();
         await api.post(
-          "/api/comment/write/",
+          "/api/comments/",
           {
             diary: id,
             comment: CommentInputValue,
