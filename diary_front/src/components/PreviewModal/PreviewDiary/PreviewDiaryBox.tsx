@@ -47,7 +47,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
       };
       load_comment();
     }
-  }, []);
+  }, [CommentValue]);
 
   const handleCommentState = () => {
     setCommentShowState(!CommentShowState);
