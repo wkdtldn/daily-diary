@@ -62,3 +62,28 @@
 .comment-close {
   display: none;
 }
+
+.comment-write {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.comment-write__input {
+  flex: 1;
+  height: 40px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1.6px solid gray;
+}
+
+.comment-write__submit {
+  width: 65px;
+  height: 40px;
+  border-radius: 20px;
+  border: 2px solid white;
+  background-color: rgb(42, 42, 254);
+  /* color: white; */
+  box-shadow: 2px 2px 5px rgb(113, 113, 113);
+}

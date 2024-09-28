@@ -80,6 +80,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ modalRef }) => {
           <div className="preview-content">
             {diaries.map((diary, index) => (
               <PreviewModalDiaryBox
+                id={diary.id}
                 writer={diary.writer_name}
                 date={diary.date}
                 content={diary.content}
