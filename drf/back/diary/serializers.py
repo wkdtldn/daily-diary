@@ -35,11 +35,20 @@ class UserSerializer(serializers.Serializer):
 
 # Comment
 class CommentSerializer(serializers.ModelSerializer):
+    like_count = serializers.ReadOnlyField(source="like_count")
     writer_name = serializers.CharField(source="writer.username", read_only=True)
 
     class Meta:
         model = Comment
-        fields = ["id", "diary", "writer_name", "created_at", "comment", "like"]
+        fields = [
+            "id",
+            "diary",
+            "writer_name",
+            "created_at",
+            "comment",
+            "likes",
+            "like_count",
+        ]
         read_only_fields = ("writer_name",)
 
     def create(self, validated_data):

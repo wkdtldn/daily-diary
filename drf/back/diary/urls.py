@@ -35,4 +35,16 @@ urlpatterns = [
         views.CommentDetalView.as_view(),
         name="comment-search",
     ),
+    # like
+    path(
+        "comment/<int:pk>/like/",
+        views.CommentUpdateView.as_view(),
+        name="comment-update-like",
+    ),
+    # unlike
+    path(
+        "comment/<int:pk>/like/",
+        views.CommentUpdateView.as_view(),
+        name="comment-update-like",
+    ),
 ]

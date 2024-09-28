@@ -145,9 +145,21 @@ class CommentDetalView(APIView):
 
     def get(self, request, *args, **kwargs):
         id = request.query_params.get("id")
-        print(id)
         if id:
             comment = Comment.objects.filter(diary=id).order_by("-created_at")
 
         serializer = CommentSerializer(comment, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CommentUpdateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk, *args, **kwargs):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        if user in comment.likes.all():
+            comment.likes.remove(user)
+        else:
+            comment.likes.add(user)

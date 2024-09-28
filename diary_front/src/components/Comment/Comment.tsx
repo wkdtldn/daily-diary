@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Comment.css";
 
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
+import { api } from "../../api/axiosInstance";
 
 interface CommentProps {
   id: string;
@@ -35,6 +36,13 @@ const Comment: React.FC<CommentProps> = ({
   };
 
   const [like, setLike] = useState<boolean>(false);
+
+  useEffect(() => {
+    const like_comment = async () => {
+      await api.post(`/api/comment/${id}/like/`);
+    };
+    like_comment();
+  }, [like]);
 
   return (
     <article className="comment-container">

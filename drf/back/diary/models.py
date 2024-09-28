@@ -56,4 +56,4 @@ class Comment(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     comment = models.TextField(null=False)
-    like = models.IntegerField(default=0)
+    like = models.ManyToManyField(UserModel, related_name="liked_comments", blank=True)

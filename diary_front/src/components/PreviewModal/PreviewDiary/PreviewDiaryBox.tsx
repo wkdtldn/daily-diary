@@ -58,6 +58,12 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
     }
   }, [CommentShowState]);
 
+  const handleCommentLike = async (comment_id: number) => {
+    const res = await api.get(`/api/comment/${comment_id}/like/`);
+    if (res.data) {
+    }
+  };
+
   const handleCommentState = () => {
     setCommentShowState(!CommentShowState);
   };
@@ -78,6 +84,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
             },
           }
         );
+        setCommentInputValue("");
       };
       write_comment();
     } else {
