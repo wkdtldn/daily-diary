@@ -67,7 +67,7 @@ function CalendarPage() {
         <Calendar
           value={value}
           onChange={handleDateClick}
-          locale="en"
+          locale="ko"
           calendarType="gregory"
           formatDay={(locale, date) => date.getDate().toString()}
           showNeighboringMonth={false}

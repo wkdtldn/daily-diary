@@ -43,11 +43,12 @@
 
 .react-calendar__tile {
   text-align: center;
-  height: 60px;
+  height: 45px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  padding: 7px 10px !important;
 }
 
 .react-calendar__tile:enabled:hover,
@@ -55,4 +56,5 @@
 .react-calendar__tile--active {
   background-color: cornflowerblue !important;
   border-radius: 10px;
+  color: white !important;
 }
