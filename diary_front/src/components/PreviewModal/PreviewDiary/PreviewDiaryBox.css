@@ -58,12 +58,9 @@
   width: 100%;
   flex: 1;
   display: flex;
-  height: auto;
+  height: 150px;
   flex-direction: column;
   margin-bottom: 10px;
-}
-.no-comment {
-  height: 150px !important;
 }
 
 .comment-close {

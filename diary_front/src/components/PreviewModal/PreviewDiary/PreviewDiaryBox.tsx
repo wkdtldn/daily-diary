@@ -72,11 +72,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
       </div>
       <div
         className={`preview-comment-wrapper ${
-          CommentShowState
-            ? CommentValue
-              ? ""
-              : "no-comment"
-            : "comment-close"
+          CommentShowState ? "" : "comment-close"
         }`}
       >
         {CommentValue ? (
