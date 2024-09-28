@@ -17,7 +17,7 @@ interface PreviewModalDiaryBoxProps {
 
 type Comment = {
   id: string;
-  writer: string;
+  writer_name: string;
   diary: number;
   like: number;
   created_at: string;
@@ -123,7 +123,7 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
           CommentValue.map((comment, value) => (
             <Comment
               id={comment.id}
-              writer={comment.writer}
+              writer={comment.writer_name}
               comment={comment.comment}
               created_at={comment.created_at}
               like_count={comment.like}

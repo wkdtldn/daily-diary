@@ -18,6 +18,22 @@ const Comment: React.FC<CommentProps> = ({
   comment,
   like_count,
 }) => {
+  const generalTime = () => {
+    const datetime = new Date(created_at);
+
+    const formattedDate = datetime.toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const formattedTime = datetime.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+
+    return `${formattedDate} - ${formattedTime}`;
+  };
+
   const [like, setLike] = useState<boolean>(false);
 
   return (
@@ -34,7 +50,7 @@ const Comment: React.FC<CommentProps> = ({
       <div className="comment-main">
         <div className="comment-main__info-box">
           <span className="comment-main-username">{writer}</span>
-          <span className="comment-main-created_at">{created_at}</span>
+          <span className="comment-main-created_at">{generalTime()}</span>
         </div>
         <span className="comment-main-detail">{comment}</span>
         <div className="comment-main__reaction-history-box">
