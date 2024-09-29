@@ -53,3 +53,15 @@
   justify-content: flex-start;
   overflow-y: auto;
 }
+
+.write-calendar-btn {
+  width: 65px;
+  height: 65px;
+  border-radius: 14px;
+  border: none;
+  color: rgb(61, 61, 237);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 5px rgb(128, 128, 128);
+}

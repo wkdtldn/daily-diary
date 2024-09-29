@@ -11,6 +11,8 @@ import { SelectedDate, dateState } from "../../../hooks/recoil/dateState";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { diary_by_month } from "../../../api/diary";
 
+import { IoColorWand } from "react-icons/io5";
+
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 type PreviewModalValue = HTMLDialogElement | null;
@@ -115,6 +117,9 @@ function CalendarPage() {
           ))
         )}
       </div>
+      <button className="write-calendar-btn">
+        <IoColorWand fontSize={20} />
+      </button>
     </div>
   );
 }

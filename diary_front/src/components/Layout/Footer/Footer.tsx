@@ -1,34 +1,54 @@
 import "./Footer.css";
 import { Link, useLocation } from "react-router-dom";
+import {
+  IoCalendarClearOutline,
+  IoCalendarClear,
+  IoCompassOutline,
+  IoCompass,
+  IoPeopleOutline,
+  IoPeople,
+} from "react-icons/io5";
 
 const Footer = () => {
   const location = useLocation();
+
+  const footerOption = [
+    // 달력
+    {
+      title: "달력",
+      location: "/home/calendar",
+      icons: <IoCalendarClearOutline />,
+      focus: <IoCalendarClear />,
+    },
+    // 둘러보기
+    {
+      title: "둘러보기",
+      location: "/home/recent",
+      icons: <IoCompassOutline />,
+      focus: <IoCompass />,
+    },
+    {
+      // 친구들
+      title: "친구들",
+      location: "/home/friends",
+      icon: <IoPeopleOutline />,
+      focus: <IoPeople />,
+    },
+  ];
+
   return (
     <footer className="Footer">
-      <Link
-        className={`footer-option ${
-          location.pathname === "/home/calendar" ? "selected" : false
-        }`}
-        to="/home/calendar"
-      >
-        달력
-      </Link>
-      <Link
-        className={`footer-option ${
-          location.pathname === "/home/recent" ? "selected" : false
-        }`}
-        to="/home/recent"
-      >
-        최근
-      </Link>
-      <Link
-        className={`footer-option ${
-          location.pathname === "/home/write" ? "selected" : false
-        }`}
-        to="/home/write"
-      >
-        작성
-      </Link>
+      {footerOption.map((option) => (
+        <Link
+          className={`footer-option ${
+            location.pathname === option.location ? "selected" : false
+          }`}
+          to={option.location}
+        >
+          {location.pathname === option.location ? option.focus : option.icon}
+          {option.title}
+        </Link>
+      ))}
     </footer>
   );
 };
