@@ -2,9 +2,9 @@ import "./Footer.css";
 import { Link, useLocation } from "react-router-dom";
 import {
   IoCalendarClearOutline,
-  IoCalendarClear,
+  IoCalendar,
   IoCompassOutline,
-  IoCompass,
+  IoCompassSharp,
   IoPeopleOutline,
   IoPeople,
 } from "react-icons/io5";
@@ -18,21 +18,21 @@ const Footer = () => {
       title: "달력",
       location: "/home/calendar",
       icons: <IoCalendarClearOutline size="23" color="gray" />,
-      focus: <IoCalendarClear size="23" color="gray" />,
+      focus: <IoCalendar size="23" color="cornflowerblue" />,
     },
     // 둘러보기
     {
       title: "둘러보기",
       location: "/home/recent",
       icons: <IoCompassOutline size="23" color="gray" />,
-      focus: <IoCompass size="23" color="gray" />,
+      focus: <IoCompassSharp size="23" color="cornflowerblue" />,
     },
     {
       // 친구들
       title: "친구들",
       location: "/home/friends",
       icon: <IoPeopleOutline size="23" color="gray" />,
-      focus: <IoPeople size="23" color="gray" />,
+      focus: <IoPeople size="23" color="cornflowerblue" />,
     },
   ];
 
