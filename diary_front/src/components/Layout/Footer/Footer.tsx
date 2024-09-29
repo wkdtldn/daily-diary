@@ -9,6 +9,7 @@ import {
   IoPeople,
 } from "react-icons/io5";
 import { LiaCompass } from "react-icons/lia";
+import { GoCalendar } from "react-icons/go";
 
 const Footer = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const Footer = () => {
     {
       title: "달력",
       location: "/home/calendar",
-      icons: <IoCalendarClearOutline size="23" color="gray" />,
+      icons: <GoCalendar size="23" color="gray" />,
       focus: <IoCalendar size="23" color="cornflowerblue" />,
     },
     // 둘러보기
