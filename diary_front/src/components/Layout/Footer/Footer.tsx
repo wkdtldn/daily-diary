@@ -17,22 +17,22 @@ const Footer = () => {
     {
       title: "달력",
       location: "/home/calendar",
-      icons: <IoCalendarClearOutline />,
-      focus: <IoCalendarClear />,
+      icons: <IoCalendarClearOutline fontSize={20} />,
+      focus: <IoCalendarClear fontSize={20} />,
     },
     // 둘러보기
     {
       title: "둘러보기",
       location: "/home/recent",
-      icons: <IoCompassOutline />,
-      focus: <IoCompass />,
+      icons: <IoCompassOutline fontSize={20} />,
+      focus: <IoCompass fontSize={20} />,
     },
     {
       // 친구들
       title: "친구들",
       location: "/home/friends",
-      icon: <IoPeopleOutline />,
-      focus: <IoPeople />,
+      icon: <IoPeopleOutline fontSize={20} />,
+      focus: <IoPeople fontSize={20} />,
     },
   ];
 
@@ -46,7 +46,7 @@ const Footer = () => {
           to={option.location}
         >
           {location.pathname === option.location ? option.focus : option.icon}
-          {option.title}
+          <p className="footer-option-title">{option.title}</p>
         </Link>
       ))}
     </footer>
