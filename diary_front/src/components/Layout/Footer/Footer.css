@@ -11,6 +11,8 @@
 }
 
 .footer-option {
+  height: 50px;
+  width: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;

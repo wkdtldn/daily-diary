@@ -4,10 +4,11 @@ import {
   IoCalendarClearOutline,
   IoCalendar,
   IoCompassOutline,
-  IoCompassSharp,
+  IoCompass,
   IoPeopleOutline,
   IoPeople,
 } from "react-icons/io5";
+import { LiaCompass } from "react-icons/lia";
 
 const Footer = () => {
   const location = useLocation();
@@ -24,8 +25,8 @@ const Footer = () => {
     {
       title: "둘러보기",
       location: "/home/recent",
-      icons: <IoCompassOutline size="23" color="gray" />,
-      focus: <IoCompassSharp size="23" color="cornflowerblue" />,
+      icons: <LiaCompass size="23" color="gray" />,
+      focus: <IoCompass size="23" color="cornflowerblue" />,
     },
     {
       // 친구들
