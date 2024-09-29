@@ -22,6 +22,17 @@ const ContentBox: React.FC<ContentBoxProps> = ({
     const day = ["월", "화", "수", "목", "금", "토", "일"];
     return day[idx];
   };
+
+  const generalTime = () => {
+    const datetime = new Date(time);
+
+    const formattedTime = datetime.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+    return formattedTime;
+  };
   const date_ = new Date(date);
   return (
     <div className="content-wrapper">
@@ -42,7 +53,7 @@ const ContentBox: React.FC<ContentBoxProps> = ({
           </Link>
           <span className="content-middle-timeline">
             <CiClock2 className="clock-icon" />
-            {time}
+            {generalTime()}
           </span>
         </div>
       </div>
