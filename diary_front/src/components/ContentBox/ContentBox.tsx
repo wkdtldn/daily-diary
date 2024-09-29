@@ -25,6 +25,7 @@ const ContentBox: React.FC<ContentBoxProps> = ({
 
   const generalTime = () => {
     const datetime = new Date(time);
+    console.log(time, datetime);
 
     const formattedTime = datetime.toLocaleTimeString("en-US", {
       hour: "numeric",
