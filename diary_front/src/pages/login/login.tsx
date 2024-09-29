@@ -23,32 +23,26 @@ function LoginPage() {
     let password = formData.get("password") as string;
 
     if (username && password) {
-      alert("제발 돼라");
-      try {
-        const csrftoken = await fetchCookies();
-        await api
-          .post(
-            "/api/login/",
-            {
-              username: username,
-              password: password,
+      const csrftoken = await fetchCookies();
+      await api
+        .post(
+          "/api/login/",
+          {
+            username: username,
+            password: password,
+          },
+          {
+            headers: {
+              "X-CSRFToken": csrftoken!,
             },
-            {
-              headers: {
-                "X-CSRFToken": csrftoken!,
-              },
-            }
-          )
-          .then((res) => {
-            if (res.status === 200) {
-              alert("로그인 성공!");
-              navigate("/home");
-            }
-          })
-          .catch((error) => alert(error));
-      } catch (error) {
-        alert(error);
-      }
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            navigate("/home");
+          }
+        })
+        .catch((error) => alert(error));
     }
   };
 
