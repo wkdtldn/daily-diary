@@ -17,22 +17,22 @@ const Footer = () => {
     {
       title: "달력",
       location: "/home/calendar",
-      icons: <IoCalendarClearOutline fontSize={20} />,
-      focus: <IoCalendarClear fontSize={20} />,
+      icons: <IoCalendarClearOutline size="23" color="gray" />,
+      focus: <IoCalendarClear size="23" color="gray" />,
     },
     // 둘러보기
     {
       title: "둘러보기",
       location: "/home/recent",
-      icons: <IoCompassOutline fontSize={20} />,
-      focus: <IoCompass fontSize={20} />,
+      icons: <IoCompassOutline size="23" color="gray" />,
+      focus: <IoCompass size="23" color="gray" />,
     },
     {
       // 친구들
       title: "친구들",
       location: "/home/friends",
-      icon: <IoPeopleOutline fontSize={20} />,
-      focus: <IoPeople fontSize={20} />,
+      icon: <IoPeopleOutline size="23" color="gray" />,
+      focus: <IoPeople size="23" color="gray" />,
     },
   ];
 

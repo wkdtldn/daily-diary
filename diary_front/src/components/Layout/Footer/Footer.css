@@ -21,12 +21,12 @@
 }
 
 .footer-option-title {
-  font-size: 14.5px;
+  font-size: 13.5px;
   font-weight: 200;
   margin: 0;
   padding: 0;
 }
 
 .selected {
-  color: cornflowerblue;
+  color: cornflowerblue !important;
 }
