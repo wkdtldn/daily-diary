@@ -8,8 +8,6 @@ import {
   IoPeopleOutline,
   IoPeople,
 } from "react-icons/io5";
-import { LiaCompass } from "react-icons/lia";
-import { GoCalendar } from "react-icons/go";
 
 const Footer = () => {
   const location = useLocation();
@@ -19,14 +17,14 @@ const Footer = () => {
     {
       title: "달력",
       location: "/home/calendar",
-      icons: <GoCalendar size="23" color="gray" />,
+      icons: <IoCalendarClearOutline size="23" color="gray" />,
       focus: <IoCalendar size="23" color="cornflowerblue" />,
     },
     // 둘러보기
     {
       title: "둘러보기",
       location: "/home/recent",
-      icons: <LiaCompass size="23" color="gray" />,
+      icons: <IoCompassOutline size="23" color="gray" />,
       focus: <IoCompass size="23" color="cornflowerblue" />,
     },
     {
@@ -47,7 +45,7 @@ const Footer = () => {
           }`}
           to={option.location}
         >
-          {location.pathname === option.location ? option.focus : option.icon}
+          {location.pathname === option.location ? option.focus : option.icons}
           <p className="footer-option-title">{option.title}</p>
         </Link>
       ))}
