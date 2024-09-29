@@ -12,6 +12,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { diary_by_month } from "../../../api/diary";
 
 import { IoColorWand } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -118,7 +119,9 @@ function CalendarPage() {
         )}
       </div>
       <button className="write-calendar-btn">
-        <IoColorWand fontSize={23} fontWeight={600} />
+        <Link className="write-calendar-btn_link" to="/home/write">
+          <IoColorWand fontSize={23} fontWeight={600} />
+        </Link>
       </button>
     </div>
   );

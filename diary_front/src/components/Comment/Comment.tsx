@@ -26,10 +26,10 @@ const Comment: React.FC<CommentProps> = ({
       month: "2-digit",
       day: "2-digit",
     });
-    const formattedTime = datetime.toLocaleTimeString("en-US", {
+    const formattedTime = datetime.toLocaleTimeString("ko-KR", {
+      hour12: true,
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
     });
 
     return `${formattedDate} - ${formattedTime}`;
