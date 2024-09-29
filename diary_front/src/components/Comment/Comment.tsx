@@ -39,7 +39,7 @@ const Comment: React.FC<CommentProps> = ({
 
   useEffect(() => {
     const like_comment = async () => {
-      await api.post(`/api/comment/${id}/like/`);
+      await api.post(`/api/comments/${id}/like/`);
     };
     like_comment();
   }, [like]);
