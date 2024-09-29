@@ -42,7 +42,7 @@ const Comment: React.FC<CommentProps> = ({
     const like_comment = async () => {
       const csrftoken = await fetchCookies();
       await api.post(
-        `/api/comments/${id}/like/`,
+        `/api/comments//${id}/like/`,
         {},
         {
           headers: {
