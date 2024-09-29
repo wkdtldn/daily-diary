@@ -118,7 +118,7 @@ function CalendarPage() {
         )}
       </div>
       <button className="write-calendar-btn">
-        <IoColorWand fontSize={20} />
+        <IoColorWand fontSize={23} fontWeight={600} />
       </button>
     </div>
   );
