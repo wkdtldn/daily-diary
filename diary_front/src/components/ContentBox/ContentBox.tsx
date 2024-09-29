@@ -24,16 +24,28 @@ const ContentBox: React.FC<ContentBoxProps> = ({
   };
 
   const generalTime = () => {
-    const datetime = new Date(time);
-    console.log(time, datetime);
+    const datetime = new Date(date + "T" + time + "Z");
 
-    const formattedTime = datetime.toLocaleTimeString("en-US", {
+    const formattedDate = datetime.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long",
+    });
+
+    const formattedTime = datetime.toLocaleTimeString("ko-KR", {
+      hour12: true,
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
     });
-    return formattedTime;
+    return { formatted_date: formattedDate, formatted_time: formattedTime };
   };
+
+  const content_date = {
+    date: generalTime().formatted_date,
+    time: generalTime().formatted_time,
+  };
+
   const date_ = new Date(date);
   return (
     <div className="content-wrapper">
@@ -44,17 +56,14 @@ const ContentBox: React.FC<ContentBoxProps> = ({
         </span>
       </div>
       <div className="content-middle">
-        <span className="content-middle-date">
-          {date_.getFullYear()}년 {date_.getMonth() + 1}월 {date_.getDate()}일{" "}
-          {get_day(date_.getDay())}요일
-        </span>
+        <span className="content-middle-date">{content_date.date}</span>
         <div className="content-middle__detail-wrapper">
           <Link to={`/home/user/${writer}`} className="content-middle-writer">
             @{writer}
           </Link>
           <span className="content-middle-timeline">
             <CiClock2 className="clock-icon" />
-            {generalTime()}
+            {content_date.time}
           </span>
         </div>
       </div>
