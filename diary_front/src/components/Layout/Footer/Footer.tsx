@@ -31,7 +31,7 @@ const Footer = () => {
       // 친구들
       title: "친구들",
       location: "/home/friends",
-      icon: <IoPeopleOutline size="23" color="gray" />,
+      icons: <IoPeopleOutline size="23" color="gray" />,
       focus: <IoPeople size="23" color="cornflowerblue" />,
     },
   ];
