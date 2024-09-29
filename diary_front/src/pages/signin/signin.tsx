@@ -2,6 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import "./signin.css";
 import { FormEvent } from "react";
 import { signin } from "../../api/user";
+import { fetchCookies } from "../../api/token";
+import { api } from "../../api/axiosInstance";
+import { error } from "console";
 
 function SigninPage() {
   const navigate = useNavigate();
@@ -13,7 +16,7 @@ function SigninPage() {
     }
   };
 
-  const submit = (e: FormEvent<HTMLFormElement>): void => {
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let formData: FormData = new FormData(e.currentTarget);
 
@@ -23,7 +26,28 @@ function SigninPage() {
     let email = formData.get("email") as string;
 
     if (username && password && name && email) {
-      signin(username, password, name, email, navigate);
+      const csrftoken = await fetchCookies();
+      await api
+        .post(
+          "/api/signin/",
+          {
+            username: username,
+            password: password,
+            email: email,
+            name: name,
+          },
+          {
+            headers: {
+              "X-CSRFToken": csrftoken!,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 201) {
+            navigate("/login");
+          }
+        })
+        .catch((error) => alert(error));
     }
   };
 
