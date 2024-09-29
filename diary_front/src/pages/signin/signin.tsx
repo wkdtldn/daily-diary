@@ -29,7 +29,7 @@ function SigninPage() {
       const csrftoken = await fetchCookies();
       await api
         .post(
-          "/api/signin/",
+          "/api/user/",
           {
             username: username,
             password: password,
