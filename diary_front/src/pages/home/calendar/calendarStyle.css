@@ -42,6 +42,7 @@
 }
 
 .react-calendar__tile {
+  border-radius: 10px;
   text-align: center;
   height: 46px;
   display: flex;
@@ -59,6 +60,5 @@
 .react-calendar__tile:enabled:focus,
 .react-calendar__tile--active {
   background-color: cornflowerblue !important;
-  border-radius: 10px;
   color: white !important;
 }

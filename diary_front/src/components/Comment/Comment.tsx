@@ -3,6 +3,7 @@ import "./Comment.css";
 
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { api } from "../../api/axiosInstance";
+import { fetchCookies } from "../../api/token";
 
 interface CommentProps {
   id: string;
@@ -39,7 +40,16 @@ const Comment: React.FC<CommentProps> = ({
 
   useEffect(() => {
     const like_comment = async () => {
-      await api.post(`/api/comments/${id}/like/`);
+      const csrftoken = await fetchCookies();
+      await api.post(
+        `/api/comments/${id}/like/`,
+        {},
+        {
+          headers: {
+            "X-CSRFToken": csrftoken!,
+          },
+        }
+      );
     };
     like_comment();
   }, [like]);
