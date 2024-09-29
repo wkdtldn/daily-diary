@@ -5,11 +5,9 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
 
 
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.response import Response
-from rest_framework import permissions
-from rest_framework import status
-from rest_framework import generics
+from rest_framework import status, viewsets, generics, permissions
 from rest_framework.views import APIView
 
 from .models import UserModel, Diary, Comment
@@ -96,7 +94,7 @@ class DiaryCreateView(generics.CreateAPIView):
         return {"request": self.request}  # 요청 객체를 serializer의 context에 추가
 
 
-class DiaryDetailView(APIView):
+class DiaryRetrieveView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
@@ -131,6 +129,47 @@ class DiaryDestoryView(generics.DestroyAPIView):
 
 
 # Comment
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.prefetch_related("like").all()
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        diary_instance = get_object_or_404(Diary, id=pk)
+        comments = Comment.objects.filter(diary=diary_instance).order_by("-created_at")
+        serializer = self.get_serializer(comments, many=True)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    @action(
+        detail=True, methods=["post"], permission_classes=[permissions.IsAuthenticated]
+    )
+    def like(self, request, pk=None):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        if user in comment.like.all():
+            comment.like.remove(user)
+        else:
+            comment.like.add(user)
+
+        comment.save()
+        return Response(status=status.HTTP_200_OK)
+
+
 class CommentCreateView(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

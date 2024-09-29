@@ -1,5 +1,9 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
+
+router = DefaultRouter()
+router.register(r"comments", views.CommentViewSet, basename="comment")
 
 urlpatterns = [
     path("test_request/", views.test_request, name="test"),
@@ -21,30 +25,11 @@ urlpatterns = [
     path("logout/", views.LogoutView.as_view(), name="logout"),
     ## Diary
     # search
-    path("diary/", views.DiaryDetailView.as_view(), name="diary-detail"),
+    path("diary/", views.DiaryRetrieveView.as_view(), name="diary-retrieve"),
     # create
     path("diary/write/", views.DiaryCreateView.as_view(), name="diary-write"),
     # remove
     path("diary/remove/", views.DiaryDestoryView.as_view(), name="diary-remove"),
     ## Comment
-    # create
-    path("comment/write/", views.CommentCreateView.as_view(), name="comment-create"),
-    # search
-    path(
-        "comment/",
-        views.CommentDetalView.as_view(),
-        name="comment-search",
-    ),
-    # like
-    path(
-        "comment/<int:pk>/like/",
-        views.CommentUpdateView.as_view(),
-        name="comment-update-like",
-    ),
-    # unlike
-    path(
-        "comment/<int:pk>/like/",
-        views.CommentUpdateView.as_view(),
-        name="comment-update-like",
-    ),
+    path("", include(router.urls)),
 ]

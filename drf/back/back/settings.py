@@ -30,9 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "main--d-diary.netlify.app",
-    "d-diary.netlify.app",
-    "fcff-121-135-218-25.ngrok-free.app",
+    "1571-49-169-117-4.ngrok-free.app",
 ]
 
 
@@ -92,13 +90,8 @@ from corsheaders.defaults import default_headers
 
 CORS_ALLOW_ALL_ORIGINS = True  # 모든 요청에 대해 허용
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React 개발 서버 주소
-    "http://localhost:8081",
-    "http://192.168.40.18:3000",
     "https://main--d-diary.netlify.app",
-    "http://192.168.40.15:3000",
     "https://d-diary.netlify.app",
-    "http://192.168.219.103:8081",
 ]
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "x-csrftoken",  # CSRF 토큰을 요청 헤더에 포함할 때 필요
@@ -117,13 +110,8 @@ CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",  # React 개발 서버 주소
-    "http://localhost:8081",
-    "http://192.168.40.18:3000",
-    "http://192.168.40.15:3000",
     "https://main--d-diary.netlify.app",
     "https://d-diary.netlify.app",
-    "http://192.168.219.103:8081",
 ]
 
 # Secure

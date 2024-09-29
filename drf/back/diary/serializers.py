@@ -35,8 +35,9 @@ class UserSerializer(serializers.Serializer):
 
 # Comment
 class CommentSerializer(serializers.ModelSerializer):
-    like_count = serializers.ReadOnlyField(source="like_count")
+    like_count = serializers.SerializerMethodField()
     writer_name = serializers.CharField(source="writer.username", read_only=True)
+    likes = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -49,14 +50,22 @@ class CommentSerializer(serializers.ModelSerializer):
             "likes",
             "like_count",
         ]
-        read_only_fields = ("writer_name",)
+        read_only_fields = ("writer_name", "likes", "like_count", "created_at")
+
+    def get_like_count(self, obj):
+        return obj.like.count()
+
+    def get_likes(self, obj):
+        return [user.username for user in obj.like.all()]
 
     def create(self, validated_data):
         request = self.context.get("request")
         writer = request.user if request and request.user.is_authenticated else None
 
         if writer is None:
-            raise ValidationError("Authentication credentials are required.")
+            raise serializers.ValidationError(
+                "Authentication credentials are required."
+            )
 
         validated_data["writer"] = writer
         return Comment.objects.create(**validated_data)
