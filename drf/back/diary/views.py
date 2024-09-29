@@ -63,10 +63,27 @@ class CheckAuthView(APIView):
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 
 
-class UserCreateView(generics.CreateAPIView):
-    queryset = UserModel.objects.all()
+class UserCreateView(APIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            username = request.data.get("username")
+            if UserModel.objects.filter(username=username).exists():
+                return Response(
+                    {"detail": "Username already exists"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(
+            {"detail": "Invalid value"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 class UserDetailView(generics.RetrieveAPIView):
