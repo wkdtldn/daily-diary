@@ -30,12 +30,16 @@ function App() {
   useEffect(() => {
     const checkAuthentication = async () => {
       setLoading(true);
-      const auth = await check_auth();
+      try {
+        const auth = await check_auth();
 
-      if (auth) {
-        setUser(auth.user);
+        if (auth) {
+          setUser(auth.user);
+        }
+      } catch (error) {
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     checkAuthentication();
   }, []);

@@ -4,11 +4,17 @@ import { Link, useHistory } from "react-router-dom";
 import { IoLogOut } from "react-icons/io5";
 import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
+import { useRecoilValue } from "recoil";
+import { LoginUser } from "../../hooks/recoil/userState";
+import { IonIcon } from "@ionic/react";
+import { logIn, logOut } from "ionicons/icons";
 
 type MenuProps = { on: boolean; status: VoidFunction };
 
 const Menu: React.FC<MenuProps> = ({ on, status }) => {
   const history = useHistory();
+
+  const login_user = useRecoilValue(LoginUser);
 
   const logout = async (): Promise<void> => {
     const csrfToken = await fetchCookies();
@@ -44,10 +50,17 @@ const Menu: React.FC<MenuProps> = ({ on, status }) => {
           공유함
         </Link>
       </button>
-      <button className="logout-btn" onClick={() => logout()}>
-        <IoLogOut className="logout-icon" />
-        <p className="logout-text">로그아웃</p>
-      </button>
+      {login_user.username ? (
+        <button className="logout-btn" onClick={() => logout()}>
+          <IonIcon icon={logOut} className="logout-icon" />
+          <p className="logout-text">로그아웃</p>
+        </button>
+      ) : (
+        <button className="logout-btn" onClick={() => history.push("/login")}>
+          <IonIcon icon={logIn} className="logout-icon" />
+          <p className="logout-text">로그인</p>
+        </button>
+      )}
     </div>
   );
 };
