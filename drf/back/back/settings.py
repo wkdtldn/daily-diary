@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "1571-49-169-117-4.ngrok-free.app",
+    "4064-49-169-117-4.ngrok-free.app",
 ]
 
 
@@ -110,6 +110,7 @@ CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
     "https://main--d-diary.netlify.app",
     "https://d-diary.netlify.app",
 ]

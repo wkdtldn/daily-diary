@@ -18,8 +18,9 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
   background-color: #eaeaea;
+  align-items: center;
+  justify-content: center;
 }
 
 button {
@@ -36,7 +37,22 @@ button {
 .app {
   width: 430px;
   height: 100%;
+  display: flex;
   background-color: white;
   box-shadow: 1px 1px 3px rgb(163, 163, 163), -1px -1px 3px rgb(157, 156, 156);
   overflow: hidden;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ion-page {
+  position: relative;
 }

@@ -1,13 +1,31 @@
 import React from "react";
 import "./Menu.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { IoLogOut } from "react-icons/io5";
-import { logout } from "../../api/user";
+import { fetchCookies } from "../../api/token";
+import { api } from "../../api/axiosInstance";
 
 type MenuProps = { on: boolean; status: VoidFunction };
 
 const Menu: React.FC<MenuProps> = ({ on, status }) => {
-  const navigate = useNavigate();
+  const history = useHistory();
+
+  const logout = async (): Promise<void> => {
+    const csrfToken = await fetchCookies();
+
+    const res = await api.get("/api/logout/", {
+      headers: {
+        "X-CSRFToken": csrfToken!,
+      },
+    });
+
+    if (res.status === 200) {
+      console.log("Logout successful");
+      history.push("/login");
+    } else {
+      console.error("Logout failed");
+    }
+  };
 
   return (
     <div className={`menu-wrapper ${on ? "open" : "close"}`}>
@@ -26,7 +44,7 @@ const Menu: React.FC<MenuProps> = ({ on, status }) => {
           공유함
         </Link>
       </button>
-      <button className="logout-btn" onClick={() => logout(navigate)}>
+      <button className="logout-btn" onClick={() => logout()}>
         <IoLogOut className="logout-icon" />
         <p className="logout-text">로그아웃</p>
       </button>

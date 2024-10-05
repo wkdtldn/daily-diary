@@ -177,14 +177,17 @@ class CommentViewSet(viewsets.ModelViewSet):
     def like(self, request, pk=None):
         comment = get_object_or_404(Comment, pk=pk)
         user = request.user
+        print(user)
 
         if user in comment.like.all():
             comment.like.remove(user)
+            response = Response(False, status=status.HTTP_200_OK)
         else:
             comment.like.add(user)
+            response = Response(True, status=status.HTTP_200_OK)
 
         comment.save()
-        return Response(status=status.HTTP_200_OK)
+        return response
 
 
 class CommentCreateView(generics.CreateAPIView):

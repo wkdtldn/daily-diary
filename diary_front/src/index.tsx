@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import { defineCustomElements } from "@ionic/pwa-elements/loader";
 import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(
@@ -11,16 +11,14 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <BrowserRouter>
-    <CookiesProvider>
-      <RecoilRoot>
-        <Routes>
-          <Route path="/*" element={<App />}></Route>
-        </Routes>
-      </RecoilRoot>
-    </CookiesProvider>
-  </BrowserRouter>
+  <CookiesProvider>
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  </CookiesProvider>
 );
+
+defineCustomElements(window);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

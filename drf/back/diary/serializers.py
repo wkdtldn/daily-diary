@@ -12,6 +12,7 @@ class UserSerializer(serializers.Serializer):
     password = serializers.CharField(
         required=True, allow_blank=False, max_length=128, write_only=True
     )
+    image = serializers.ImageField(required=False)
 
     def create(self, validated_data):
         user = UserModel(
@@ -27,7 +28,8 @@ class UserSerializer(serializers.Serializer):
         instance.name = validated_data.get("name", instance.name)
         instance.username = validated_data.get("username", instance.username)
         instance.email = validated_data.get("email", instance.email)
-        instance.password = validated_data.get("password", instance.password)
+        instance.image = validated_data.get("image", instance.image)
+        # instance.password = validated_data.get("password", instance.password)
         instance.save()
 
         return instance
@@ -36,8 +38,8 @@ class UserSerializer(serializers.Serializer):
 # Comment
 class CommentSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
-    writer_name = serializers.CharField(source="writer.username", read_only=True)
     likes = serializers.SerializerMethodField()
+    writer_name = serializers.CharField(source="writer.username", read_only=True)
 
     class Meta:
         model = Comment
@@ -47,8 +49,8 @@ class CommentSerializer(serializers.ModelSerializer):
             "writer_name",
             "created_at",
             "comment",
-            "likes",
             "like_count",
+            "likes",
         ]
         read_only_fields = ("writer_name", "likes", "like_count", "created_at")
 

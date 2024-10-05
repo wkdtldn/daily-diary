@@ -19,9 +19,10 @@ type Comment = {
   id: string;
   writer_name: string;
   diary: number;
-  like: number;
+  like_count: number;
   created_at: string;
   comment: string;
+  likes: string[];
 };
 
 const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
@@ -134,7 +135,8 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
               writer={comment.writer_name}
               comment={comment.comment}
               created_at={comment.created_at}
-              like_count={comment.like}
+              like_count={comment.like_count}
+              like_list={comment.likes}
               key={value}
             />
           ))

@@ -1,13 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./signin.css";
 import { FormEvent } from "react";
-import { signin } from "../../api/user";
 import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
-import { error } from "console";
 
 function SigninPage() {
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const removeInput = (tag: string): void => {
     let target = document.getElementById(tag) as HTMLInputElement;
@@ -45,7 +43,7 @@ function SigninPage() {
         .then((res) => {
           if (res.status === 201) {
             alert("회원가입이 성공적으로 완료되었습니다.");
-            navigate("/login");
+            history.push("/login");
           }
         })
         .catch((error) => alert(error));

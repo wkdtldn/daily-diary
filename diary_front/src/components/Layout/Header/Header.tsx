@@ -3,27 +3,43 @@ import Menu from "../../Menu/Menu";
 import "./Header.css";
 import React, { useState } from "react";
 import { LoginUser } from "../../../hooks/recoil/userState";
-import { IoMenu, IoClose } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { IoMenu, IoClose, IoSearchOutline } from "react-icons/io5";
+import { useHistory } from "react-router-dom";
+import {
+  IonButton,
+  IonButtons,
+  IonHeader,
+  IonIcon,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import { menu, close, heart, search } from "ionicons/icons";
 
 const Header = () => {
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const [menuOn, setMenuOn] = useState<boolean>(false);
 
   const login_user = useRecoilValue(LoginUser);
 
   return (
-    <header className="Header">
-      <button className="header-btn" onClick={() => setMenuOn(!menuOn)}>
-        {menuOn ? <IoClose /> : <IoMenu />}
-      </button>
-      <span className="header-title">{login_user.name}의 일기장</span>
-      <button className="header-btn" onClick={() => navigate("/home/profile")}>
-        내 정보
-      </button>
+    <IonHeader>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonButton onClick={() => setMenuOn(!menuOn)}>
+            {!menuOn ? <IonIcon icon={menu} /> : <IonIcon icon={close} />}
+          </IonButton>
+        </IonButtons>
+
+        <IonTitle className="header-title">Daily-Diary</IonTitle>
+        <IonButtons slot="end">
+          <IonButton>
+            <IonIcon icon={search} />
+          </IonButton>
+        </IonButtons>
+      </IonToolbar>
       <Menu on={menuOn} status={() => setMenuOn(false)} />
-    </header>
+    </IonHeader>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { userSearch } from "../../../api/user";
+import { useParams } from "react-router-dom";
+import { userSearch } from "../../api/user";
 import "../profile/profile.css";
 
 interface SearchTargetType {
@@ -11,7 +11,7 @@ interface SearchTargetType {
 }
 
 const UserProfile: React.FC = () => {
-  const { username } = useParams<string>();
+  const { username } = useParams<{ username: string }>();
   const [searchTarget, setSearchTarget] = useState<SearchTargetType | null>(
     null
   );

@@ -4,12 +4,12 @@ import "react-calendar/dist/Calendar.css";
 
 import React, { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
-import ContentBox from "../../../components/ContentBox/ContentBox";
-import PreviewModal from "../../../components/PreviewModal/PreviewModal";
+import ContentBox from "../../components/ContentBox/ContentBox";
+import PreviewModal from "../../components/PreviewModal/PreviewModal";
 
-import { SelectedDate, dateState } from "../../../hooks/recoil/dateState";
+import { SelectedDate, dateState } from "../../hooks/recoil/dateState";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { diary_by_month } from "../../../api/diary";
+import { diary_by_month } from "../../api/diary";
 
 import { IoColorWand } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -119,7 +119,7 @@ function CalendarPage() {
         )}
       </div>
       <button className="write-calendar-btn">
-        <Link className="write-calendar-btn_link" to="/home/write">
+        <Link className="write-calendar-btn_link" to="/write">
           <IoColorWand fontSize={23} fontWeight={600} />
         </Link>
       </button>

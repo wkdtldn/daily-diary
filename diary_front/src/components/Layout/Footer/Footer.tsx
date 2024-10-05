@@ -7,7 +7,20 @@ import {
   IoCompass,
   IoPeopleOutline,
   IoPeople,
+  IoPersonCircleOutline,
+  IoPersonCircle,
 } from "react-icons/io5";
+import { IonFooter, IonIcon } from "@ionic/react";
+import {
+  calendar,
+  calendarOutline,
+  compass,
+  compassOutline,
+  people,
+  peopleOutline,
+  personCircle,
+  personCircleOutline,
+} from "ionicons/icons";
 
 const Footer = () => {
   const location = useLocation();
@@ -16,28 +29,35 @@ const Footer = () => {
     // 달력
     {
       title: "달력",
-      location: "/home/calendar",
-      icons: <IoCalendarClearOutline size="23" color="gray" />,
-      focus: <IoCalendar size="23" color="cornflowerblue" />,
+      location: "/calendar",
+      icons: <IonIcon icon={calendarOutline} size="23" color="gray" />,
+      focus: <IonIcon icon={calendar} size="23" color="cornflowerblue" />,
     },
     // 둘러보기
     {
       title: "둘러보기",
-      location: "/home/recent",
-      icons: <IoCompassOutline size="23" color="gray" />,
-      focus: <IoCompass size="23" color="cornflowerblue" />,
+      location: "/recent",
+      icons: <IonIcon icon={compassOutline} size="23" color="gray" />,
+      focus: <IonIcon icon={compass} size="23" color="cornflowerblue" />,
     },
     {
       // 친구들
       title: "친구들",
-      location: "/home/friends",
-      icons: <IoPeopleOutline size="23" color="gray" />,
-      focus: <IoPeople size="23" color="cornflowerblue" />,
+      location: "/friends",
+      icons: <IonIcon icon={peopleOutline} size="23" color="gray" />,
+      focus: <IonIcon icon={people} size="23" color="cornflowerblue" />,
+    },
+    {
+      // 내 프로필
+      title: "내정보",
+      location: "/profile",
+      icons: <IonIcon icon={personCircleOutline} size="23" color="gray" />,
+      focus: <IonIcon icon={personCircle} size="23" color="cornflowerblue" />,
     },
   ];
 
   return (
-    <footer className="Footer">
+    <IonFooter className="Footer">
       {footerOption.map((option) => (
         <Link
           className={`footer-option ${
@@ -49,7 +69,7 @@ const Footer = () => {
           <p className="footer-option-title">{option.title}</p>
         </Link>
       ))}
-    </footer>
+    </IonFooter>
   );
 };
 

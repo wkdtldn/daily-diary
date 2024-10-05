@@ -1,12 +1,12 @@
 import "./write.css";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { SelectedDate, dateState } from "../../../hooks/recoil/dateState";
+import { SelectedDate, dateState } from "../../hooks/recoil/dateState";
 import React, { FormEvent } from "react";
-import { diary_write } from "../../../api/diary";
-import { useNavigate } from "react-router-dom";
+import { diary_write } from "../../api/diary";
+import { useHistory } from "react-router-dom";
 
 function WritePage() {
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const [dateValue, setDateValue] = useRecoilState(dateState);
   const writeDate = useRecoilValue(SelectedDate);
@@ -45,7 +45,7 @@ function WritePage() {
           writeDate?.year + "-" + writeDate?.month + "-" + writeDate?.date;
 
         diary_write(content, date);
-        navigate("/home/calendar");
+        history.push("/calendar");
       }
     }
   };

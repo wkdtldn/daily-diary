@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Comment.css";
 
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { api } from "../../api/axiosInstance";
 import { fetchCookies } from "../../api/token";
+import { useRecoilValue } from "recoil";
+import { LoginUser } from "../../hooks/recoil/userState";
 
 interface CommentProps {
   id: string;
@@ -11,6 +13,7 @@ interface CommentProps {
   created_at: string;
   comment: string;
   like_count: number;
+  like_list: string[];
 }
 
 const Comment: React.FC<CommentProps> = ({
@@ -19,7 +22,12 @@ const Comment: React.FC<CommentProps> = ({
   created_at,
   comment,
   like_count,
+  like_list,
 }) => {
+  const login_user = useRecoilValue(LoginUser);
+
+  const isMounted = useRef(false);
+
   const generalTime = () => {
     const datetime = new Date(created_at);
 
@@ -36,22 +44,29 @@ const Comment: React.FC<CommentProps> = ({
     return `${formattedDate} - ${formattedTime}`;
   };
 
-  const [like, setLike] = useState<boolean>(false);
+  const [like, setLike] = useState<boolean>(
+    like_list.includes(login_user.username)
+  );
 
+  let firstTime = true;
   useEffect(() => {
-    const like_comment = async () => {
-      const csrftoken = await fetchCookies();
-      await api.post(
-        `/api/comments/${id}/like/`,
-        {},
-        {
-          headers: {
-            "X-CSRFToken": csrftoken!,
-          },
-        }
-      );
-    };
-    like_comment();
+    if (isMounted.current) {
+      const like_comment = async () => {
+        const csrftoken = await fetchCookies();
+        await api.post(
+          `/api/comments/${id}/like/`,
+          {},
+          {
+            headers: {
+              "X-CSRFToken": csrftoken!,
+            },
+          }
+        );
+      };
+      like_comment();
+    } else {
+      isMounted.current = true;
+    }
   }, [like]);
 
   return (
@@ -76,7 +91,15 @@ const Comment: React.FC<CommentProps> = ({
             className="comment-main__reaction__heart-history"
             onClick={() => setLike(!like)}
           >
-            좋아요 {like_count}개
+            좋아요{" "}
+            {like_list.includes(login_user.username)
+              ? !like
+                ? like_count - 1
+                : like_count
+              : like
+              ? like_count + 1
+              : like_count}
+            개
           </span>
           <span className="comment-main__reaction__comment">답글 달기</span>
         </div>
