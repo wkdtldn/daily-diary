@@ -63,6 +63,18 @@ class CheckAuthView(APIView):
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 
 
+class UsernameFilter(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, username):
+        username_exist = UserModel.objects.filter(username=username).exists()
+
+        if username_exist:
+            return Response(True)
+        else:
+            return Response(False)
+
+
 class UserCreateView(APIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]

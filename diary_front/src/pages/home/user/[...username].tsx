@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { userSearch } from "../../api/user";
+import { userSearch } from "../../../api/user";
 import "../profile/profile.css";
 
 interface SearchTargetType {

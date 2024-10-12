@@ -5,17 +5,20 @@ import { defineCustomElements } from "@ionic/pwa-elements/loader";
 import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
 import { CookiesProvider } from "react-cookie";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
 root.render(
-  <CookiesProvider>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  </CookiesProvider>
+  <BrowserRouter>
+    <CookiesProvider>
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+    </CookiesProvider>
+  </BrowserRouter>
 );
 
 defineCustomElements(window);

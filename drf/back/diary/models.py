@@ -7,12 +7,7 @@ from datetime import datetime
 # User
 class UserModel(AbstractUser):
     name = models.CharField(max_length=100, null=False, verbose_name="name")
-    image = models.ImageField(
-        upload_to="profile_imgs/",
-        default="profile_imgs/profile-default-imgs-for-not-edit-person.png",
-        blank=True,
-        null=True,
-    )
+    image = models.ImageField(upload_to="profile_images/", default="")
 
     groups = models.ManyToManyField(
         Group,

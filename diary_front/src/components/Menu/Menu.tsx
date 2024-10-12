@@ -1,7 +1,6 @@
 import React from "react";
 import "./Menu.css";
-import { Link, useHistory } from "react-router-dom";
-import { IoLogOut } from "react-icons/io5";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
 import { useRecoilValue } from "recoil";
@@ -12,7 +11,7 @@ import { logIn, logOut } from "ionicons/icons";
 type MenuProps = { on: boolean; status: VoidFunction };
 
 const Menu: React.FC<MenuProps> = ({ on, status }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const login_user = useRecoilValue(LoginUser);
 
@@ -27,7 +26,7 @@ const Menu: React.FC<MenuProps> = ({ on, status }) => {
 
     if (res.status === 200) {
       console.log("Logout successful");
-      history.push("/login");
+      navigate("/login");
     } else {
       console.error("Logout failed");
     }
@@ -56,8 +55,8 @@ const Menu: React.FC<MenuProps> = ({ on, status }) => {
           <p className="logout-text">로그아웃</p>
         </button>
       ) : (
-        <button className="logout-btn" onClick={() => history.push("/login")}>
-          <IonIcon icon={logIn} className="logout-icon" />
+        <button className="logout-btn" onClick={() => navigate("/login")}>
+          {/* <IonIcon icon={logIn} className="logout-icon" /> */}
           <p className="logout-text">로그인</p>
         </button>
       )}

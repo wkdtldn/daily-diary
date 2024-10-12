@@ -55,4 +55,5 @@ button {
 
 .ion-page {
   position: relative;
+  transition: opacity 0.3s ease-in-out;
 }

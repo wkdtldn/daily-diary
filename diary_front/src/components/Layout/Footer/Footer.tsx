@@ -1,16 +1,6 @@
 import "./Footer.css";
 import { Link, useLocation } from "react-router-dom";
-import {
-  IoCalendarClearOutline,
-  IoCalendar,
-  IoCompassOutline,
-  IoCompass,
-  IoPeopleOutline,
-  IoPeople,
-  IoPersonCircleOutline,
-  IoPersonCircle,
-} from "react-icons/io5";
-import { IonFooter, IonIcon } from "@ionic/react";
+import { IonIcon } from "@ionic/react";
 import {
   calendar,
   calendarOutline,
@@ -29,35 +19,35 @@ const Footer = () => {
     // 달력
     {
       title: "달력",
-      location: "/calendar",
+      location: "/home/calendar",
       icons: <IonIcon icon={calendarOutline} size="23" color="gray" />,
       focus: <IonIcon icon={calendar} size="23" color="cornflowerblue" />,
     },
     // 둘러보기
     {
       title: "둘러보기",
-      location: "/recent",
+      location: "/home/recent",
       icons: <IonIcon icon={compassOutline} size="23" color="gray" />,
       focus: <IonIcon icon={compass} size="23" color="cornflowerblue" />,
     },
     {
       // 친구들
       title: "친구들",
-      location: "/friends",
+      location: "/home/friends",
       icons: <IonIcon icon={peopleOutline} size="23" color="gray" />,
       focus: <IonIcon icon={people} size="23" color="cornflowerblue" />,
     },
     {
       // 내 프로필
       title: "내정보",
-      location: "/profile",
+      location: "/home/profile",
       icons: <IonIcon icon={personCircleOutline} size="23" color="gray" />,
       focus: <IonIcon icon={personCircle} size="23" color="cornflowerblue" />,
     },
   ];
 
   return (
-    <IonFooter className="Footer">
+    <footer className="Footer">
       {footerOption.map((option) => (
         <Link
           className={`footer-option ${
@@ -69,7 +59,7 @@ const Footer = () => {
           <p className="footer-option-title">{option.title}</p>
         </Link>
       ))}
-    </IonFooter>
+    </footer>
   );
 };
 

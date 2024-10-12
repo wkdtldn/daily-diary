@@ -1,11 +1,11 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./signin.css";
 import { FormEvent } from "react";
 import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
 
 function SigninPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const removeInput = (tag: string): void => {
     let target = document.getElementById(tag) as HTMLInputElement;
@@ -43,7 +43,7 @@ function SigninPage() {
         .then((res) => {
           if (res.status === 201) {
             alert("회원가입이 성공적으로 완료되었습니다.");
-            history.push("/login");
+            navigate("/login");
           }
         })
         .catch((error) => alert(error));
@@ -78,7 +78,6 @@ function SigninPage() {
         </div>
         <div className="signin-input-wrapper">
           <input
-            id="email"
             name="email"
             type="email"
             className="signin-input signin-input__email"

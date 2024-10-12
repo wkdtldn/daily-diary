@@ -18,11 +18,17 @@ urlpatterns = [
     # create
     path("signup/", views.UserCreateView.as_view(), name="signup"),
     # update
-    path("user/update/", views.UserUpdateView.as_view(), name="user-update"),
+    path("user/update/<int:pk>", views.UserUpdateView.as_view(), name="user-update"),
     # login
     path("login/", views.LoginView.as_view(), name="login"),
     # logout
     path("logout/", views.LogoutView.as_view(), name="logout"),
+    # check username exist
+    path(
+        "user/check-username/<str:username>/",
+        views.UsernameFilter.as_view(),
+        name="username-filtering",
+    ),
     ## Diary
     # search
     path("diary/", views.DiaryRetrieveView.as_view(), name="diary-retrieve"),

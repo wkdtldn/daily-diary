@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./recent.css";
-import ContentBox from "../../components/ContentBox/ContentBox";
-import { diary_by_month } from "../../api/diary";
+import ContentBox from "../../../components/ContentBox/ContentBox";
+import { diary_by_month } from "../../../api/diary";
 
 type InputDatePicker = string | number | readonly string[] | undefined;
 

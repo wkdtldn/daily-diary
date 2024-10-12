@@ -30,12 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "4064-49-169-117-4.ngrok-free.app",
+    "c576-121-135-218-25.ngrok-free.app",
 ]
-
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
 
 
 # Application definition
@@ -100,6 +96,8 @@ CORS_ALLOW_METHODS = [
     "GET",
     "POST",
     "DELETE",
+    "PUT",
+    "PATCH",
     "OPTIONS",
 ]
 CORS_ALLOW_CREDENTIALS = True  # 인증 관련 헤더 허용

@@ -1,6 +1,9 @@
 from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
+from drf_extra_fields.fields import Base64ImageField
+from django.core.files.base import ContentFile
 from .models import UserModel, Diary, Comment
+import base64
 
 
 # User
@@ -12,7 +15,18 @@ class UserSerializer(serializers.Serializer):
     password = serializers.CharField(
         required=True, allow_blank=False, max_length=128, write_only=True
     )
-    image = serializers.ImageField(required=False)
+    image = Base64ImageField(required=False)
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        # 이미지 필드를 Base64 문자열로 변환
+        if instance.image:
+            with open(instance.image.path, "rb") as image_file:
+                encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+                representation["image"] = f"data:image/jpeg;base64,{encoded_string}"
+
+        return representation
 
     def create(self, validated_data):
         user = UserModel(

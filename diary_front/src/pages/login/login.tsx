@@ -1,11 +1,11 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import { FormEvent } from "react";
 import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
 
 function LoginPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const removeInput = (tag: string): void => {
     let target = document.getElementById(tag) as HTMLInputElement;
     if (target) {
@@ -39,7 +39,8 @@ function LoginPage() {
         .then((res) => {
           if (res.status === 200) {
             alert("로그인이 성공적으로 완료되었습니다.");
-            history.push("/home");
+            navigate("/home");
+            window.location.reload();
           }
         })
         .catch((error) => alert(error));
