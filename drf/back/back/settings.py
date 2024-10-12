@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "c576-121-135-218-25.ngrok-free.app",
+    "7603-49-169-117-4.ngrok-free.app",
 ]
 
 
