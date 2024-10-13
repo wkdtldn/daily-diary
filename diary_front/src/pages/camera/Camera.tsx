@@ -17,7 +17,6 @@ export function CameraComponent() {
   return (
     <IonButton onClick={() => takePicture()}>
       <IonIcon icon={camera}></IonIcon>
-      {/* {photo && <img src={photo} alt="captured" />} */}
     </IonButton>
   );
 }

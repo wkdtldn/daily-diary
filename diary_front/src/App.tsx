@@ -2,7 +2,7 @@ import "@ionic/react/css/core.css";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/login/login";
-import SigninPage from "./pages/signin/signin";
+import SigninPage from "./pages/signup/signup";
 import NotFound from "./pages/notfound/notfound";
 import HomePage from "./pages/home/home";
 import StartPage from "./pages/startPage/StartPage";

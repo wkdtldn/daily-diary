@@ -1,4 +1,4 @@
-.signin-container {
+.signup-container {
   width: 100%;
   height: 100%;
   display: flex;
@@ -8,7 +8,7 @@
   justify-content: center;
 }
 
-.signin-form {
+.signup-form {
   width: 100%;
   height: 320px;
   display: flex;
@@ -18,14 +18,14 @@
   gap: 15px;
 }
 
-.signin-input-wrapper {
+.signup-input-wrapper {
   position: relative;
   width: 260px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  .signin-input {
+  .signup-input {
     font-size: 15px;
     border: 1px solid;
     border-radius: 5px;
@@ -36,37 +36,43 @@
       font-size: 14px;
     }
   }
-  .signin-input:focus,
-  .signin-input:valid {
+  .signup-input:focus,
+  .signup-input:valid {
     border-color: rgb(179, 179, 179);
   }
 }
 
-.signin-input:invalid + .erase-btn {
+.signup-input:invalid + .close-btn {
   display: none;
 }
 
-.erase-btn {
+.input-btn {
   position: absolute;
   right: 10px;
-  width: 20px;
   padding: 0;
   background: none;
   border: none;
-  border-radius: 50%;
-  height: 20px;
   overflow: hidden;
-  .clear-icons {
-    width: 100%;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: gray;
+  font-size: 18px;
 }
 
-.signin-submit {
-  border: 1.4px solid rgb(179, 179, 179);
+.signup-submit {
+  border: none;
   margin-top: 20px;
-  width: 260px;
+  width: 210px;
   height: 35px;
   border-radius: 5px;
+  box-shadow: 2px 2px 3px rgb(209, 209, 209);
+  transition-duration: 0.2s;
+}
+
+.signup-submit:hover,
+.signup-submit:active {
+  box-shadow: none;
 }
 
 .backtologin {

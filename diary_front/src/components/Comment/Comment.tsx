@@ -48,7 +48,6 @@ const Comment: React.FC<CommentProps> = ({
     like_list.includes(login_user.username)
   );
 
-  let firstTime = true;
   useEffect(() => {
     if (isMounted.current) {
       const like_comment = async () => {

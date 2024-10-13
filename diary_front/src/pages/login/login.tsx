@@ -1,11 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
+import { IonIcon } from "@ionic/react";
+import { close, eye, eyeOff } from "ionicons/icons";
 
 function LoginPage() {
   const navigate = useNavigate();
+
+  const [passwordShow, setPasswordShow] = useState(false);
+
   const removeInput = (tag: string): void => {
     let target = document.getElementById(tag) as HTMLInputElement;
     if (target) {
@@ -63,21 +68,17 @@ function LoginPage() {
           <button
             tabIndex={-1}
             type="button"
-            className="erase-btn"
+            className="input-btn close-btn"
             onClick={() => removeInput("id")}
           >
-            <img
-              className="clear-icons"
-              src="https://img.icons8.com/pastel-glyph/2x/cancel.png"
-              alt="clear-icon"
-            />
+            <IonIcon icon={close} />
           </button>
         </div>
         <div className="login-input-wrapper">
           <input
             id="password"
             name="password"
-            type="password"
+            type={`${passwordShow ? "text" : "password"}`}
             className="login-input login-input__password"
             placeholder="비밀번호를 입력해주세요"
             required
@@ -85,14 +86,10 @@ function LoginPage() {
           <button
             tabIndex={-1}
             type="button"
-            className="erase-btn"
-            onClick={() => removeInput("password")}
+            className="input-btn"
+            onClick={() => setPasswordShow(!passwordShow)}
           >
-            <img
-              className="clear-icons"
-              src="https://img.icons8.com/pastel-glyph/2x/cancel.png"
-              alt="clear-icon"
-            />
+            {passwordShow ? <IonIcon icon={eye} /> : <IonIcon icon={eyeOff} />}
           </button>
         </div>
         <button type="submit" className="login-submit">

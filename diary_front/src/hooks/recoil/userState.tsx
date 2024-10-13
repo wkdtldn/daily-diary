@@ -6,6 +6,8 @@ interface User {
   name: string;
   email: string;
   image: string;
+  followings: string[];
+  followers: string[];
 }
 
 export const userState = atom<User>({
@@ -17,6 +19,8 @@ export const userState = atom<User>({
     email: "",
     image:
       "https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg",
+    followings: [],
+    followers: [],
   },
 });
 
@@ -30,6 +34,10 @@ export const LoginUser = selector({
       name: params.name,
       email: params.email,
       image: params.image,
+      followings: params.followings,
+      following_count: params.followings.length,
+      followers: params.followers,
+      follower_count: params.followers.length,
     };
   },
 });

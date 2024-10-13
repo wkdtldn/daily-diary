@@ -7,28 +7,42 @@
   overflow: hidden;
 }
 
-.profile-info__wrapper {
+.profile-header-wrapper {
   width: 100%;
-  height: 200px;
+  height: 250px;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-evenly;
   box-shadow: 0 3px 3px rgb(214, 214, 214);
 }
 
-.profile-info__wrapper::before {
+.profile-header-wrapper::before {
   content: "";
   width: 100%;
-  height: 50%;
+  height: 100%;
   position: absolute;
   top: 0;
   z-index: 0;
-  background-image: linear-gradient(to right, #c708ed, #a2f7f9);
+  background-image: var(--bg-image-url);
+  background-size: cover;
+  filter: blur(4px);
+  clip-path: inset(0 0 62.5% 0);
 }
-.profile-info__wrapper > * {
+.profile-header-wrapper > * {
   z-index: 100;
+}
+
+.profile-info {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
 .profile-img {
@@ -53,7 +67,8 @@
   width: 60px;
   height: 35px;
   border-radius: 5px;
-  font-size: 11px;
+  font-size: 13px;
+  box-shadow: 1.3px 1.3px 5px rgb(112, 112, 112);
   padding: 0;
   margin: 0;
   position: absolute;
@@ -64,14 +79,8 @@
   border: none;
 }
 
-.profile-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-basis: 50%;
-}
-
 .profile__username {
+  text-shadow: 1px 1px 2px white;
   font-size: 25px;
   font-weight: bold;
 }
@@ -90,4 +99,45 @@
   justify-content: flex-start;
   align-items: center;
   overflow-y: scroll;
+}
+
+.profile-follow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.profile-follow > * {
+  width: 95px;
+}
+
+.profile-follow_option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.follow_number {
+  font-size: 15px !important;
+  font-weight: 250 !important;
+}
+
+.follow-btn {
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgb(173, 173, 173);
+  font-size: 17px;
+  font-weight: bold;
+  background-color: rgb(220, 220, 220);
+  transition-duration: 0.3s;
+}
+
+.follow-btn:hover,
+.follow-btn:active {
+  box-shadow: none;
 }

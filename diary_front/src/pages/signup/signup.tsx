@@ -1,11 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-import "./signin.css";
-import { FormEvent } from "react";
+import "./signup.css";
+import { FormEvent, useState } from "react";
 import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
+import { IonIcon } from "@ionic/react";
+import { close, eye, eyeOff } from "ionicons/icons";
 
-function SigninPage() {
+function SignupPage() {
   const navigate = useNavigate();
+
+  const [passwordShow, setPasswordShow] = useState(false);
 
   const removeInput = (tag: string): void => {
     let target = document.getElementById(tag) as HTMLInputElement;
@@ -51,97 +55,81 @@ function SigninPage() {
   };
 
   return (
-    <div className="signin-container">
-      <h1 className="signin-title">회원가입</h1>
-      <form className="signin-form" onSubmit={submit}>
-        <div className="signin-input-wrapper">
+    <div className="signup-container">
+      <h1 className="signup-title">회원가입</h1>
+      <form className="signup-form" onSubmit={submit}>
+        <div className="signup-input-wrapper">
           <input
             id="id"
             name="username"
             type="text"
-            className="signin-input signin-input__username"
+            className="signup-input signup-input__username"
             placeholder="아이디를 입력해주세요"
             required
           />
           <button
             tabIndex={-1}
             type="button"
-            className="erase-btn"
+            className="input-btn close-btn"
             onClick={() => removeInput("id")}
           >
-            <img
-              className="clear-icons"
-              src="https://img.icons8.com/pastel-glyph/2x/cancel.png"
-              alt="clear-icon"
-            />
+            <IonIcon icon={close} />
           </button>
         </div>
-        <div className="signin-input-wrapper">
+        <div className="signup-input-wrapper">
           <input
             name="email"
             type="email"
-            className="signin-input signin-input__email"
+            className="signup-input signup-input__email"
             placeholder="이메일을 입력해주세요"
             required
           />
           <button
             tabIndex={-1}
             type="button"
-            className="erase-btn"
+            className="input-btn close-btn"
             onClick={() => removeInput("email")}
           >
-            <img
-              className="clear-icons"
-              src="https://img.icons8.com/pastel-glyph/2x/cancel.png"
-              alt="clear-icon"
-            />
+            <IonIcon icon={close} />
           </button>
         </div>
-        <div className="signin-input-wrapper">
+        <div className="signup-input-wrapper">
           <input
             id="name"
             name="name"
             type="text"
-            className="signin-input signin-input_name"
+            className="signup-input signup-input_name"
             placeholder="이름을 입력해주세요"
             required
           />
           <button
             tabIndex={-1}
             type="button"
-            className="erase-btn"
+            className="input-btn close-btn"
             onClick={() => removeInput("name")}
           >
-            <img
-              className="clear-icons"
-              src="https://img.icons8.com/pastel-glyph/2x/cancel.png"
-              alt="clear-icon"
-            />
+            <IonIcon icon={close} />
           </button>
         </div>
-        <div className="signin-input-wrapper">
+        <div className="signup-input-wrapper">
           <input
             id="password"
             name="password"
-            type="password"
-            className="signin-input signin-input__password"
+            type={`${passwordShow ? "text" : "password"}`}
+            className="signup-input login-input__password"
             placeholder="비밀번호를 입력해주세요"
             required
           />
           <button
             tabIndex={-1}
             type="button"
-            className="erase-btn"
-            onClick={() => removeInput("password")}
+            className="input-btn"
+            onClick={() => setPasswordShow(!passwordShow)}
           >
-            <img
-              className="clear-icons"
-              src="https://img.icons8.com/pastel-glyph/2x/cancel.png"
-              alt="clear-icon"
-            />
+            {passwordShow ? <IonIcon icon={eye} /> : <IonIcon icon={eyeOff} />}
           </button>
         </div>
-        <button tabIndex={-1} type="submit" className="signin-submit">
+        <button tabIndex={-1} type="submit" className="signup-submit">
           회원가입
         </button>
       </form>
@@ -152,4 +140,4 @@ function SigninPage() {
   );
 }
 
-export default SigninPage;
+export default SignupPage;

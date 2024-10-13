@@ -4,7 +4,6 @@ import "./Header.css";
 import { useState } from "react";
 import { LoginUser } from "../../../hooks/recoil/userState";
 import { useNavigate } from "react-router-dom";
-import { IoClose, IoMenu, IoSearch } from "react-icons/io5";
 import { IonIcon } from "@ionic/react";
 import { close, menu, search } from "ionicons/icons";
 

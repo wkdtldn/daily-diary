@@ -12,7 +12,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { diary_by_month } from "../../../api/diary";
 
 import { IoColorWand } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../../../hooks/recoil/userState";
 import RedirectLogin from "../../../components/Redirect-Login/redirect-login";
 import Draggable, { DraggableData } from "react-draggable";
@@ -32,10 +32,25 @@ type Diary = {
 };
 
 function CalendarPage() {
+  const navigate = useNavigate();
+
+  const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
+  const handleOnStopTouchEvent = () => {
+    if (isDragging) return;
+    navigate("/home/write");
+  };
+
   const handleOnDrag = (data: DraggableData) => {
+    setIsDragging(true);
     setPosition({ x: data.x, y: data.y });
+  };
+
+  const handleStopDrag = () => {
+    setTimeout(() => {
+      setIsDragging(false);
+    }, 100);
   };
 
   const [value, setValue] = useRecoilState<Value>(dateState);
@@ -65,15 +80,23 @@ function CalendarPage() {
   };
 
   useEffect(() => {
-    setLoading(true);
     const load_data = async () => {
-      let date = selected_date?.year + "-" + selected_date?.month;
-      let option = filterValue;
-      const diaries = await diary_by_month(date, option);
-      if (diaries) {
-        setDiaries(diaries);
+      if (lastSelectedValue?.toString()) {
+        const lastValue = new Date(lastSelectedValue?.toString());
+        if (lastValue.getFullYear() !== selected_date?.year) return;
+        if (lastValue.getMonth() + 1 !== selected_date?.month) return;
+
+        setLoading(true);
+        let date = selected_date?.year + "-" + selected_date?.month;
+        let option = filterValue;
+        const diaries = await diary_by_month(date, option);
+        if (diaries) {
+          setDiaries(diaries);
+        }
+        setLoading(false);
+      } else {
+        return;
       }
-      setLoading(false);
     };
     load_data();
   }, [selected_date, filterValue]);
@@ -118,10 +141,10 @@ function CalendarPage() {
         </select>
       </div>
       <div className="content-container">
-        {!login_user.username ? (
-          <RedirectLogin />
-        ) : loading ? (
+        {loading ? (
           <p>loading</p>
+        ) : diaries !== null && diaries.length === 0 ? (
+          <p>오늘의 일기 작성</p>
         ) : (
           diaries?.map((diary, value) => (
             <ContentBox
@@ -136,14 +159,17 @@ function CalendarPage() {
         )}
       </div>
       <Draggable
-        position={{ x: position.x, y: position.y }} // 업데이트된 컴포넌트의 위치를 설정해준다.
+        position={{ x: position.x, y: position.y }}
         onDrag={(_, data) => handleOnDrag(data)}
+        onStop={handleStopDrag}
       >
-        <button className="write-calendar-btn">
+        <button
+          className="write-calendar-btn"
+          onClick={handleOnStopTouchEvent}
+          onTouchEnd={handleOnStopTouchEvent}
+        >
           {login_user.username ? (
-            <Link className="write-calendar-btn_link" to="/home/write">
-              <IoColorWand fontSize={23} fontWeight={600} />
-            </Link>
+            <IoColorWand fontSize={23} fontWeight={600} color="blue" />
           ) : (
             false
           )}

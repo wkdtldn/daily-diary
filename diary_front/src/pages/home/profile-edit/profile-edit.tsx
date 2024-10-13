@@ -2,13 +2,16 @@ import { useRecoilValue } from "recoil";
 import "./profile-edit.css";
 
 import { LoginUser } from "../../../hooks/recoil/userState";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Camera, CameraResultType } from "@capacitor/camera";
 import { api } from "../../../api/axiosInstance";
 import { IoCamera } from "react-icons/io5";
 import { fetchCookies } from "../../../api/token";
+import { useNavigate } from "react-router-dom";
 
 function ProfileEditPage() {
+  const navigate = useNavigate();
+
   const login_user = useRecoilValue(LoginUser);
 
   const [usernameValue, setUsernameValue] = useState("");
@@ -20,7 +23,6 @@ function ProfileEditPage() {
 
   useEffect(() => {
     const FilterUsername = async () => {
-      console.log(usernameValue);
       if (usernameValue) {
         if (usernameValue === login_user.username) {
           setValiable(true);
@@ -67,6 +69,8 @@ function ProfileEditPage() {
         "X-CSRFToken": csrfToken!,
       },
     });
+    navigate("/home/profile");
+    window.history.go(0);
   };
 
   const takePicture = async () => {

@@ -1,0 +1,11 @@
+.followed {
+  height: 40px;
+  width: 95px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: inset 1.3px 1.3px 5px rgb(129, 129, 129);
+  font-size: 17px;
+  font-weight: bold;
+  background-color: rgb(220, 220, 220);
+  transition-duration: 0.3s;
+}

@@ -45,7 +45,7 @@ function WritePage() {
           writeDate?.year + "-" + writeDate?.month + "-" + writeDate?.date;
 
         diary_write(content, date);
-        navigate("/calendar");
+        navigate("/home/calendar");
       }
     }
   };

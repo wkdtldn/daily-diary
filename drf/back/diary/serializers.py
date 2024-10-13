@@ -1,9 +1,9 @@
 from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
 from drf_extra_fields.fields import Base64ImageField
-from django.core.files.base import ContentFile
-from .models import UserModel, Diary, Comment
+from .models import UserModel, Follow, Diary, Comment
 import base64
+from django.db import models
 
 
 # User
@@ -16,6 +16,16 @@ class UserSerializer(serializers.Serializer):
         required=True, allow_blank=False, max_length=128, write_only=True
     )
     image = Base64ImageField(required=False)
+    followings = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
+
+    def get_followings(self, obj):
+        followings = Follow.objects.filter(follower=obj)
+        return [following.following.username for following in followings]
+
+    def get_followers(self, obj):
+        followers = Follow.objects.filter(following=obj)
+        return [follower.follower.username for follower in followers]
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -47,6 +57,36 @@ class UserSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+
+
+# Follow
+class FollowSerializer(serializers.ModelSerializer):
+    follower = UserSerializer(read_only=True)
+    following = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all())
+
+    class Meta:
+        model = Follow
+        fields = ["id", "follower", "following", "created_at"]
+        read_only_fields = ["id", "follower", "created_at"]
+
+    def validate(self, attrs):
+        request = self.context.get("request")
+        follower = request.user
+        following = attrs.get("following")
+
+        if follower == following:
+            raise serializers.ValidationError("You cannot follow yourself.")
+
+        if Follow.objects.filter(follower=follower, following=following).exists():
+            raise serializers.ValidationError("You are already following this user.")
+
+        return attrs
+
+    def create(self, validated_data):
+        follower = self.context.get("request").user
+        following = validated_data["following"]
+        follow = Follow.objects.create(follower=follower, following=following)
+        return follow
 
 
 # Comment

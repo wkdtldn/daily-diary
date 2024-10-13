@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
+from django.db import models
 
 
 from rest_framework.decorators import api_view, permission_classes, action
@@ -10,8 +11,13 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets, generics, permissions
 from rest_framework.views import APIView
 
-from .models import UserModel, Diary, Comment
-from .serializers import UserSerializer, DiarySerializer, CommentSerializer
+from .models import UserModel, Follow, Diary, Comment
+from .serializers import (
+    UserSerializer,
+    FollowSerializer,
+    DiarySerializer,
+    CommentSerializer,
+)
 
 
 def test_request(request):
@@ -103,14 +109,76 @@ class UserDetailView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        username = self.kwargs.get("username")  # URL 경로에서 username 추출
-        return get_object_or_404(UserModel, username=username)
+        username = self.kwargs.get("username")
+        user = get_object_or_404(UserModel, username=username)
+        return user
+
+    def retrieve(self, request, *args, **kwargs):
+        user = self.get_object()
+        authenticated_user = request.user
+
+        following = Follow.objects.filter(
+            follower=authenticated_user, following=user
+        ).exists()
+
+        user_data = self.get_serializer(user).data
+
+        user_data["following"] = following
+
+        return Response(user_data, status=200)
 
 
 class UserUpdateView(generics.UpdateAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+# Follow
+class FollowViewSet(viewsets.ModelViewSet):
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Follow.objects.filter(models.Q(follower=user) | models.Q(following=user))
+
+    def perform_create(self, serializer):
+        serializer.save(follower=self.request.user)
+
+    @action(
+        detail=False, methods=["get"], permission_classes=[permissions.IsAuthenticated]
+    )
+    def followers(self, request):
+        user = request.user
+        followers = Follow.objects.filter(following=user).select_related("follower")
+        follower_users = [follow.follower for follow in followers]
+        serializer = UserSerializer(follower_users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=False, methods=["get"], permission_classes=[permissions.IsAuthenticated]
+    )
+    def following(self, request):
+        user = request.user
+        following = Follow.objects.filter(follower=user).select_related("following")
+        following_users = [follow.following for follow in following]
+        serializer = UserSerializer(following_users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True,
+        methods=["delete"],
+        permission_classes=[permissions.IsAuthenticated],
+    )
+    def unfollow(self, request, pk=None):
+        follow_instance = get_object_or_404(Follow, follower=request.user, following=pk)
+        follow_instance.delete()
+        return Response(
+            {"detail": "Successfully unfollowed the user."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
 
 # Diary

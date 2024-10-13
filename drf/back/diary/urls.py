@@ -2,8 +2,11 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
-router = DefaultRouter()
-router.register(r"comments", views.CommentViewSet, basename="comment")
+comment_router = DefaultRouter()
+comment_router.register(r"comments", views.CommentViewSet, basename="comment")
+
+follow_router = DefaultRouter()
+follow_router.register(r"follow", views.FollowViewSet, basename="follow")
 
 urlpatterns = [
     path("test_request/", views.test_request, name="test"),
@@ -37,5 +40,7 @@ urlpatterns = [
     # remove
     path("diary/remove/", views.DiaryDestoryView.as_view(), name="diary-remove"),
     ## Comment
-    path("", include(router.urls)),
+    path("", include(comment_router.urls)),
+    ## Follow
+    path("", include(follow_router.urls)),
 ]

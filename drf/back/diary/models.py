@@ -7,6 +7,7 @@ from datetime import datetime
 # User
 class UserModel(AbstractUser):
     name = models.CharField(max_length=100, null=False, verbose_name="name")
+
     image = models.ImageField(upload_to="profile_images/", default="")
 
     groups = models.ManyToManyField(
@@ -27,6 +28,23 @@ class UserModel(AbstractUser):
 
     class Meta:
         ordering = ["username"]
+
+
+# Follow
+class Follow(models.Model):
+    follower = models.ForeignKey(
+        UserModel, related_name="following", on_delete=models.CASCADE
+    )
+    following = models.ForeignKey(
+        UserModel, related_name="followers", on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("follower", "following")
+        indexes = [
+            models.Index(fields=["follower", "following"]),
+        ]
 
 
 # Diary
