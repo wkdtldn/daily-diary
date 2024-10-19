@@ -24,11 +24,13 @@ type PreviewModalValue = HTMLDialogElement | null;
 type Diary = {
   id: string;
   writer_name: string;
+  text: string;
   content: string;
   like: number;
   time: string;
   writer: number;
   date: string;
+  images: string[];
 };
 
 function CalendarPage() {
@@ -148,11 +150,13 @@ function CalendarPage() {
         ) : (
           diaries?.map((diary, value) => (
             <ContentBox
+              text={diary.text}
               writer={diary.writer_name}
               date={diary.date}
               time={diary.time}
               content={diary.content}
               like={diary.like}
+              images={diary.images}
               key={value}
             />
           ))

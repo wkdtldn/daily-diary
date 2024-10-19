@@ -64,6 +64,7 @@ function ProfileEditPage() {
       }
       return submitData;
     };
+
     await api.patch(`/api/user/update/${login_user.id}`, data(), {
       headers: {
         "X-CSRFToken": csrfToken!,

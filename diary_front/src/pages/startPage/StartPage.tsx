@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./StartPage.css";
+import { fetchCookies } from "../../api/token";
 
 function StartPage() {
   return (

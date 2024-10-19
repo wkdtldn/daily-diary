@@ -225,6 +225,23 @@ class DiaryDestoryView(generics.DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
 
+class DiaryLikeView(APIView):
+    def post(self, request, pk=None):
+        diary = get_object_or_404(Diary, pk=pk)
+        user = request.user
+        print(user)
+
+        if user in diary.like.all():
+            diary.like.remove(user)
+            response = Response(False, status=status.HTTP_200_OK)
+        else:
+            diary.like.add(user)
+            response = Response(True, status=status.HTTP_200_OK)
+
+        diary.save()
+        return response
+
+
 # Comment
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.prefetch_related("like").all()
@@ -268,37 +285,3 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         comment.save()
         return response
-
-
-class CommentCreateView(generics.CreateAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_serializer_context(self):
-        return {"request": self.request}  # 요청 객체를 serializer의 context에 추가
-
-
-class CommentDetalView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        id = request.query_params.get("id")
-        if id:
-            comment = Comment.objects.filter(diary=id).order_by("-created_at")
-
-        serializer = CommentSerializer(comment, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class CommentUpdateView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request, pk, *args, **kwargs):
-        comment = get_object_or_404(Comment, pk=pk)
-        user = request.user
-
-        if user in comment.likes.all():
-            comment.likes.remove(user)
-        else:
-            comment.likes.add(user)

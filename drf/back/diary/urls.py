@@ -39,6 +39,8 @@ urlpatterns = [
     path("diary/write/", views.DiaryCreateView.as_view(), name="diary-write"),
     # remove
     path("diary/remove/", views.DiaryDestoryView.as_view(), name="diary-remove"),
+    # like
+    path("diary/like/<str:pk>/", views.DiaryLikeView.as_view(), name="diary-like"),
     ## Comment
     path("", include(comment_router.urls)),
     ## Follow

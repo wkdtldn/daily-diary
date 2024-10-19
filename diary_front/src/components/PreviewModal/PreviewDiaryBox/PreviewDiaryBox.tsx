@@ -11,8 +11,10 @@ interface PreviewModalDiaryBoxProps {
   id: string;
   writer: string;
   date: string;
+  text: string;
   content: string;
-  like: number;
+  like_list: string[];
+  like_count: number;
 }
 
 type Comment = {
@@ -30,7 +32,9 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
   writer,
   date,
   content,
-  like,
+  like_count,
+  like_list,
+  text,
 }) => {
   const [seemore, setSeemore] = useState<boolean>(false);
 
@@ -40,30 +44,25 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
 
   const [CommentValue, setCommentValue] = useState<Comment[] | null>(null);
 
+  const load_comment = async () => {
+    const csrftoken = await fetchCookies();
+    const res = await api.get(`/api/comments/${id}`, {
+      headers: {
+        "X-CSRFToken": csrftoken!,
+      },
+    });
+    if (res.data[0]) {
+      setCommentValue(res.data);
+    } else {
+      setCommentValue(null);
+    }
+  };
+
   useEffect(() => {
     if (CommentShowState) {
-      const load_comment = async () => {
-        const csrftoken = await fetchCookies();
-        const res = await api.get(`/api/comments/${id}`, {
-          headers: {
-            "X-CSRFToken": csrftoken!,
-          },
-        });
-        if (res.data[0]) {
-          setCommentValue(res.data);
-        } else {
-          setCommentValue(null);
-        }
-      };
       load_comment();
     }
   }, [CommentShowState]);
-
-  const handleCommentLike = async (comment_id: number) => {
-    const res = await api.get(`/api/comments/${comment_id}/like/`);
-    if (res.data) {
-    }
-  };
 
   const handleCommentState = () => {
     setCommentShowState(!CommentShowState);
@@ -86,10 +85,11 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
           }
         );
         setCommentInputValue("");
+        load_comment();
       };
       write_comment();
     } else {
-      alert("댓글을 작성해주세요");
+      alert("내용이 비여있습니다.");
     }
   };
 
@@ -111,10 +111,12 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
           }`}
           onClick={() => setSeemore(!seemore)}
         >
-          {content}
+          {text}
         </div>
         <CommunicateMenu
           diary_id={id}
+          like_list={like_list}
+          like_count={like_count}
           showState={CommentShowState}
           handleFunction={handleCommentState}
         />

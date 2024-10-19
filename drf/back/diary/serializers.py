@@ -4,20 +4,18 @@ from drf_extra_fields.fields import Base64ImageField
 from .models import UserModel, Follow, Diary, Comment
 import base64
 from django.db import models
+import uuid
 
 
 # User
-class UserSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    username = serializers.CharField(required=True, allow_blank=False, max_length=150)
-    name = serializers.CharField(required=True, allow_blank=False, max_length=100)
-    email = serializers.EmailField(required=True, allow_blank=False, max_length=254)
-    password = serializers.CharField(
-        required=True, allow_blank=False, max_length=128, write_only=True
-    )
+class UserSerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
     followings = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserModel
+        fields = "__all__"
 
     def get_followings(self, obj):
         followings = Follow.objects.filter(follower=obj)
@@ -30,12 +28,10 @@ class UserSerializer(serializers.Serializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
-        # 이미지 필드를 Base64 문자열로 변환
         if instance.image:
             with open(instance.image.path, "rb") as image_file:
                 encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
                 representation["image"] = f"data:image/jpeg;base64,{encoded_string}"
-
         return representation
 
     def create(self, validated_data):
@@ -94,6 +90,7 @@ class CommentSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
     likes = serializers.SerializerMethodField()
     writer_name = serializers.CharField(source="writer.username", read_only=True)
+    image = Base64ImageField(required=False)
 
     class Meta:
         model = Comment
@@ -105,6 +102,7 @@ class CommentSerializer(serializers.ModelSerializer):
             "comment",
             "like_count",
             "likes",
+            "image",
         ]
         read_only_fields = ("writer_name", "likes", "like_count", "created_at")
 
@@ -128,14 +126,39 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 # Diary
+
+
 class DiarySerializer(serializers.ModelSerializer):
     writer_name = serializers.CharField(source="writer.username", read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
+    images = serializers.ListField(child=Base64ImageField(), write_only=True)
+    like_count = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
 
     class Meta:
         model = Diary
         fields = "__all__"
-        read_only_fields = ("writer",)
+        read_only_fields = ("writer", "likes", "like_count", "created_at")
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        if instance.images:
+            image_list = []
+            for image in instance.images:
+                with open(image, "rb") as image_file:
+                    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+                    image_list.append(f"data:image/jpeg;base64,{encoded_string}")
+            representation["images"] = image_list
+        else:
+            representation["images"] = []
+        return representation
+
+    def get_like_count(self, obj):
+        return obj.like.count()
+
+    def get_likes(self, obj):
+        return [user.username for user in obj.like.all()]
 
     def create(self, validated_data):
         request = self.context.get("request")
@@ -144,5 +167,28 @@ class DiarySerializer(serializers.ModelSerializer):
         if writer is None:
             raise ValidationError("Authentication credentials are required.")
 
+        text = request.data.get("text")
+        content = request.data.get("content")
+        images = request.data.get("images", [])
+        if images:
+            image_paths = []
+
+            for image in images:
+                # 파일을 저장할 경로 생성
+                format, imgstr = image.split(";base64,")  # base64에서 파일 형식 추출
+                ext = format.split("/")[-1]
+                file_name = f"{uuid.uuid4()}.{ext}"
+                image_path = f"diary_images/{file_name}"
+
+                # base64 이미지 저장
+                with open(image_path, "wb") as f:
+                    f.write(base64.b64decode(imgstr))
+
+                image_paths.append(image_path)
+            validated_data["images"] = image_paths
+
         validated_data["writer"] = writer
+        validated_data["text"] = text
+        validated_data["content"] = content
+
         return Diary.objects.create(**validated_data)

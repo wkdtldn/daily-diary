@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { SelectedDate } from "../../hooks/recoil/dateState";
 import { diary_by_date } from "../../api/diary";
-import PreviewModalDiaryBox from "./PreviewDiary/PreviewDiaryBox";
+import PreviewModalDiaryBox from "./PreviewDiaryBox/PreviewDiaryBox";
 
 type PreviewModalProps = {
   modalRef: RefObject<HTMLDialogElement>;
@@ -16,8 +16,10 @@ type PreviewModalProps = {
 type Diary = {
   id: string;
   writer_name: string;
+  text: string;
   content: string;
-  like: number;
+  like_count: number;
+  likes: string[];
   time: string;
   writer: number;
   date: string;
@@ -83,8 +85,10 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ modalRef }) => {
                 id={diary.id}
                 writer={diary.writer_name}
                 date={diary.date}
+                text={diary.text}
                 content={diary.content}
-                like={diary.like}
+                like_list={diary.likes}
+                like_count={diary.like_count}
                 key={index}
               />
             ))}

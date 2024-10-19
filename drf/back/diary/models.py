@@ -2,13 +2,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 import uuid
 from datetime import datetime
+import os
 
 
 # User
 class UserModel(AbstractUser):
     name = models.CharField(max_length=100, null=False, verbose_name="name")
 
-    image = models.ImageField(upload_to="profile_images/", default="")
+    image = models.ImageField(
+        upload_to="profile_images/", default="profile_images/default.jpg"
+    )
 
     groups = models.ManyToManyField(
         Group,
@@ -28,6 +31,27 @@ class UserModel(AbstractUser):
 
     class Meta:
         ordering = ["username"]
+
+    def save(self, *args, **kwargs):
+        # 변경 전의 파일을 기록
+        try:
+            this = UserModel.objects.get(id=self.id)
+            if this.image != self.image:
+                if os.path.isfile(this.image.path):
+                    if this.image == "profile_images/default.jpg":
+                        pass
+                    else:
+                        os.remove(this.image.path)
+        except UserModel.DoesNotExist:
+            pass
+
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        if self.image:
+            if os.path.isfile(self.image.path):
+                os.remove(self.image.path)
+        super().delete(*args, **kwargs)
 
 
 # Follow
@@ -50,11 +74,19 @@ class Follow(models.Model):
 # Diary
 class Diary(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    content = models.TextField()
+    text = models.TextField(blank=False, null=False)
+    content = models.TextField(blank=False, null=False, default="")
+    images = models.JSONField(default=list, blank=True)
     date = models.DateField()
     time = models.TimeField(auto_now_add=True)
-    like = models.IntegerField(default=0)
+    like = models.ManyToManyField(UserModel, related_name="liked_diaries", blank=True)
     writer = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+
+    def delete(self, *args, **kwargs):
+        if self.image:
+            if os.path.isfile(self.image.path):
+                os.remove(self.image.path)
+        super().delete(*args, **kwargs)
 
 
 # Comment

@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
 import "./ContentBox.css";
 import { CiClock2 } from "react-icons/ci";
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { image } from "ionicons/icons";
 
 interface ContentBoxProps {
   writer: string;
   date: string;
+  text: string;
   content: string;
   like: number;
   time: string;
+  images: string[];
 }
 
 const ContentBox: React.FC<ContentBoxProps> = ({
@@ -17,6 +20,7 @@ const ContentBox: React.FC<ContentBoxProps> = ({
   time,
   content,
   like,
+  images,
 }) => {
   const get_day = (idx: number) => {
     const day = ["월", "화", "수", "목", "금", "토", "일"];
@@ -68,11 +72,11 @@ const ContentBox: React.FC<ContentBoxProps> = ({
         </div>
       </div>
       <div className="content-right">
-        <img
-          src="https://src.hidoc.co.kr/image/lib/2018/5/18/20180518162239482_0.jpg"
-          alt="diary-img"
-          height="100%"
-        />
+        {images[0] ? (
+          <img className="diary-content-img" src={images[0]} alt="diary-img" />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

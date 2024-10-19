@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "7f73-49-169-117-4.ngrok-free.app",
+    "3ea6-106-240-132-18.ngrok-free.app",
 ]
 
 
@@ -86,6 +86,7 @@ from corsheaders.defaults import default_headers
 
 CORS_ALLOW_ALL_ORIGINS = True  # 모든 요청에 대해 허용
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
     "https://main--d-diary.netlify.app",
     "https://d-diary.netlify.app",
 ]

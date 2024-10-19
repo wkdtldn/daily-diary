@@ -78,6 +78,7 @@ function SignupPage() {
         </div>
         <div className="signup-input-wrapper">
           <input
+            id="email"
             name="email"
             type="email"
             className="signup-input signup-input__email"
