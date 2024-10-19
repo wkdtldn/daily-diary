@@ -38,15 +38,7 @@ const HomePage = () => {
         const auth = await check_auth();
 
         if (auth) {
-          if (auth.user.image) {
-            setUser(auth.user);
-          } else {
-            setUser((prevUser) => ({
-              ...prevUser,
-              ...auth.user,
-              image: prevUser.image,
-            }));
-          }
+          setUser(auth.user);
           if (location.pathname === "/home/calendar") {
           } else if (location.pathname === "/home/recent") {
           } else if (location.pathname === "/home/profile") {
