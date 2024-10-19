@@ -20,6 +20,7 @@ import { userState } from "../../hooks/recoil/userState";
 import { useEffect, useState } from "react";
 import { check_auth } from "../../api/user";
 import NotFound from "../notfound/notfound";
+import { IoColorWand } from "react-icons/io5";
 
 const HomePage = () => {
   const location = useLocation();
@@ -79,6 +80,12 @@ const HomePage = () => {
               <Route path="/user/:username" element={<UserProfile />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
+            <button
+              className="write-calendar-btn"
+              onClick={() => navigate("/home/write")}
+            >
+              <IoColorWand fontSize={23} fontWeight={600} color="blue" />
+            </button>
           </div>
           <Footer />
         </div>

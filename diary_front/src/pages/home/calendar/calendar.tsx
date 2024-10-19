@@ -36,25 +36,6 @@ type Diary = {
 function CalendarPage() {
   const navigate = useNavigate();
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleOnStopTouchEvent = () => {
-    if (isDragging) return;
-    navigate("/home/write");
-  };
-
-  const handleOnDrag = (data: DraggableData) => {
-    setIsDragging(true);
-    setPosition({ x: data.x, y: data.y });
-  };
-
-  const handleStopDrag = () => {
-    setTimeout(() => {
-      setIsDragging(false);
-    }, 100);
-  };
-
   const [value, setValue] = useRecoilState<Value>(dateState);
   const [lastSelectedValue, setLastSelectedValue] = useState<Value>(new Date());
   const PreviewModalRef = useRef<PreviewModalValue>(null);
@@ -162,23 +143,6 @@ function CalendarPage() {
           ))
         )}
       </div>
-      <Draggable
-        position={{ x: position.x, y: position.y }}
-        onDrag={(_, data) => handleOnDrag(data)}
-        onStop={handleStopDrag}
-      >
-        <button
-          className="write-calendar-btn"
-          onClick={handleOnStopTouchEvent}
-          onTouchEnd={handleOnStopTouchEvent}
-        >
-          {login_user.username ? (
-            <IoColorWand fontSize={23} fontWeight={600} color="blue" />
-          ) : (
-            false
-          )}
-        </button>
-      </Draggable>
     </div>
   );
 }
