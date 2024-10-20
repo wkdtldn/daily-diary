@@ -6,20 +6,22 @@ import SigninPage from "./pages/signup/signup";
 import NotFound from "./pages/notfound/notfound";
 import HomePage from "./pages/home/home";
 import StartPage from "./pages/startPage/StartPage";
-import { fetchCookies, getCookie } from "./api/token";
+import { fetchCookies } from "./api/token";
 import { api } from "./api/axiosInstance";
+import { Map } from "./pages/home/map/map";
 
 function App() {
-  const initialSet = async () => {
-    const csrftoken = await fetchCookies();
-    api.defaults.headers.common["X-CSRFToken"] = csrftoken;
-    console.log(api.defaults.headers.common);
-  };
-  initialSet();
+  // const initialSet = async () => {
+  //   const csrftoken = await fetchCookies();
+  //   api.defaults.headers.common["X-CSRFToken"] = csrftoken;
+  //   console.log(api.defaults.headers.common);
+  // };
+  // initialSet();
+
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<StartPage />} />
+        <Route path="/" element={<Map />} />
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/signin" element={<SigninPage />}></Route>
         <Route path="/home/*" element={<HomePage />}></Route>
