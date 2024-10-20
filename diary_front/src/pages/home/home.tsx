@@ -1,6 +1,17 @@
 import "./home.css";
 
 import Header from "../../components/Layout/Header/Header";
+import CalendarPage from "./calendar/calendar";
+import RecentPage from "./recent/recent";
+import WritePage from "./write/write";
+import ProfilePage from "./profile/profile";
+import ProfileEditPage from "./profile-edit/profile-edit";
+import UserProfile from "./user/[...username]";
+import NotFound from "../notfound/notfound";
+import Footer from "../../components/Layout/Footer/Footer";
+
+import { IoColorWand } from "react-icons/io5";
+
 import {
   Route,
   Routes,
@@ -8,19 +19,12 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import CalendarPage from "./calendar/calendar";
-import RecentPage from "./recent/recent";
-import WritePage from "./write/write";
-import ProfilePage from "./profile/profile";
-import ProfileEditPage from "./profile-edit/profile-edit";
-import UserProfile from "./user/[...username]";
-import Footer from "../../components/Layout/Footer/Footer";
 import { useRecoilState } from "recoil";
 import { userState } from "../../hooks/recoil/userState";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { check_auth } from "../../api/user";
-import NotFound from "../notfound/notfound";
-import { IoColorWand } from "react-icons/io5";
+import Draggable, { DraggableData } from "react-draggable";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const location = useLocation();
@@ -55,6 +59,27 @@ const HomePage = () => {
     };
     checkAuthentication();
   }, []);
+
+  const nodeRef = useRef(null);
+
+  const [, setPosition] = useState({ x: 0, y: 0 });
+  const [Opacity, setOpacity] = useState(false);
+  const trackPos = (data: DraggableData) => {
+    setPosition({ x: data.x, y: data.y });
+  };
+  const handleStart = () => {
+    setOpacity(true);
+  };
+  const handleEnd = () => {
+    setTimeout(() => {
+      setOpacity(false);
+    }, 100);
+  };
+  const handleWriteDiary = () => {
+    if (Opacity) return;
+    navigate("/home/write");
+  };
+
   return (
     <div className="HomePage">
       {loading ? (
@@ -72,12 +97,28 @@ const HomePage = () => {
               <Route path="/user/:username" element={<UserProfile />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
-            <button
-              className="write-calendar-btn"
-              onClick={() => navigate("/home/write")}
+            <Draggable
+              nodeRef={nodeRef}
+              onDrag={(e, data) => trackPos(data)}
+              onStart={handleStart}
+              onStop={handleEnd}
             >
-              <IoColorWand fontSize={23} fontWeight={600} color="blue" />
-            </button>
+              <div
+                ref={nodeRef}
+                className="draggable-wrapper"
+                style={{ opacity: Opacity ? "0.5" : "1" }}
+              >
+                <button
+                  ref={nodeRef}
+                  className="draggable-btn"
+                  style={{ opacity: Opacity ? "0.5" : "1" }}
+                  onClick={handleWriteDiary}
+                  onTouchEnd={handleWriteDiary}
+                >
+                  <IoColorWand fontSize={23} fontWeight={600} color="white" />
+                </button>
+              </div>
+            </Draggable>
           </div>
           <Footer />
         </div>

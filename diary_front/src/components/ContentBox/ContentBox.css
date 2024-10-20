@@ -1,13 +1,21 @@
 .content-wrapper {
   box-sizing: border-box;
-  width: 95%;
+  width: 100%;
   height: 85px;
-  border-bottom: 1.5px solid rgb(196, 196, 196);
+  border: none;
+  border-bottom: 1.5px solid rgb(196, 196, 196) !important;
   padding: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+  background: none;
+  position: relative;
+}
+.content-wrapper:hover,
+.content-wrapper:active {
+  border-radius: 10px;
+  background-color: rgb(242, 242, 242);
 }
 
 .content-left {
@@ -36,6 +44,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
   gap: 5px;
 }
 .content-middle-date {

@@ -1,8 +1,6 @@
 import "./write.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SelectedDate, dateState } from "../../../hooks/recoil/dateState";
-import React, { FormEvent, useRef, useState } from "react";
-import { diary_write } from "../../../api/diary";
 import { useNavigate } from "react-router-dom";
 import WriteEditor from "./editor/editor";
 

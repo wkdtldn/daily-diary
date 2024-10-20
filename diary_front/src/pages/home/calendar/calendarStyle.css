@@ -63,3 +63,7 @@
   background-color: cornflowerblue !important;
   color: white !important;
 }
+
+.react-calendar__tile--now {
+  background-color: rgb(217, 231, 235) !important;
+}

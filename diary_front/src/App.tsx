@@ -9,19 +9,21 @@ import StartPage from "./pages/startPage/StartPage";
 import { fetchCookies } from "./api/token";
 import { api } from "./api/axiosInstance";
 import { Map } from "./pages/home/map/map";
+import { useEffect } from "react";
 
 function App() {
-  // const initialSet = async () => {
-  //   const csrftoken = await fetchCookies();
-  //   api.defaults.headers.common["X-CSRFToken"] = csrftoken;
-  //   console.log(api.defaults.headers.common);
-  // };
-  // initialSet();
+  useEffect(() => {
+    const initialSet = async () => {
+      const csrftoken = await fetchCookies();
+      api.defaults.headers.common["X-CSRFToken"] = csrftoken;
+    };
 
+    initialSet();
+  }, []);
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<Map />} />
+        <Route path="/" element={<StartPage />} />
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/signin" element={<SigninPage />}></Route>
         <Route path="/home/*" element={<HomePage />}></Route>

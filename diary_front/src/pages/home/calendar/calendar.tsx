@@ -2,20 +2,18 @@ import "./calendar.css";
 import "./calendarStyle.css";
 import "react-calendar/dist/Calendar.css";
 
-import { useEffect, useRef, useState } from "react";
-import Calendar from "react-calendar";
 import ContentBox from "../../../components/ContentBox/ContentBox";
 import PreviewModal from "../../../components/PreviewModal/PreviewModal";
-
 import { SelectedDate, dateState } from "../../../hooks/recoil/dateState";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { diary_by_month } from "../../../api/diary";
-
-import { IoColorWand } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../../../hooks/recoil/userState";
-import RedirectLogin from "../../../components/Redirect-Login/redirect-login";
+
+import React, { useEffect, useRef, useState } from "react";
+import Calendar from "react-calendar";
+import { useNavigate } from "react-router-dom";
 import Draggable, { DraggableData } from "react-draggable";
+import moment from "moment";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -38,6 +36,7 @@ function CalendarPage() {
 
   const [value, setValue] = useRecoilState<Value>(dateState);
   const [lastSelectedValue, setLastSelectedValue] = useState<Value>(new Date());
+
   const PreviewModalRef = useRef<PreviewModalValue>(null);
 
   const selected_date = useRecoilValue(SelectedDate);
@@ -45,6 +44,7 @@ function CalendarPage() {
   const [filterValue, setFilterValue] = useState<string>("recent");
 
   const [loading, setLoading] = useState(true);
+
   const [diaries, setDiaries] = useState<Diary[] | null>(null);
 
   const login_user = useRecoilValue(LoginUser);
@@ -94,6 +94,46 @@ function CalendarPage() {
           locale="ko"
           calendarType="gregory"
           formatDay={(locale, date) => date.getDate().toString()}
+          tileContent={({ date }: { date: Date }) => {
+            return (
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  position: "relative",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {diaries?.map((diary) => {
+                  if (diary.date === moment(date).format("YYYY-MM-DD")) {
+                    return (
+                      <div
+                        key={diary.id}
+                        style={{
+                          display: "flex",
+                          position: "absolute",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div
+                          className="dot"
+                          style={
+                            {
+                              "--dot-background-color": "red",
+                            } as React.CSSProperties
+                          }
+                        ></div>
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+            );
+          }}
           showNeighboringMonth={false}
           prev2Label={null}
           next2Label={null}
