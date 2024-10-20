@@ -4,7 +4,6 @@ import "react-quill/dist/quill.snow.css";
 // import ImageUploader from "quill-image-uploader";
 import "./editor.css";
 import { NavigateFunction } from "react-router-dom";
-import { fetchCookies } from "../../../../api/token";
 import { api } from "../../../../api/axiosInstance";
 
 // 이미지 업로드 핸들러 설정
@@ -76,21 +75,12 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
 
         console.log(value, images, textContent);
 
-        const csrfToken = await fetchCookies();
-        const res = await api.post(
-          "/api/diary/write/",
-          {
-            text: textContent,
-            images: images,
-            content: value,
-            date: writeDate,
-          },
-          {
-            headers: {
-              "X-CSRFToken": csrfToken!,
-            },
-          }
-        );
+        const res = await api.post("/api/diary/write/", {
+          text: textContent,
+          images: images,
+          content: value,
+          date: writeDate,
+        });
         if (res.status === 200) {
           console.log(res.data);
           navigate("/home/calendar");

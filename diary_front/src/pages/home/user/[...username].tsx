@@ -7,7 +7,6 @@ import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../../hooks/recoil/userState";
 import RedirectLogin from "../../../components/Redirect-Login/redirect-login";
 import { api } from "../../../api/axiosInstance";
-import { fetchCookies } from "../../../api/token";
 
 interface SearchTargetType {
   id: string;
@@ -56,24 +55,10 @@ const UserProfile: React.FC = () => {
 
   const follow = async () => {
     if (followState) {
-      const csrfToken = await fetchCookies();
-      await api.delete(`/api/follow/${searchTarget?.id}/unfollow/`, {
-        headers: {
-          "X-CSRFToken": csrfToken!,
-        },
-      });
+      await api.delete(`/api/follow/${searchTarget?.id}/unfollow/`);
       setFollowState(false);
     } else {
-      const csrfToken = await fetchCookies();
-      await api.post(
-        "/api/follow/",
-        { following: searchTarget?.id },
-        {
-          headers: {
-            "X-CSRFToken": csrfToken!,
-          },
-        }
-      );
+      await api.post("/api/follow/", { following: searchTarget?.id });
       setFollowState(true);
     }
   };

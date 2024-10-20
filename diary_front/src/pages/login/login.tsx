@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import { FormEvent, useState } from "react";
-import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
 import { IonIcon } from "@ionic/react";
 import { close, eye, eyeOff } from "ionicons/icons";
@@ -27,20 +26,11 @@ function LoginPage() {
     let password = formData.get("password") as string;
 
     if (username && password) {
-      const csrftoken = await fetchCookies();
       await api
-        .post(
-          "/api/login/",
-          {
-            username: username,
-            password: password,
-          },
-          {
-            headers: {
-              "X-CSRFToken": csrftoken!,
-            },
-          }
-        )
+        .post("/api/login/", {
+          username: username,
+          password: password,
+        })
         .then((res) => {
           if (res.status === 200) {
             alert("로그인이 성공적으로 완료되었습니다.");

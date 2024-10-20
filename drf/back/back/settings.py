@@ -21,17 +21,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+
+import os
+from django.core.exceptions import ImproperlyConfigured
+
+
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(var_name)
+        raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = get_env_variable("DJANGO_SECRET")
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-4%s#+n+85)7mvbqto(7n$f#52-922$o3k-roxr^x&k9_0ljqdw"
+# SECRET_KEY = "django-insecure-4%s#+n+85)7mvbqto(7n$f#52-922$o3k-roxr^x&k9_0ljqdw"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "3ea6-106-240-132-18.ngrok-free.app",
-]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -84,12 +98,8 @@ LOGIN_URL = "/login/"
 # CORS
 from corsheaders.defaults import default_headers
 
-CORS_ALLOW_ALL_ORIGINS = True  # 모든 요청에 대해 허용
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://main--d-diary.netlify.app",
-    "https://d-diary.netlify.app",
-]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "x-csrftoken",  # CSRF 토큰을 요청 헤더에 포함할 때 필요
 ]

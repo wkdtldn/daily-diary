@@ -1,7 +1,6 @@
 import React from "react";
 import "./Menu.css";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
 import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../hooks/recoil/userState";
@@ -16,13 +15,7 @@ const Menu: React.FC<MenuProps> = ({ on, status }) => {
   const login_user = useRecoilValue(LoginUser);
 
   const logout = async (): Promise<void> => {
-    const csrfToken = await fetchCookies();
-
-    const res = await api.get("/api/logout/", {
-      headers: {
-        "X-CSRFToken": csrfToken!,
-      },
-    });
+    const res = await api.get("/api/logout/");
 
     if (res.status === 200) {
       console.log("Logout successful");

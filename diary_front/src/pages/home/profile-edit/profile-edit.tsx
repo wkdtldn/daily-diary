@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Camera, CameraResultType } from "@capacitor/camera";
 import { api } from "../../../api/axiosInstance";
 import { IoCamera } from "react-icons/io5";
-import { fetchCookies } from "../../../api/token";
 import { useNavigate } from "react-router-dom";
 
 function ProfileEditPage() {
@@ -49,7 +48,6 @@ function ProfileEditPage() {
 
   const update = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const csrfToken = await fetchCookies();
 
     const data = () => {
       let submitData: Record<string, any> = {};
@@ -65,11 +63,7 @@ function ProfileEditPage() {
       return submitData;
     };
 
-    await api.patch(`/api/user/update/${login_user.id}`, data(), {
-      headers: {
-        "X-CSRFToken": csrfToken!,
-      },
-    });
+    await api.patch(`/api/user/update/${login_user.id}`, data());
     navigate("/home/profile");
     window.history.go(0);
   };

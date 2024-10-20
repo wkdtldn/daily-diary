@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./signup.css";
 import { FormEvent, useState } from "react";
-import { fetchCookies } from "../../api/token";
 import { api } from "../../api/axiosInstance";
 import { IonIcon } from "@ionic/react";
 import { close, eye, eyeOff } from "ionicons/icons";
@@ -28,22 +27,13 @@ function SignupPage() {
     let email = formData.get("email") as string;
 
     if (username && password && name && email) {
-      const csrftoken = await fetchCookies();
       await api
-        .post(
-          "/api/signup/",
-          {
-            username: username,
-            password: password,
-            email: email,
-            name: name,
-          },
-          {
-            headers: {
-              "X-CSRFToken": csrftoken!,
-            },
-          }
-        )
+        .post("/api/signup/", {
+          username: username,
+          password: password,
+          email: email,
+          name: name,
+        })
         .then((res) => {
           if (res.status === 201) {
             alert("회원가입이 성공적으로 완료되었습니다.");

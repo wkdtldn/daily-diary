@@ -3,7 +3,6 @@ import "./Comment.css";
 
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { api } from "../../api/axiosInstance";
-import { fetchCookies } from "../../api/token";
 import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../hooks/recoil/userState";
 
@@ -51,16 +50,7 @@ const Comment: React.FC<CommentProps> = ({
   useEffect(() => {
     if (isMounted.current) {
       const like_comment = async () => {
-        const csrftoken = await fetchCookies();
-        await api.post(
-          `/api/comments/${id}/like/`,
-          {},
-          {
-            headers: {
-              "X-CSRFToken": csrftoken!,
-            },
-          }
-        );
+        await api.post(`/api/comments/${id}/like/`, {});
       };
       like_comment();
     } else {
