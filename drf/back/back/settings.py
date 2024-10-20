@@ -23,21 +23,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 import os
-from django.core.exceptions import ImproperlyConfigured
+
+# from django.core.exceptions import ImproperlyConfigured
 
 
-def get_env_variable(var_name):
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        error_msg = "Set the {} environment variable".format(var_name)
-        raise ImproperlyConfigured(error_msg)
+# def get_env_variable(var_name):
+#     try:
+#         return os.environ[var_name]
+#     except KeyError:
+#         error_msg = "Set the {} environment variable".format(var_name)
+#         raise ImproperlyConfigured(error_msg)
 
 
-SECRET_KEY = get_env_variable("DJANGO_SECRET")
+# SECRET_KEY = get_env_variable("DJANGO_SECRET")
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "django-insecure-4%s#+n+85)7mvbqto(7n$f#52-922$o3k-roxr^x&k9_0ljqdw"
-
+SECRET_KEY = "django-insecure-4%s#+n+85)7mvbqto(7n$f#52-922$o3k-roxr^x&k9_0ljqdw"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
@@ -90,6 +90,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 LOGIN_URL = "/login/"
