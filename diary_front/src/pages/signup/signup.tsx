@@ -38,6 +38,8 @@ function SignupPage() {
           if (res.status === 201) {
             alert("회원가입이 성공적으로 완료되었습니다.");
             navigate("/login");
+          } else if (res.status === 400) {
+            alert("이미 존재하는 아이디입니다.");
           }
         })
         .catch((error) => alert(error));
