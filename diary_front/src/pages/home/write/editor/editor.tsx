@@ -1,13 +1,9 @@
 import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-// import ImageUploader from "quill-image-uploader";
 import "./editor.css";
 import { NavigateFunction } from "react-router-dom";
-import { api } from "../../../../api/axiosInstance";
-
-// 이미지 업로드 핸들러 설정
-// Quill.register("modules/imageUploader", ImageUploader);
+import PublicComponent from "../../../../components/modal/question/Public";
 
 interface WriteEditorProps {
   year: number | undefined;
@@ -37,6 +33,8 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
   const [images, setImages] = useState<string[]>([]);
   const [textContent, setTextContent] = useState("");
 
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const handleChange = (content: string) => {
     setValue(content);
 
@@ -65,30 +63,18 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
     let today = new Date();
     if (year && month && date) {
       if (year > today.getFullYear()) {
-        alert("미래는 못써");
+        alert("다가오지 않은 날의 일기는 작성할 수 없습니다.");
       } else if (month > today.getMonth() + 1) {
-        alert("미래는 못써");
+        alert("다가오지 않은 날의 일기는 작성할 수 없습니다.");
       } else if (date > today.getDate()) {
-        alert("미래는 못써");
+        alert("다가오지 않은 날의 일기는 작성할 수 없습니다.");
       } else {
-        let writeDate = year + "-" + month + "-" + date;
-
-        console.log(value, images, textContent);
-
-        const res = await api.post("/api/diary/write/", {
-          text: textContent,
-          images: images,
-          content: value,
-          date: writeDate,
-        });
-        if (res.status === 200) {
-          console.log(res.data);
-          navigate("/home/calendar");
-        } else {
-          console.log("fail");
-        }
+        setIsOpen(!isOpen);
       }
     }
+  };
+  const writeDate = () => {
+    return year + "-" + month + "-" + date;
   };
 
   return (
@@ -104,6 +90,15 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
       <button className="save-btn" onClick={save}>
         저장
       </button>
+      <PublicComponent
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        write_date={writeDate()}
+        text={textContent}
+        images={images}
+        content={value}
+        navigate={navigate}
+      />
     </div>
   );
 };

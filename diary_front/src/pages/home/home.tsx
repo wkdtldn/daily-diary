@@ -12,26 +12,19 @@ import Footer from "../../components/Layout/Footer/Footer";
 
 import { IoColorWand } from "react-icons/io5";
 
-import {
-  Route,
-  Routes,
-  redirect,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../hooks/recoil/userState";
 import { useEffect, useRef, useState } from "react";
 import { check_auth } from "../../api/user";
 import Draggable, { DraggableData } from "react-draggable";
-import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
 
-  const [user, setUser] = useRecoilState(userState);
+  const [, setUser] = useRecoilState(userState);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -97,28 +90,32 @@ const HomePage = () => {
               <Route path="/user/:username" element={<UserProfile />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
-            <Draggable
-              nodeRef={nodeRef}
-              onDrag={(e, data) => trackPos(data)}
-              onStart={handleStart}
-              onStop={handleEnd}
-            >
-              <div
-                ref={nodeRef}
-                className="draggable-wrapper"
-                style={{ opacity: Opacity ? "0.5" : "1" }}
+            {location.pathname === "/home/write" ? (
+              ""
+            ) : (
+              <Draggable
+                nodeRef={nodeRef}
+                onDrag={(e, data) => trackPos(data)}
+                onStart={handleStart}
+                onStop={handleEnd}
               >
-                <button
+                <div
                   ref={nodeRef}
-                  className="draggable-btn"
+                  className="draggable-wrapper"
                   style={{ opacity: Opacity ? "0.5" : "1" }}
-                  onClick={handleWriteDiary}
-                  onTouchEnd={handleWriteDiary}
                 >
-                  <IoColorWand fontSize={23} fontWeight={600} color="white" />
-                </button>
-              </div>
-            </Draggable>
+                  <button
+                    ref={nodeRef}
+                    className="draggable-btn"
+                    style={{ opacity: Opacity ? "0.5" : "1" }}
+                    onClick={handleWriteDiary}
+                    onTouchEnd={handleWriteDiary}
+                  >
+                    <IoColorWand fontSize={23} fontWeight={600} color="white" />
+                  </button>
+                </div>
+              </Draggable>
+            )}
           </div>
           <Footer />
         </div>

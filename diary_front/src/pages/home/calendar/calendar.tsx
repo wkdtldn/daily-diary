@@ -3,7 +3,7 @@ import "./calendarStyle.css";
 import "react-calendar/dist/Calendar.css";
 
 import ContentBox from "../../../components/ContentBox/ContentBox";
-import PreviewModal from "../../../components/PreviewModal/PreviewModal";
+import Preview from "../../../components/modal/preview/Preview";
 import { SelectedDate, dateState } from "../../../hooks/recoil/dateState";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { diary_by_month } from "../../../api/diary";
@@ -11,13 +11,11 @@ import { LoginUser } from "../../../hooks/recoil/userState";
 
 import React, { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
-import { useNavigate } from "react-router-dom";
-import Draggable, { DraggableData } from "react-draggable";
 import moment from "moment";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
-type PreviewModalValue = HTMLDialogElement | null;
+type PreviewValue = HTMLDialogElement | null;
 
 type Diary = {
   id: string;
@@ -32,12 +30,10 @@ type Diary = {
 };
 
 function CalendarPage() {
-  const navigate = useNavigate();
-
   const [value, setValue] = useRecoilState<Value>(dateState);
   const [lastSelectedValue, setLastSelectedValue] = useState<Value>(new Date());
 
-  const PreviewModalRef = useRef<PreviewModalValue>(null);
+  const PreviewRef = useRef<PreviewValue>(null);
 
   const selected_date = useRecoilValue(SelectedDate);
 
@@ -52,7 +48,7 @@ function CalendarPage() {
   const handleDateClick = (date: Value): void => {
     if (lastSelectedValue?.toString() === date?.toString()) {
       if (login_user.username) {
-        PreviewModalRef.current?.showModal();
+        PreviewRef.current?.showModal();
       } else {
         alert("로그인을 먼저 진행해주세요");
       }
@@ -86,7 +82,7 @@ function CalendarPage() {
 
   return (
     <div className="calendar-page">
-      <PreviewModal modalRef={PreviewModalRef} />
+      <Preview modalRef={PreviewRef} />
       <div className="calendar-wrapper">
         <Calendar
           value={value}

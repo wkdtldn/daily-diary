@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./PreviewDiaryBox.css";
+import "./DiaryBox.css";
 import { Link } from "react-router-dom";
-import CommunicateMenu from "../../CommunicateMenu/CommunicateMenu";
-import Comment from "../../Comment/Comment";
-import { api } from "../../../api/axiosInstance";
+import CommunicateMenu from "../../../CommunicateMenu/CommunicateMenu";
+import Comment from "../../../Comment/Comment";
+import { api } from "../../../../api/axiosInstance";
 import { IoMdArrowRoundForward } from "react-icons/io";
-import { fetchCookies } from "../../../api/token";
+import { fetchCookies } from "../../../../api/token";
 
-interface PreviewModalDiaryBoxProps {
+interface DiaryBoxProps {
   id: string;
   writer: string;
   date: string;
@@ -27,7 +27,7 @@ type Comment = {
   likes: string[];
 };
 
-const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
+const DiaryBox: React.FC<DiaryBoxProps> = ({
   id,
   writer,
   date,
@@ -171,4 +171,4 @@ const PreviewModalDiaryBox: React.FC<PreviewModalDiaryBoxProps> = ({
   );
 };
 
-export default PreviewModalDiaryBox;
+export default DiaryBox;

@@ -1,15 +1,15 @@
-import "./PreviewModal.css";
+import "./Preview.css";
 
 import React, { RefObject, useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { SelectedDate } from "../../hooks/recoil/dateState";
-import { diary_by_date } from "../../api/diary";
-import PreviewModalDiaryBox from "./PreviewDiaryBox/PreviewDiaryBox";
+import { SelectedDate } from "../../../hooks/recoil/dateState";
+import { diary_by_date } from "../../../api/diary";
+import DiaryBox from "./diaryBox/DiaryBox";
 
-type PreviewModalProps = {
+type PreviewProps = {
   modalRef: RefObject<HTMLDialogElement>;
 };
 
@@ -25,7 +25,7 @@ type Diary = {
   date: string;
 };
 
-const PreviewModal: React.FC<PreviewModalProps> = ({ modalRef }) => {
+const Preview: React.FC<PreviewProps> = ({ modalRef }) => {
   const selected_date = useRecoilValue(SelectedDate);
   const [loading, setLoading] = useState(true);
   const [diaries, setDiaries] = useState<Diary[] | null>(null);
@@ -81,7 +81,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ modalRef }) => {
           </div>
           <div className="preview-content">
             {diaries.map((diary, index) => (
-              <PreviewModalDiaryBox
+              <DiaryBox
                 id={diary.id}
                 writer={diary.writer_name}
                 date={diary.date}
@@ -101,4 +101,4 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ modalRef }) => {
   );
 };
 
-export default PreviewModal;
+export default Preview;
