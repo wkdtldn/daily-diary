@@ -2,14 +2,47 @@ import "./profile.css";
 import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../../hooks/recoil/userState";
 import { IonIcon } from "@ionic/react";
-import { create } from "ionicons/icons";
+import { albums, create, list } from "ionicons/icons";
 import RedirectLogin from "../../../components/Redirect-Login/redirect-login";
 import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { RiApps2Line } from "react-icons/ri";
+import { useSpring, animated } from "@react-spring/web";
 
 function ProfilePage() {
   const navigate = useNavigate();
 
   const login_user = useRecoilValue(LoginUser);
+
+  const [selectValue, setSelectValue] = useState<"list" | "albums" | string>(
+    "list"
+  );
+
+  const selectRef = useRef<HTMLButtonElement | null>(null);
+
+  const selectOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.classList.toggle("on");
+    if (e.currentTarget.classList.toggle("on")) {
+      e.currentTarget.classList.remove("on");
+    } else {
+      e.currentTarget.classList.add("on");
+    }
+  };
+
+  const handleSelectValue = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (selectRef.current) {
+      selectRef.current.innerHTML = e.currentTarget.innerHTML;
+      setSelectValue(e.currentTarget.value);
+    }
+  };
+
+  const listBtnAnimation = useSpring({
+    transform: selectRef.current?.classList.toggle("on")
+      ? "translateY(110%)"
+      : "translateY(-115%)",
+    opacity: selectRef.current?.classList.toggle("on") ? 1 : 0,
+    config: { duration: 500 },
+  });
 
   return (
     <div className="profile-container">
@@ -69,7 +102,41 @@ function ProfilePage() {
             </div>
           </div>
 
-          <div className="profile-content"></div>
+          <div className="profile-content">
+            <article className="profile-filter">
+              <button
+                ref={selectRef}
+                className="select-btn"
+                onClick={selectOpen}
+              >
+                리스트뷰
+                <IonIcon icon={list} />
+              </button>
+              <ul className="show_option-wrap">
+                <li>
+                  <animated.button
+                    style={listBtnAnimation}
+                    className="option-btn"
+                    value="list"
+                    onClick={handleSelectValue}
+                  >
+                    리스트뷰
+                    <IonIcon icon={list} />
+                  </animated.button>
+                </li>
+                <li>
+                  <animated.button
+                    className="option-btn"
+                    value="albums"
+                    onClick={handleSelectValue}
+                  >
+                    앨범뷰
+                    <RiApps2Line />
+                  </animated.button>
+                </li>
+              </ul>
+            </article>
+          </div>
         </div>
       ) : (
         <RedirectLogin />

@@ -41,7 +41,6 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
     if (!quillref.current) return;
     const quillInstance = quillref.current.getEditor();
     const text = quillInstance.getText();
-    console.log(text);
     setTextContent(text);
 
     const ops = quillInstance.getContents().ops;

@@ -5,7 +5,6 @@ import CommunicateMenu from "../../../CommunicateMenu/CommunicateMenu";
 import Comment from "../../../Comment/Comment";
 import { api } from "../../../../api/axiosInstance";
 import { IoMdArrowRoundForward } from "react-icons/io";
-import { fetchCookies } from "../../../../api/token";
 
 interface DiaryBoxProps {
   id: string;
@@ -18,9 +17,9 @@ interface DiaryBoxProps {
 }
 
 type Comment = {
-  id: string;
+  id: number;
   writer_name: string;
-  diary: number;
+  diary: string;
   like_count: number;
   created_at: string;
   comment: string;
@@ -45,12 +44,7 @@ const DiaryBox: React.FC<DiaryBoxProps> = ({
   const [CommentValue, setCommentValue] = useState<Comment[] | null>(null);
 
   const load_comment = async () => {
-    const csrftoken = await fetchCookies();
-    const res = await api.get(`/api/comments/${id}`, {
-      headers: {
-        "X-CSRFToken": csrftoken!,
-      },
-    });
+    const res = await api.get(`/api/comments/${id}`);
     if (res.data[0]) {
       setCommentValue(res.data);
     } else {
@@ -71,19 +65,10 @@ const DiaryBox: React.FC<DiaryBoxProps> = ({
   const createComment = () => {
     if (CommentInputValue) {
       const write_comment = async () => {
-        const csrftoken = await fetchCookies();
-        await api.post(
-          "/api/comments/",
-          {
-            diary: id,
-            comment: CommentInputValue,
-          },
-          {
-            headers: {
-              "X-CSRFToken": csrftoken!,
-            },
-          }
-        );
+        await api.post("/api/comments/", {
+          diary: id,
+          comment: CommentInputValue,
+        });
         setCommentInputValue("");
         load_comment();
       };

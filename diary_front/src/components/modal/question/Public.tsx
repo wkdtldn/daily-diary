@@ -26,7 +26,7 @@ const PublicComponent: React.FC<PublicProps> = ({
   navigate,
 }) => {
   const write = async (isPublic: boolean) => {
-    const res = await api.post("/api/diary/write/", {
+    const res = await api.post("/api/diary/", {
       text: text,
       images: images,
       content: content,

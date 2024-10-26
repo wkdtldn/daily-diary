@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./ContentBox.css";
 import { CiClock2 } from "react-icons/ci";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 interface ContentBoxProps {
+  id: string;
   writer: string;
   date: string;
   text: string;
@@ -14,6 +15,7 @@ interface ContentBoxProps {
 }
 
 const ContentBox: React.FC<ContentBoxProps> = ({
+  id,
   writer,
   date,
   time,
@@ -52,7 +54,10 @@ const ContentBox: React.FC<ContentBoxProps> = ({
 
   const date_ = new Date(date);
   return (
-    <button className="content-wrapper" onClick={() => navigate("/diary/")}>
+    <button
+      className="content-wrapper"
+      onClick={() => navigate(`/home/diary/${id}`)}
+    >
       <div className="content-left">
         <span className="content-left-date__date">{date_.getDate()}</span>
         <span className="content-left-date__day">

@@ -8,7 +8,6 @@ import HomePage from "./pages/home/home";
 import StartPage from "./pages/startPage/StartPage";
 import { fetchCookies } from "./api/token";
 import { api } from "./api/axiosInstance";
-import { Map } from "./pages/home/map/map";
 import { useEffect } from "react";
 
 function App() {

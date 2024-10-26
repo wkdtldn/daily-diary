@@ -16,7 +16,7 @@ export const diary_write = async (
 };
 
 export const diary_by_date = async (date: string) => {
-  const res = await api.get(`/api/diary/?date=${date}`);
+  const res = await api.get(`/api/diary/filter/?date=${date}`);
   if (res.status === 200) {
     return res.data;
   }
@@ -24,7 +24,17 @@ export const diary_by_date = async (date: string) => {
 };
 
 export const diary_by_month = async (month: string, option?: string) => {
-  const res = await api.get(`/api/diary/?month=${month}&option=${option}`);
+  const res = await api.get(
+    `/api/diary/filter/?month=${month}&option=${option}`
+  );
+  if (res.status === 200) {
+    return res.data;
+  }
+  return null;
+};
+
+export const getDiary = async (id: string) => {
+  const res = await api.get(`/api/diary/${id}`);
   if (res.status === 200) {
     return res.data;
   }

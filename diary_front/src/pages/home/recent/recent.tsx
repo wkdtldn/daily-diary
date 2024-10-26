@@ -63,6 +63,7 @@ function RecentPage() {
         ) : (
           diaries?.map((diary, value) => (
             <ContentBox
+              id={diary.id}
               text={diary.text}
               writer={diary.writer_name}
               date={diary.date}

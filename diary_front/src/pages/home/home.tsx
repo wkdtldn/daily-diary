@@ -9,6 +9,7 @@ import ProfileEditPage from "./profile-edit/profile-edit";
 import UserProfile from "./user/[...username]";
 import NotFound from "../notfound/notfound";
 import Footer from "../../components/Layout/Footer/Footer";
+import DiaryPage from "./diary/[...diaryId]";
 
 import { IoColorWand } from "react-icons/io5";
 
@@ -88,6 +89,7 @@ const HomePage = () => {
               <Route path="/profile" element={<ProfilePage />}></Route>
               <Route path="/profile-edit" element={<ProfileEditPage />}></Route>
               <Route path="/user/:username" element={<UserProfile />}></Route>
+              <Route path="/diary/:diaryId" element={<DiaryPage />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
             {location.pathname === "/home/write" ? (
