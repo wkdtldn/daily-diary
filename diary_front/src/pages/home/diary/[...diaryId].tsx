@@ -200,6 +200,8 @@ function DiaryPage() {
 
   const [diary, setDiary] = useState<Diary | null>(null);
 
+  const login_user = useRecoilValue(LoginUser);
+
   useState(() => {
     setLoading(true);
     if (diaryId) {
@@ -254,37 +256,43 @@ function DiaryPage() {
             >
               @{diary.writer_name}
             </Link>
-            <div className="diary-option">
-              <button
-                className="diary-option_btn"
-                onClick={() => setSelectOpen(!selectOpen)}
-              >
-                <HiOutlineDotsVertical />
-              </button>
-            </div>
-            <animated.button
-              style={{
-                ...EditOptionAnimation,
-                pointerEvents: EditOptionAnimation.opacity.to((opacity) =>
-                  opacity === 0 ? "none" : "auto"
-                ),
-              }}
-              className="diary-option_select"
-            >
-              수정
-            </animated.button>
-            <animated.button
-              style={{
-                ...DeleteOptionAnimation,
-                pointerEvents: DeleteOptionAnimation.opacity.to((opacity) =>
-                  opacity === 0 ? "none" : "auto"
-                ),
-              }}
-              className="diary-option_select"
-              onClick={() => setIsOpen(true)}
-            >
-              삭제
-            </animated.button>
+            {login_user.username === diary.writer_name ? (
+              <>
+                <div className="diary-option">
+                  <button
+                    className="diary-option_btn"
+                    onClick={() => setSelectOpen(!selectOpen)}
+                  >
+                    <HiOutlineDotsVertical />
+                  </button>
+                </div>
+                <animated.button
+                  style={{
+                    ...EditOptionAnimation,
+                    pointerEvents: EditOptionAnimation.opacity.to((opacity) =>
+                      opacity === 0 ? "none" : "auto"
+                    ),
+                  }}
+                  className="diary-option_select"
+                >
+                  수정
+                </animated.button>
+                <animated.button
+                  style={{
+                    ...DeleteOptionAnimation,
+                    pointerEvents: DeleteOptionAnimation.opacity.to((opacity) =>
+                      opacity === 0 ? "none" : "auto"
+                    ),
+                  }}
+                  className="diary-option_select"
+                  onClick={() => setIsOpen(true)}
+                >
+                  삭제
+                </animated.button>
+              </>
+            ) : (
+              <></>
+            )}
           </div>
           <div
             className="diary-body"
