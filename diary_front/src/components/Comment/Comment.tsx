@@ -6,7 +6,7 @@ import { api } from "../../api/axiosInstance";
 import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../hooks/recoil/userState";
 import { userSearch } from "../../api/user";
-import { writer } from "repl";
+import { useSpring, animated } from "@react-spring/web";
 
 interface CommentProps {
   id: number;
@@ -17,7 +17,7 @@ interface CommentProps {
   like_list: string[];
 }
 
-interface ProfileType {
+type ProfileType = {
   id: string;
   username: string;
   name: string;
@@ -28,7 +28,7 @@ interface ProfileType {
   followers: string[];
   follower_count: number;
   following: boolean;
-}
+};
 
 const Comment: React.FC<CommentProps> = ({
   id,
@@ -87,52 +87,114 @@ const Comment: React.FC<CommentProps> = ({
     }
   }, [like]);
 
+  const [showOptions, setShowOptions] = useState(false);
+  const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleMouseDown = () => {
+    pressTimer.current = setTimeout(() => {
+      setShowOptions(true);
+    }, 500);
+  };
+
+  const handleMouseUp = () => {
+    if (pressTimer.current) {
+      clearTimeout(pressTimer.current);
+    }
+  };
+
+  const handleCloseOptions = () => {
+    setShowOptions(false);
+  };
+
+  const [showMore, setShowMore] = useState<boolean>(false);
+
+  const CommentOptionAnimation = useSpring({
+    width: showOptions ? "85px" : "0px",
+    height: showOptions ? "33px" : "0px",
+    opacity: showOptions ? 1 : 0,
+    transform: showOptions
+      ? "translateY(200%) translateX(200%)"
+      : "translateY(0%) translateX(0%)",
+  });
+
   return (
     <>
       {loading ? (
         <p>loading</p>
       ) : (
-        <article className="comment-container">
-          <div className="comment-profile-box">
-            <img
-              className="comment-profile__img"
-              src={profileImage!}
-              alt="comment-user_profile"
-            />
-          </div>
-          <div className="comment-main">
-            <div className="comment-main__info-box">
-              <span className="comment-main-username">{writer}</span>
-              <span className="comment-main-created_at">{generalTime()}</span>
+        <>
+          <article
+            className={`comment-container ${
+              showOptions ? "comment_select" : ""
+            }`}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onTouchStart={handleMouseDown}
+            onTouchEnd={handleMouseUp}
+            style={showOptions ? { backgroundColor: "rgb(245, 245, 245)" } : {}}
+          >
+            <div className="comment-profile-box">
+              <img
+                className="comment-profile__img"
+                src={profileImage!}
+                alt="comment-user_profile"
+              />
             </div>
-            <span className="comment-main-detail">{comment}</span>
-            <div className="comment-main__reaction-history-box">
+            <div className="comment-main">
+              <div className="comment-main__info-box">
+                <span className="comment-main-username">{writer}</span>
+                <span className="comment-main-created_at">{generalTime()}</span>
+              </div>
               <span
-                className="comment-main__reaction__heart-history"
+                className={`comment-main-detail ${
+                  showMore ? "" : "not_seemore_comment"
+                }`}
+                onClick={() => setShowMore(!showMore)}
+              >
+                {comment}
+              </span>
+              <div className="comment-main__reaction-history-box">
+                <span
+                  className="comment-main__reaction__heart-history"
+                  onClick={() => setLike(!like)}
+                >
+                  좋아요{" "}
+                  {like_list.includes(login_user.username)
+                    ? !like
+                      ? like_count - 1
+                      : like_count
+                    : like
+                    ? like_count + 1
+                    : like_count}
+                  개
+                </span>
+                {/* <span className="comment-main__reaction__comment">답글 달기</span> */}
+              </div>
+            </div>
+            <div className="comment-reaction">
+              <button
+                className="comment-reaction__heart"
                 onClick={() => setLike(!like)}
               >
-                좋아요{" "}
-                {like_list.includes(login_user.username)
-                  ? !like
-                    ? like_count - 1
-                    : like_count
-                  : like
-                  ? like_count + 1
-                  : like_count}
-                개
-              </span>
-              {/* <span className="comment-main__reaction__comment">답글 달기</span> */}
+                {like ? <IoHeart /> : <IoHeartOutline />}
+              </button>
             </div>
-          </div>
-          <div className="comment-reaction">
-            <button
-              className="comment-reaction__heart"
-              onClick={() => setLike(!like)}
+            <animated.button
+              style={CommentOptionAnimation}
+              className="comment-option"
             >
-              {like ? <IoHeart /> : <IoHeartOutline />}
-            </button>
-          </div>
-        </article>
+              삭제
+            </animated.button>
+          </article>
+        </>
+      )}
+      {showOptions ? (
+        <div
+          className="comment-overlay"
+          onClick={() => setShowOptions(false)}
+        ></div>
+      ) : (
+        false
       )}
     </>
   );

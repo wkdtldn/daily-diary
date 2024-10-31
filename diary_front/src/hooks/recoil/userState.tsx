@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { api } from "../../api/axiosInstance";
 
 interface User {
   id: number;
@@ -34,7 +35,7 @@ export const LoginUser = selector({
       username: params.username,
       name: params.name,
       email: params.email,
-      image: params.image,
+      image: api.defaults.baseURL + params.image,
       followings: params.followings,
       following_count: params.followings.length,
       followers: params.followers,

@@ -9,9 +9,9 @@ import { SelectedDate } from "../../../hooks/recoil/dateState";
 import { diary_by_date } from "../../../api/diary";
 import DiaryBox from "./diaryBox/DiaryBox";
 
-type PreviewProps = {
+interface PreviewProps {
   modalRef: RefObject<HTMLDialogElement>;
-};
+}
 
 type Diary = {
   id: string;
@@ -80,6 +80,9 @@ const Preview: React.FC<PreviewProps> = ({ modalRef }) => {
             </button>
           </div>
           <div className="preview-content">
+            <span className="notice-msg">
+              (*미리보기의 경우 이미지가 보여지지 않습니다.)
+            </span>
             {diaries.map((diary, index) => (
               <DiaryBox
                 id={diary.id}

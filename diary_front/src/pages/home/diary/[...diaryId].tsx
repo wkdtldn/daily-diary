@@ -8,12 +8,14 @@ import { LoginUser } from "../../../hooks/recoil/userState";
 import { api } from "../../../api/axiosInstance";
 import { IonIcon } from "@ionic/react";
 import { close, send, shareSocialOutline } from "ionicons/icons";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { TfiComment, TfiCommentAlt } from "react-icons/tfi";
 import { useSpring, animated } from "@react-spring/web";
 import Comment from "../../../components/Comment/Comment";
 import { Link } from "react-router-dom";
 import Dompurify from "dompurify";
+import RemoveComponent from "../../../components/modal/question/Remove";
 
 type Diary = {
   id: string;
@@ -213,6 +215,31 @@ function DiaryPage() {
     }
   });
 
+  const [selectOpen, setSelectOpen] = useState<boolean>(false);
+
+  const DeleteOptionAnimation = useSpring({
+    borderRadius: "0px 0px 7px 7px",
+    width: selectOpen ? "80px" : "0px",
+    height: selectOpen ? "30px" : "0px",
+    transform: selectOpen
+      ? "translateY(220%) translateX(0%)"
+      : "translateY(0%) translateX(-100%)",
+    opacity: selectOpen ? 1 : 0,
+    pointerEvents: selectOpen ? "auto" : "none",
+  });
+  const EditOptionAnimation = useSpring({
+    borderRadius: "7px 7px 0px 0px",
+    width: selectOpen ? "80px" : "0px",
+    height: selectOpen ? "30px" : "0px",
+    transform: selectOpen
+      ? "translateY(120%) translateX(0%)"
+      : "translateY(0%) translateX(-100%)",
+    opacity: selectOpen ? 1 : 0,
+    pointerEvents: selectOpen ? "auto" : "none",
+  });
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   return (
     <div className="diary-container">
       {loading ? (
@@ -227,6 +254,37 @@ function DiaryPage() {
             >
               @{diary.writer_name}
             </Link>
+            <div className="diary-option">
+              <button
+                className="diary-option_btn"
+                onClick={() => setSelectOpen(!selectOpen)}
+              >
+                <HiOutlineDotsVertical />
+              </button>
+            </div>
+            <animated.button
+              style={{
+                ...EditOptionAnimation,
+                pointerEvents: EditOptionAnimation.opacity.to((opacity) =>
+                  opacity === 0 ? "none" : "auto"
+                ),
+              }}
+              className="diary-option_select"
+            >
+              수정
+            </animated.button>
+            <animated.button
+              style={{
+                ...DeleteOptionAnimation,
+                pointerEvents: DeleteOptionAnimation.opacity.to((opacity) =>
+                  opacity === 0 ? "none" : "auto"
+                ),
+              }}
+              className="diary-option_select"
+              onClick={() => setIsOpen(true)}
+            >
+              삭제
+            </animated.button>
           </div>
           <div
             className="diary-body"
@@ -241,6 +299,12 @@ function DiaryPage() {
               like_list={diary.likes}
             />
           </div>
+          <RemoveComponent
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            diary_id={diaryId!}
+            navigate={navigate}
+          />
         </div>
       ) : (
         <p>존재하지 않는 일기입니다.</p>

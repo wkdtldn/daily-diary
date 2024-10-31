@@ -1,4 +1,4 @@
-.content-wrapper {
+.listbox-wrapper {
   box-sizing: border-box;
   width: 100%;
   height: 85px;
@@ -12,13 +12,12 @@
   background: none;
   position: relative;
 }
-.content-wrapper:hover,
-.content-wrapper:active {
-  border-radius: 10px;
+.listbox-wrapper:hover,
+.listbox-wrapper:active {
   background-color: rgb(242, 242, 242);
 }
 
-.content-left {
+.listbox-left {
   flex: 0 0 12%;
   height: 100%;
   display: flex;
@@ -27,15 +26,15 @@
   justify-content: center;
   gap: 1px;
 }
-.content-left-date__date {
+.listbox-left-date__date {
   font-size: 16px;
   font-weight: bold;
 }
-.content-left-date__day {
+.listbox-left-date__day {
   font-size: 14px;
 }
 
-.content-middle {
+.listbox-middle {
   overflow: hidden;
   flex: 0 0 65%;
   height: 100%;
@@ -47,11 +46,11 @@
   align-items: flex-start;
   gap: 5px;
 }
-.content-middle-date {
+.listbox-middle-date {
   font-size: 13px;
   font-weight: bold;
 }
-.content-middle__detail-wrapper {
+.listbox-middle__detail-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -59,18 +58,19 @@
   color: gray;
   gap: 10px;
 }
-.content-middle-writer {
+.listbox-middle-writer {
   color: gray;
   text-decoration-line: none;
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  z-index: 1000;
 }
-.content-middle-writer:hover {
+.listbox-middle-writer:hover {
   text-decoration-line: underline;
 }
-.content-middle-timeline {
+.listbox-middle-timeline {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,7 +81,7 @@
   font-size: 15px !important;
 }
 
-.content-right {
+.listbox-right {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,7 +91,7 @@
   border-radius: 7px;
 }
 
-.diary-content-img {
+.diary-listbox-img {
   border: none;
   width: 100%;
   height: 100%;

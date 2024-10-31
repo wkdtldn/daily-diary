@@ -1,0 +1,116 @@
+.remove-modal-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
+}
+
+.remove-modal-overlay::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.6;
+  z-index: 100;
+}
+
+.remove-modal {
+  width: 230px;
+  height: 130px;
+  border: none;
+  border-radius: 10px;
+  position: absolute;
+  box-shadow: 3px 3px 5px rgb(177, 177, 177);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 101;
+  background-color: white;
+  gap: 8px;
+  padding-bottom: 10px;
+}
+
+.remove-modal-header {
+  width: 90%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-bottom: 1.3px solid rgb(226, 226, 226);
+}
+
+.remove-modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 10px 0px 10px 0px !important;
+}
+
+.remove-modal-warnicon {
+  color: rgb(158, 0, 0);
+}
+
+.remove-modal-cancel {
+  position: absolute;
+  right: 0;
+  color: gray;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(227, 240, 255);
+}
+
+.remove-modal-body {
+  flex: 1;
+  width: 90%;
+  font-size: 14px;
+  text-align: center;
+  word-break: break-all;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.remove-modal-footer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.remove-modal-btn {
+  width: 70px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(227, 240, 255);
+  box-shadow: 1.3px 1.3px 3px rgb(210, 210, 210);
+  transition-duration: 0.2s;
+}
+
+.remove-modal-btn:active,
+.remove-modal-btn:hover,
+.remove-modal-btn_cancel:active,
+.remove-modal-btn_cancel:hover {
+  box-shadow: none;
+}
+.remove-modal-btn_cancel {
+  width: 70px;
+  height: 30px;
+  border: 1.5px solid rgb(221, 237, 255);
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: inset 1px 1px 5px rgb(178, 178, 178),
+    0px 0px 3px rgb(210, 210, 210);
+  transition-duration: 0.15s;
+}

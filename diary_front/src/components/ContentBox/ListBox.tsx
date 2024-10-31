@@ -1,26 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
-import "./ContentBox.css";
+import "./ListBox.css";
 import { CiClock2 } from "react-icons/ci";
 import React from "react";
 
-interface ContentBoxProps {
+interface ListBoxProps {
   id: string;
   writer: string;
   date: string;
   text: string;
-  content: string;
-  like: number;
   time: string;
   images: string[];
 }
 
-const ContentBox: React.FC<ContentBoxProps> = ({
+const ListBox: React.FC<ListBoxProps> = ({
   id,
   writer,
   date,
   time,
-  content,
-  like,
   images,
 }) => {
   const navigate = useNavigate();
@@ -55,30 +51,36 @@ const ContentBox: React.FC<ContentBoxProps> = ({
   const date_ = new Date(date);
   return (
     <button
-      className="content-wrapper"
+      className="listbox-wrapper"
       onClick={() => navigate(`/home/diary/${id}`)}
     >
-      <div className="content-left">
-        <span className="content-left-date__date">{date_.getDate()}</span>
-        <span className="content-left-date__day">
+      <div className="listbox-left">
+        <span className="listbox-left-date__date">{date_.getDate()}</span>
+        <span className="listbox-left-date__day">
           {get_day(date_.getDay())}
         </span>
       </div>
-      <div className="content-middle">
-        <span className="content-middle-date">{content_date.date}</span>
-        <div className="content-middle__detail-wrapper">
-          <Link to={`/home/user/${writer}`} className="content-middle-writer">
+      <div className="listbox-middle">
+        <span className="listbox-middle-date">{content_date.date}</span>
+        <div className="listbox-middle__detail-wrapper">
+          <Link
+            to={`/home/user/${writer}`}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="listbox-middle-writer"
+          >
             @{writer}
           </Link>
-          <span className="content-middle-timeline">
+          <span className="listbox-middle-timeline">
             <CiClock2 className="clock-icon" />
             {content_date.time}
           </span>
         </div>
       </div>
-      <div className="content-right">
+      <div className="listbox-right">
         {images[0] ? (
-          <img className="diary-content-img" src={images[0]} alt="diary-img" />
+          <img className="diary-listbox-img" src={images[0]} alt="diary-img" />
         ) : (
           ""
         )}
@@ -87,4 +89,4 @@ const ContentBox: React.FC<ContentBoxProps> = ({
   );
 };
 
-export default ContentBox;
+export default ListBox;

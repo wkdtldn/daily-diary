@@ -2,7 +2,7 @@ import "./calendar.css";
 import "./calendarStyle.css";
 import "react-calendar/dist/Calendar.css";
 
-import ContentBox from "../../../components/ContentBox/ContentBox";
+import ListBox from "../../../components/ContentBox/ListBox";
 import Preview from "../../../components/modal/preview/Preview";
 import { SelectedDate, dateState } from "../../../hooks/recoil/dateState";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -166,14 +166,12 @@ function CalendarPage() {
           <p>오늘의 일기 작성</p>
         ) : (
           diaries?.map((diary, value) => (
-            <ContentBox
+            <ListBox
               id={diary.id}
               text={diary.text}
               writer={diary.writer_name}
               date={diary.date}
               time={diary.time}
-              content={diary.content}
-              like={diary.like}
               images={diary.images}
               key={value}
             />

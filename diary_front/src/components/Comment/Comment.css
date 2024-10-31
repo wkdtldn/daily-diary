@@ -1,21 +1,36 @@
-.comment-container {
+.comment-overlay {
+  position: fixed;
   width: 100%;
-  height: 65px;
-  max-height: auto;
+  height: 125%;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(5px);
+  z-index: 1000002;
+  transform: translateY(-20%);
+}
+
+.comment_select {
+  z-index: 10000003 !important;
+}
+
+.comment-container {
+  position: relative;
+  width: 100%;
+  min-height: 95px;
+  height: auto;
+  padding: 12px 8px;
   box-sizing: border-box;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   gap: 10px;
-  margin: 10px 0;
-  padding: 0 5px;
+  margin: 5px 0;
+  border-radius: 7px;
 }
 
 .comment-profile-box {
+  margin-top: 7px;
+  position: relative;
   height: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  width: 35px;
   overflow: hidden;
 }
 .comment-profile__img {
@@ -42,7 +57,6 @@
   gap: 5px;
 }
 .comment-main-username {
-  height: 17px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -57,15 +71,23 @@
   font-weight: normal;
 }
 
+.not_seemore_comment {
+  max-height: 100px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
 .comment-main-detail {
-  width: auto;
-  height: auto;
+  flex: 1;
   padding-top: 3px;
   font-size: 15px;
 }
 .comment-main__reaction-history-box {
   display: flex;
-  margin: 7px 0;
+  margin: 7px 0 0 0;
   font-size: 13.5px;
   font-weight: 450;
   color: rgb(117, 117, 117);
@@ -74,14 +96,36 @@
 
 .comment-reaction {
   height: 100%;
+  width: 35px;
   display: flex;
-  padding-top: 10px;
+  margin-top: 15px;
   align-items: flex-start;
   justify-content: center;
 }
 .comment-reaction__heart {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   background: none;
   font-size: larger;
+}
+
+.comment-option {
+  position: absolute;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13.5px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  background-color: gray;
+}
+
+.comment-option:hover,
+.comment-option:active {
+  background-color: rgb(65, 65, 65) !important;
 }

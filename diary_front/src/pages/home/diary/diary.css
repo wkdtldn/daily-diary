@@ -14,7 +14,6 @@
   flex-direction: column;
   align-items: center;
   background-color: white;
-  border-radius: 12px;
   box-shadow: 2px 2px 5px rgb(195, 195, 195);
 }
 .diary-header {
@@ -143,7 +142,6 @@
 }
 
 .modal-body {
-  position: relative;
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -179,4 +177,44 @@
 .modal-send-icon {
   font-size: 16.5px;
   transform: rotate(-30deg);
+}
+
+.diary-option {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.diary-option_btn {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  background: none;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.diary-option_btn:hover,
+.diary-option_btn:active {
+  background-color: rgb(240, 240, 240);
+}
+
+.diary-option_select {
+  background-color: gray;
+  color: white;
+  position: absolute;
+  right: 10px;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: bold;
+  border: none;
+}
+
+.diary-option_select:hover,
+.diary-option_select:active {
+  background-color: rgb(65, 65, 65);
 }

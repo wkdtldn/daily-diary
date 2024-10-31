@@ -7,7 +7,10 @@ import { LoginUser } from "../../hooks/recoil/userState";
 import { IonIcon } from "@ionic/react";
 import { logIn, logOut } from "ionicons/icons";
 
-type MenuProps = { on: boolean; status: VoidFunction };
+interface MenuProps {
+  on: boolean;
+  status: VoidFunction;
+}
 
 const Menu: React.FC<MenuProps> = ({ on, status }) => {
   const navigate = useNavigate();

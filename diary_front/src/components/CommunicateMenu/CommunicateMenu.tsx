@@ -9,13 +9,13 @@ import { api } from "../../api/axiosInstance";
 import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../hooks/recoil/userState";
 
-type CommunicateMenuProps = {
+interface CommunicateMenuProps {
   diary_id: string;
   like_list: string[];
   like_count: number;
   showState: boolean;
   handleFunction: () => void;
-};
+}
 
 const CommunicateMenu: React.FC<CommunicateMenuProps> = ({
   diary_id,

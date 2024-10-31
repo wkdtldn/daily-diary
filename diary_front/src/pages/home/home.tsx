@@ -19,6 +19,7 @@ import { userState } from "../../hooks/recoil/userState";
 import { useEffect, useRef, useState } from "react";
 import { check_auth } from "../../api/user";
 import Draggable, { DraggableData } from "react-draggable";
+import FriendPage from "./friend/friend";
 
 const HomePage = () => {
   const location = useLocation();
@@ -90,6 +91,7 @@ const HomePage = () => {
               <Route path="/profile-edit" element={<ProfileEditPage />}></Route>
               <Route path="/user/:username" element={<UserProfile />}></Route>
               <Route path="/diary/:diaryId" element={<DiaryPage />}></Route>
+              <Route path="/friends" element={<FriendPage />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
             {location.pathname === "/home/write" ? (

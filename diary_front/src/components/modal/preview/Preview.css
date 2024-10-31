@@ -68,3 +68,9 @@
   height: auto;
   width: 100%;
 }
+
+.notice-msg {
+  font-size: 12px;
+  font-weight: normal;
+  color: gray;
+}

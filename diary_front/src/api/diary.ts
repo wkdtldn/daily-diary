@@ -40,3 +40,11 @@ export const getDiary = async (id: string) => {
   }
   return null;
 };
+
+export const getDiaryByUser = async (id: number) => {
+  const res = await api.get(`/api/diary/by_user/${id}`);
+  if (res.status === 200) {
+    return res.data;
+  }
+  return null;
+};

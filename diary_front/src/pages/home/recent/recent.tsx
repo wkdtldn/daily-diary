@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./recent.css";
-import ContentBox from "../../../components/ContentBox/ContentBox";
 import { diary_by_month } from "../../../api/diary";
+import ListBox from "../../../components/ContentBox/ListBox";
 
 type InputDatePicker = string | number | readonly string[] | undefined;
 
@@ -9,8 +9,6 @@ type Diary = {
   id: string;
   writer_name: string;
   text: string;
-  content: string;
-  like: number;
   time: string;
   writer: number;
   date: string;
@@ -62,14 +60,12 @@ function RecentPage() {
           <p>loadding...</p>
         ) : (
           diaries?.map((diary, value) => (
-            <ContentBox
+            <ListBox
               id={diary.id}
               text={diary.text}
               writer={diary.writer_name}
               date={diary.date}
               time={diary.time}
-              content={diary.content}
-              like={diary.like}
               images={diary.images}
               key={value}
             />

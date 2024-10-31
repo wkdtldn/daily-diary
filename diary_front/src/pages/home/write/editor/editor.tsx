@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import "./editor.css";
 import { NavigateFunction } from "react-router-dom";
 import PublicComponent from "../../../../components/modal/question/Public";
+import { api } from "../../../../api/axiosInstance";
 
 interface WriteEditorProps {
   year: number | undefined;
@@ -18,16 +19,18 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
   date,
   navigate,
 }) => {
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, false] }],
-      ["bold", "italic", "underline", "strike"],
-      ["link", "image"],
-      [{ color: [] }, { background: [] }],
-    ],
-  };
-
   const quillref = useRef<ReactQuill | null>(null);
+
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, 4, 5, false] }],
+        ["bold", "italic", "underline", "strike"],
+        ["link", "image"],
+        [{ color: [] }, { background: [] }],
+      ],
+    },
+  };
 
   const [value, setValue] = useState("");
   const [images, setImages] = useState<string[]>([]);
@@ -46,14 +49,45 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
     const ops = quillInstance.getContents().ops;
     console.log(ops);
     if (ops) {
-      const imageUrls: string[] = [];
-
       ops.forEach((op: any) => {
         if (op.insert && op.insert.image) {
-          imageUrls.push(op.insert.image);
+          const imageUrl = op.insert.image;
+          if (imageUrl.startsWith("data:image/")) {
+            setImages((prevImages) => [...prevImages, imageUrl]);
+          } else {
+            fetch(imageUrl)
+              .then((response) => response.blob())
+              .then((blob) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  const base64String = reader.result as string;
+                  setImages((prevImages) => [...prevImages, base64String]);
+                };
+                reader.readAsDataURL(blob);
+              })
+              .catch((error) =>
+                console.error("Error converting image:", error)
+              );
+          }
         }
       });
-      setImages(imageUrls);
+    }
+  };
+
+  const write = async (isPublic: boolean) => {
+    const res = await api.post("/api/diary/", {
+      text: textContent,
+      images: images,
+      content: value,
+      date: writeDate(),
+      is_public: isPublic,
+    });
+    if (res.status === 201) {
+      setIsOpen(false);
+      console.log(res.data);
+      navigate("/home/calendar");
+    } else {
+      console.log("fail");
     }
   };
 
@@ -68,7 +102,11 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
       } else if (date > today.getDate()) {
         alert("다가오지 않은 날의 일기는 작성할 수 없습니다.");
       } else {
-        setIsOpen(!isOpen);
+        if (!value) {
+          alert("일기를 작성해주세요");
+        } else {
+          setIsOpen(!isOpen);
+        }
       }
     }
   };
@@ -92,11 +130,7 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
       <PublicComponent
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        write_date={writeDate()}
-        text={textContent}
-        images={images}
-        content={value}
-        navigate={navigate}
+        write={(is_public) => write(is_public)}
       />
     </div>
   );

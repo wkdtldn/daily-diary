@@ -9,38 +9,10 @@ import { close } from "ionicons/icons";
 type PublicProps = {
   isOpen: boolean;
   onClose: () => void;
-  write_date: string;
-  text: string;
-  images: string[];
-  content: string;
-  navigate: NavigateFunction;
+  write: (bool: boolean) => void;
 };
 
-const PublicComponent: React.FC<PublicProps> = ({
-  isOpen,
-  onClose,
-  write_date,
-  text,
-  images,
-  content,
-  navigate,
-}) => {
-  const write = async (isPublic: boolean) => {
-    const res = await api.post("/api/diary/", {
-      text: text,
-      images: images,
-      content: content,
-      date: write_date,
-      is_public: isPublic,
-    });
-    if (res.status === 201) {
-      onClose();
-      console.log(res.data);
-      navigate("/home/calendar");
-    } else {
-      console.log("fail");
-    }
-  };
+const PublicComponent: React.FC<PublicProps> = ({ isOpen, onClose, write }) => {
   return (
     <div
       className="public-modal-overlay"
