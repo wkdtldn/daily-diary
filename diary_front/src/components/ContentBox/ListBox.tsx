@@ -79,7 +79,7 @@ const ListBox: React.FC<ListBoxProps> = ({
         </div>
       </div>
       <div className="listbox-right">
-        {images[0] ? (
+        {images.length > 0 ? (
           <img className="diary-listbox-img" src={images[0]} alt="diary-img" />
         ) : (
           ""
