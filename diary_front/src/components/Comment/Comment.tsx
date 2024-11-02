@@ -102,10 +102,6 @@ const Comment: React.FC<CommentProps> = ({
     }
   };
 
-  const handleCloseOptions = () => {
-    setShowOptions(false);
-  };
-
   const [showMore, setShowMore] = useState<boolean>(false);
 
   const CommentOptionAnimation = useSpring({
@@ -117,6 +113,16 @@ const Comment: React.FC<CommentProps> = ({
       : "translateY(0%) translateX(0%)",
   });
 
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+
+  const deleteComment = async () => {
+    await api.delete(`/api/comments/${id}/`).then((res) => {
+      if (res.status === 204) {
+        setIsDelete(true);
+      }
+    });
+  };
+
   return (
     <>
       {loading ? (
@@ -126,12 +132,18 @@ const Comment: React.FC<CommentProps> = ({
           <article
             className={`comment-container ${
               showOptions ? "comment_select" : ""
-            }`}
+            } `}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onTouchStart={handleMouseDown}
             onTouchEnd={handleMouseUp}
-            style={showOptions ? { backgroundColor: "rgb(245, 245, 245)" } : {}}
+            style={
+              isDelete
+                ? { display: "none" }
+                : showOptions
+                ? { backgroundColor: "rgb(245, 245, 245)" }
+                : {}
+            }
           >
             <div className="comment-profile-box">
               <img
@@ -179,12 +191,23 @@ const Comment: React.FC<CommentProps> = ({
                 {like ? <IoHeart /> : <IoHeartOutline />}
               </button>
             </div>
-            <animated.button
-              style={CommentOptionAnimation}
-              className="comment-option"
-            >
-              삭제
-            </animated.button>
+            {writer === login_user.username ? (
+              <animated.button
+                style={CommentOptionAnimation}
+                className="comment-option"
+                onClick={deleteComment}
+              >
+                삭제
+              </animated.button>
+            ) : (
+              <animated.button
+                style={CommentOptionAnimation}
+                className="comment-option"
+                onClick={() => setLike(!like)}
+              >
+                {like ? "좋아요 취소" : "좋아요"}
+              </animated.button>
+            )}
           </article>
         </>
       )}

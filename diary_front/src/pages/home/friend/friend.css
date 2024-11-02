@@ -17,6 +17,12 @@
   border: none;
   background: none;
   margin-bottom: 5px;
+  border-radius: 10px;
+}
+
+.friendpage-content:hover,
+.friendpage-content:active {
+  background-color: rgb(236, 236, 236);
 }
 
 .friendpage-image_wrapper {
@@ -52,4 +58,33 @@
   font-size: 18px;
   font-weight: 250;
   margin-left: 8px;
+}
+
+.friendpage-option_select {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 7px;
+  background: none;
+}
+
+.friendpage-option_select:hover,
+.friendpage-option_select:active {
+  background-color: rgb(222, 222, 222);
+}
+
+.friend-option {
+  position: absolute;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13.5px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  background-color: gray;
 }
