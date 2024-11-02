@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./ListBox.css";
 import { CiClock2 } from "react-icons/ci";
 import React from "react";
+import { api } from "../../api/axiosInstance";
 
 interface ListBoxProps {
   id: string;
@@ -80,7 +81,11 @@ const ListBox: React.FC<ListBoxProps> = ({
       </div>
       <div className="listbox-right">
         {images.length > 0 ? (
-          <img className="diary-listbox-img" src={images[0]} alt="diary-img" />
+          <img
+            className="diary-listbox-img"
+            src={api.defaults.baseURL + "/" + images[0]}
+            alt="diary-img"
+          />
         ) : (
           ""
         )}

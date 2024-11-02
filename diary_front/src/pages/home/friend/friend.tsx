@@ -104,7 +104,7 @@ function FriendPage() {
             </button>
             <animated.button
               style={FriendOptionAnimation}
-              className="comment-option"
+              className="friend-option"
               onClick={(e) => follow(e, friend)}
             >
               {friend.following ? "팔로우 취소" : "팔로우"}

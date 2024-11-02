@@ -48,8 +48,9 @@ const Footer = () => {
 
   return (
     <footer className="Footer">
-      {footerOption.map((option) => (
+      {footerOption.map((option, index) => (
         <Link
+          key={index}
           className={`footer-option ${
             location.pathname === option.location ? "selected" : false
           }`}

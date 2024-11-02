@@ -15,6 +15,15 @@
   position: absolute;
 }
 
+.imageBackground {
+  transition-duration: 0.1s;
+}
+
+.imageBackground:hover,
+.imageBackground:active {
+  background-color: gray;
+}
+
 .imageBackground::before {
   content: "";
   width: 100%;

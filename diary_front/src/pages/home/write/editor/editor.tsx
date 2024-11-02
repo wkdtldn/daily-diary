@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./editor.css";
@@ -36,6 +36,11 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
   const [images, setImages] = useState<string[]>([]);
   const [textContent, setTextContent] = useState("");
 
+  useEffect(() => {
+    console.log(images);
+    console.log(textContent);
+  }, [images, textContent]);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleChange = (content: string) => {
@@ -45,33 +50,6 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
     const quillInstance = quillref.current.getEditor();
     const text = quillInstance.getText();
     setTextContent(text);
-
-    const ops = quillInstance.getContents().ops;
-    console.log(ops);
-    if (ops) {
-      ops.forEach((op: any) => {
-        if (op.insert && op.insert.image) {
-          const imageUrl = op.insert.image;
-          if (imageUrl.startsWith("data:image/")) {
-            setImages((prevImages) => [...prevImages, imageUrl]);
-          } else {
-            fetch(imageUrl)
-              .then((response) => response.blob())
-              .then((blob) => {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  const base64String = reader.result as string;
-                  setImages((prevImages) => [...prevImages, base64String]);
-                };
-                reader.readAsDataURL(blob);
-              })
-              .catch((error) =>
-                console.error("Error converting image:", error)
-              );
-          }
-        }
-      });
-    }
   };
 
   const write = async (isPublic: boolean) => {
@@ -106,6 +84,35 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
           alert("일기를 작성해주세요");
         } else {
           setIsOpen(!isOpen);
+          const quillInstance = quillref.current!.getEditor();
+          const ops = quillInstance.getContents().ops;
+          if (ops) {
+            ops.forEach((op: any) => {
+              if (op.insert && op.insert.image) {
+                const imageUrl = op.insert.image;
+                if (imageUrl.startsWith("data:image/")) {
+                  setImages([imageUrl]);
+                } else {
+                  fetch(imageUrl)
+                    .then((response) => response.blob())
+                    .then((blob) => {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        const base64String = reader.result as string;
+                        setImages((prevImages) => [
+                          ...prevImages,
+                          base64String,
+                        ]);
+                      };
+                      reader.readAsDataURL(blob);
+                    })
+                    .catch((error) =>
+                      console.error("Error converting image:", error)
+                    );
+                }
+              }
+            });
+          }
         }
       }
     }

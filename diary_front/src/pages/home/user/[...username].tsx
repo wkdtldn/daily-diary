@@ -62,18 +62,26 @@ const UserProfile: React.FC = () => {
       const Search = async () => {
         if (username) {
           const user = await userSearch(username);
-          console.log(user);
           setSearchTarget(user);
           setFollowState(user.following);
-          if (searchTarget) {
-            setDiaries(await getDiaryByUser(searchTarget.id));
-          }
         }
         setLoading(false);
       };
       Search();
     }
   }, [username]);
+
+  useEffect(() => {
+    const load_diary = async () => {
+      setLoading(true);
+      if (searchTarget) {
+        const diaries = await getDiaryByUser(searchTarget.id);
+        setDiaries(diaries);
+      }
+      setLoading(false);
+    };
+    load_diary();
+  }, [searchTarget]);
 
   const follow = async () => {
     if (followState) {

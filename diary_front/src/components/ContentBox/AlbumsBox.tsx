@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./AlbumsBox.css";
 import React from "react";
+import { api } from "../../api/axiosInstance";
 
 interface AlbumsBoxProps {
   id: string;
@@ -55,7 +56,9 @@ const AlbumsBox: React.FC<AlbumsBoxProps> = ({
         }`}
         style={
           {
-            "--profile-bg-image-url": `url(${images[0]})`,
+            "--profile-bg-image-url": `url(${
+              api.defaults.baseURL + "/" + images[0]
+            })`,
           } as React.CSSProperties
         }
       >
