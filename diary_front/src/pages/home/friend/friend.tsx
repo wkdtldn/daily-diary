@@ -14,6 +14,7 @@ type FriendType = {
   name: string;
   image: string;
   following: boolean;
+  is_active: boolean;
 };
 
 function FriendPage() {
@@ -84,6 +85,13 @@ function FriendPage() {
               <div className="friendpage-image_wrapper">
                 <img
                   className="friendpage-image"
+                  style={
+                    friend.is_active
+                      ? {
+                          borderColor: "blue",
+                        }
+                      : { borderColor: "gray" }
+                  }
                   src={friend.image}
                   alt="friend-image"
                 />

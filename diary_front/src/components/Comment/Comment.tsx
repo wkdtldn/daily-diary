@@ -15,6 +15,7 @@ interface CommentProps {
   comment: string;
   like_count: number;
   like_list: string[];
+  load_comment: () => void;
 }
 
 type ProfileType = {
@@ -37,6 +38,7 @@ const Comment: React.FC<CommentProps> = ({
   comment,
   like_count,
   like_list,
+  load_comment,
 }) => {
   const login_user = useRecoilValue(LoginUser);
 
@@ -121,6 +123,7 @@ const Comment: React.FC<CommentProps> = ({
         setIsDelete(true);
       }
     });
+    load_comment();
   };
 
   return (

@@ -14,12 +14,13 @@ import DiaryPage from "./diary/[...diaryId]";
 import { IoColorWand } from "react-icons/io5";
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { userState } from "../../hooks/recoil/userState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { LoginUser, userState } from "../../hooks/recoil/userState";
 import { useEffect, useRef, useState } from "react";
 import { check_auth } from "../../api/user";
 import Draggable, { DraggableData } from "react-draggable";
 import FriendPage from "./friend/friend";
+import { api } from "../../api/axiosInstance";
 
 const HomePage = () => {
   const location = useLocation();
@@ -27,6 +28,8 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const [, setUser] = useRecoilState(userState);
+
+  const login_user = useRecoilValue(LoginUser);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -54,6 +57,46 @@ const HomePage = () => {
     };
     checkAuthentication();
   }, []);
+
+  const [isActive, setIsActive] = useState(true);
+
+  useEffect(() => {
+    const handleUserActivity = () => {
+      setIsActive(true);
+    };
+    const handleFocus = () => setIsActive(true);
+    const handleBlur = () => setIsActive(false);
+
+    const changeActiveStatus = async () => {
+      try {
+        await api.patch(`/api/user/update/${login_user.id}`, {
+          is_active: isActive,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    changeActiveStatus();
+
+    window.addEventListener("mousemove", handleUserActivity);
+    window.addEventListener("keydown", handleUserActivity);
+    window.addEventListener("scroll", handleUserActivity);
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("blur", handleBlur);
+
+    const interval = setInterval(() => {
+      changeActiveStatus();
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("mousemove", handleUserActivity);
+      window.removeEventListener("keydown", handleUserActivity);
+      window.removeEventListener("scroll", handleUserActivity);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("blur", handleBlur);
+    };
+  }, [isActive]);
 
   const nodeRef = useRef(null);
 

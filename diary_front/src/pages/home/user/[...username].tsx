@@ -272,6 +272,7 @@ const UserProfile: React.FC = () => {
                         time={diary.time}
                         like_count={diary.like_count}
                         images={diary.images}
+                        writer={diary.writer_name}
                         key={value}
                       />
                     ))}

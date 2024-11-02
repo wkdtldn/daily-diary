@@ -124,6 +124,7 @@ const DiaryBox: React.FC<DiaryBoxProps> = ({
               created_at={comment.created_at}
               like_count={comment.like_count}
               like_list={comment.likes}
+              load_comment={load_comment}
               key={value}
             />
           ))

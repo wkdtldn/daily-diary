@@ -21,6 +21,7 @@ const ListBox: React.FC<ListBoxProps> = ({
   images,
 }) => {
   const navigate = useNavigate();
+
   const get_day = (idx: number) => {
     const day = ["월", "화", "수", "목", "금", "토", "일"];
     return day[idx];
@@ -50,47 +51,50 @@ const ListBox: React.FC<ListBoxProps> = ({
   };
 
   const date_ = new Date(date);
+
   return (
-    <button
-      className="listbox-wrapper"
-      onClick={() => navigate(`/home/diary/${id}`)}
-    >
-      <div className="listbox-left">
-        <span className="listbox-left-date__date">{date_.getDate()}</span>
-        <span className="listbox-left-date__day">
-          {get_day(date_.getDay())}
-        </span>
-      </div>
-      <div className="listbox-middle">
-        <span className="listbox-middle-date">{content_date.date}</span>
-        <div className="listbox-middle__detail-wrapper">
-          <Link
-            to={`/home/user/${writer}`}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className="listbox-middle-writer"
-          >
-            @{writer}
-          </Link>
-          <span className="listbox-middle-timeline">
-            <CiClock2 className="clock-icon" />
-            {content_date.time}
+    <>
+      <button
+        className="listbox-wrapper"
+        onClick={() => navigate(`/home/diary/${id}`)}
+      >
+        <div className="listbox-left">
+          <span className="listbox-left-date__date">{date_.getDate()}</span>
+          <span className="listbox-left-date__day">
+            {get_day(date_.getDay())}
           </span>
         </div>
-      </div>
-      <div className="listbox-right">
-        {images.length > 0 ? (
-          <img
-            className="diary-listbox-img"
-            src={api.defaults.baseURL + "/" + images[0]}
-            alt="diary-img"
-          />
-        ) : (
-          ""
-        )}
-      </div>
-    </button>
+        <div className="listbox-middle">
+          <span className="listbox-middle-date">{content_date.date}</span>
+          <div className="listbox-middle__detail-wrapper">
+            <Link
+              to={`/home/user/${writer}`}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="listbox-middle-writer"
+            >
+              @{writer}
+            </Link>
+            <span className="listbox-middle-timeline">
+              <CiClock2 className="clock-icon" />
+              {content_date.time}
+            </span>
+          </div>
+        </div>
+        <div className="listbox-right">
+          {images.length > 0 ? (
+            <img
+              className="diary-listbox-img"
+              src={api.defaults.baseURL + "/" + images[0]}
+              alt="diary-img"
+            />
+          ) : (
+            ""
+          )}
+        </div>
+      </button>
+    </>
   );
 };
 

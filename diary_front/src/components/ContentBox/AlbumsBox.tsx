@@ -10,6 +10,7 @@ interface AlbumsBoxProps {
   like_count: number;
   time: string;
   images: string[];
+  writer: string;
 }
 
 const AlbumsBox: React.FC<AlbumsBoxProps> = ({
@@ -18,6 +19,7 @@ const AlbumsBox: React.FC<AlbumsBoxProps> = ({
   time,
   like_count,
   images,
+  writer,
 }) => {
   const navigate = useNavigate();
 
@@ -44,28 +46,29 @@ const AlbumsBox: React.FC<AlbumsBoxProps> = ({
     time: generalTime().formatted_time,
   };
 
-  const date_ = new Date(date);
   return (
-    <button
-      className="albumsbox-wrapper"
-      onClick={() => navigate(`/home/diary/${id}`)}
-    >
-      <div
-        className={`albumsbox-content ${
-          images[0] !== null ? "imageBackground" : ""
-        }`}
-        style={
-          {
-            "--profile-bg-image-url": `url(${
-              api.defaults.baseURL + "/" + images[0]
-            })`,
-          } as React.CSSProperties
-        }
+    <>
+      <button
+        className="albumsbox-wrapper"
+        onClick={() => navigate(`/home/diary/${id}`)}
       >
-        <div className="albumsbox-date">{content_date.date}</div>
-        <div className="albumsbox-like">좋아요 {like_count}개</div>
-      </div>
-    </button>
+        <div
+          className={`albumsbox-content ${
+            images[0] !== null ? "imageBackground" : ""
+          }`}
+          style={
+            {
+              "--profile-bg-image-url": `url(${
+                api.defaults.baseURL + "/" + images[0]
+              })`,
+            } as React.CSSProperties
+          }
+        >
+          <div className="albumsbox-date">{content_date.date}</div>
+          <div className="albumsbox-like">좋아요 {like_count}개</div>
+        </div>
+      </button>
+    </>
   );
 };
 
