@@ -32,6 +32,7 @@ type Diary = {
   writer: number;
   date: string;
   images: string[];
+  emotion: number;
 };
 
 function CalendarPage() {
@@ -85,6 +86,8 @@ function CalendarPage() {
     load_data();
   }, [selected_date, filterValue]);
 
+  const COLORS = ["#a00d0d", "#d66f6f", "#9f9f9f", "#6f8ddb", "#1e43a1"];
+
   return (
     <div className="calendar-page">
       <Preview modalRef={PreviewRef} />
@@ -121,11 +124,9 @@ function CalendarPage() {
                       >
                         <div
                           className="dot"
-                          style={
-                            {
-                              "--dot-background-color": "red",
-                            } as React.CSSProperties
-                          }
+                          style={{
+                            backgroundColor: "gray",
+                          }}
                         ></div>
                       </div>
                     );
