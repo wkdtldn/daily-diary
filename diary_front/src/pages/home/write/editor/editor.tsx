@@ -36,13 +36,6 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
   const [images, setImages] = useState<string[]>([]);
   const [textContent, setTextContent] = useState("");
 
-  useEffect(() => {
-    console.log(images);
-    console.log(textContent);
-  }, [images, textContent]);
-
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const handleChange = (content: string) => {
     setValue(content);
 
@@ -61,11 +54,9 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
       is_public: isPublic,
     });
     if (res.status === 201) {
-      setIsOpen(false);
-      console.log(res.data);
+      modalRef.current?.close();
       navigate("/home/calendar");
     } else {
-      console.log("fail");
     }
   };
 
@@ -83,7 +74,6 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
         if (!value) {
           alert("일기를 작성해주세요");
         } else {
-          setIsOpen(!isOpen);
           const quillInstance = quillref.current!.getEditor();
           const ops = quillInstance.getContents().ops;
           if (ops) {
@@ -113,6 +103,7 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
               }
             });
           }
+          modalRef.current?.showModal();
         }
       }
     }
@@ -120,6 +111,8 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
   const writeDate = () => {
     return year + "-" + month + "-" + date;
   };
+
+  const modalRef = useRef<HTMLDialogElement>(null);
 
   return (
     <div className="write-input-wrapper">
@@ -135,8 +128,7 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
         저장
       </button>
       <PublicComponent
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        modalRef={modalRef}
         write={(is_public) => write(is_public)}
       />
     </div>

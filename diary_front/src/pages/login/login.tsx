@@ -33,8 +33,11 @@ function LoginPage() {
         })
         .then((res) => {
           if (res.status === 200) {
+            alert("로그인이 성공적으로 완료되었습니다.");
             navigate("/home");
             window.location.reload();
+          } else if (res.status === 400) {
+            alert("존재하지 않는 아이디입니다. 회원가입을 먼저 진행해주세요.");
           }
         })
         .catch((error) => {

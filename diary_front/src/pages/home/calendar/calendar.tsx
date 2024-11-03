@@ -17,6 +17,11 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 type PreviewValue = HTMLDialogElement | null;
 
+type probsPiece = {
+  name: string;
+  pv: number;
+};
+
 type Diary = {
   id: string;
   writer_name: string;

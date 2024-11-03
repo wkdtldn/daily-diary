@@ -55,9 +55,7 @@ const Preview: React.FC<PreviewProps> = ({ modalRef }) => {
   };
 
   const ModalClostByButton = (): void => {
-    if (modalRef.current) {
-      modalRef.current.close();
-    }
+    modalRef.current?.close();
   };
 
   return (

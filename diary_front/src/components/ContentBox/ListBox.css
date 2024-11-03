@@ -36,7 +36,7 @@
 
 .listbox-middle {
   overflow: hidden;
-  flex: 0 0 65%;
+  flex: 1;
   height: 100%;
   box-sizing: border-box;
   padding: 5px;
@@ -116,5 +116,25 @@
 
 .diary-press-option:hover,
 .diary-press-option:active {
+  background-color: rgb(65, 65, 65) !important;
+}
+
+.diary-options {
+  position: absolute;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13.5px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  top: 50%;
+  left: 20px;
+  background-color: gray;
+}
+
+.diary-options:hover,
+.diary-options:active {
   background-color: rgb(65, 65, 65) !important;
 }

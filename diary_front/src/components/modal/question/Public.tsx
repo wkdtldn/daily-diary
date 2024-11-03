@@ -1,27 +1,32 @@
 import "./Public.css";
 
-import React from "react";
+import React, { RefObject } from "react";
 import { NavigateFunction } from "react-router-dom";
 import { api } from "../../../api/axiosInstance";
 import { IonIcon } from "@ionic/react";
 import { close } from "ionicons/icons";
 
 type PublicProps = {
-  isOpen: boolean;
-  onClose: () => void;
+  modalRef: RefObject<HTMLDialogElement>;
   write: (bool: boolean) => void;
 };
 
-const PublicComponent: React.FC<PublicProps> = ({ isOpen, onClose, write }) => {
+const PublicComponent: React.FC<PublicProps> = ({ modalRef, write }) => {
+  const ModalClose = (event: React.MouseEvent<HTMLDialogElement>): void => {
+    if (modalRef.current && event.target === modalRef.current) {
+      modalRef.current.close();
+    }
+  };
+
   return (
-    <div
-      className="public-modal-overlay"
-      style={isOpen ? {} : { display: "none" }}
-    >
-      <div className="public-modal">
+    <dialog className="public-modal" ref={modalRef} onClick={ModalClose}>
+      <div className="public-modal-container">
         <div className="public-modal-header">
           <h3 className="public-modal-title">공개/비공개</h3>
-          <button className="public-modal-cancel" onClick={onClose}>
+          <button
+            className="public-modal-cancel"
+            onClick={() => modalRef.current?.close()}
+          >
             <IonIcon icon={close} size="23" />
           </button>
         </div>
@@ -38,7 +43,7 @@ const PublicComponent: React.FC<PublicProps> = ({ isOpen, onClose, write }) => {
           </button>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

@@ -12,6 +12,11 @@ import ListBox from "../../../components/ContentBox/ListBox";
 import { getDiaryByUser } from "../../../api/diary";
 import AlbumsBox from "../../../components/ContentBox/AlbumsBox";
 
+type probsPiece = {
+  name: string;
+  pv: number;
+};
+
 type Diary = {
   id: string;
   writer_name: string;

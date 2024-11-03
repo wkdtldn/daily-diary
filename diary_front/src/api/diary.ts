@@ -9,9 +9,7 @@ export const diary_write = async (
     date: date,
   });
   if (res.status === 200) {
-    console.log(res.data);
   } else {
-    console.log("fail");
   }
 };
 

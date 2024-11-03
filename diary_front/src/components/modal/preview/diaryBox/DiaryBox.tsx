@@ -82,7 +82,13 @@ const DiaryBox: React.FC<DiaryBoxProps> = ({
     <div className="preview-content-main">
       <div className="preview-content-main__header">
         <p className="preview-content-main__header-title">
-          <Link to={`/home/user/${writer}`}>{writer}</Link>의 일기
+          <Link
+            to={`/home/user/${writer}`}
+            className="preview-content-main__header-title_username"
+          >
+            {writer}
+          </Link>
+          의 일기
         </p>
       </div>
       <div

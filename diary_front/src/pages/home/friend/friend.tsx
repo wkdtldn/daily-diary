@@ -33,7 +33,6 @@ function FriendPage() {
       friend_list.forEach(async (username, index) => {
         const user = await userSearch(username);
         setFriends((prevFriends) => [...prevFriends, user]);
-        console.log(Friends);
       });
     };
     load_friend();
@@ -97,8 +96,8 @@ function FriendPage() {
                 />
               </div>
               <div className="friendpage-info">
-                <span className="friendpage_username">@{friend.username}</span>{" "}
-                /<span className="friendpage_name">{friend.name}</span>
+                <span className="friendpage_username">@{friend.username}</span>
+                <span className="friendpage_name">{friend.name}</span>
               </div>
               <button
                 className="friendpage-option_select"

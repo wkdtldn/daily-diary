@@ -20,9 +20,60 @@ import { useEffect, useRef, useState } from "react";
 import { check_auth } from "../../api/user";
 import Draggable, { DraggableData } from "react-draggable";
 import FriendPage from "./friend/friend";
-import { api } from "../../api/axiosInstance";
+
+interface UserActivity {
+  user: string;
+  status: string;
+}
 
 const HomePage = () => {
+  // const [userActivity, setUserActivity] = useState<UserActivity[]>([]);
+  // const socket = new WebSocket(
+  //   `wss://${api.defaults.baseURL?.replace("https://", "")}/ws/activity/`
+  // );
+
+  // useEffect(() => {
+  //   socket.onopen = () => {
+  //     console.log("WebSocket connected");
+  //   };
+
+  //   socket.onmessage = (event) => {
+  //     const data = JSON.parse(event.data);
+  //     setUserActivity((prev) => [
+  //       ...prev,
+  //       { user: data.user, status: data.status },
+  //     ]);
+  //   };
+  //   console.log(setUserActivity);
+
+  //   socket.onclose = () => {
+  //     console.log("WebSocket closed");
+  //   };
+
+  //   // 컴포넌트 언마운트 시 WebSocket 연결 종료
+  //   return () => {
+  //     socket.close();
+  //   };
+  // }, []);
+
+  // // 유저의 활동 상태를 서버에 전송
+  // const sendActivityUpdate = (status: string) => {
+  //   socket.send(JSON.stringify({ action: "update", status }));
+  // };
+
+  // // 유저가 활동을 시작할 때 상태 업데이트
+  // useEffect(() => {
+  //   const updateStatus = () => sendActivityUpdate("active");
+
+  //   window.addEventListener("mousemove", updateStatus);
+  //   window.addEventListener("keypress", updateStatus);
+
+  //   return () => {
+  //     window.removeEventListener("mousemove", updateStatus);
+  //     window.removeEventListener("keypress", updateStatus);
+  //   };
+  // }, []);
+
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -44,6 +95,7 @@ const HomePage = () => {
           if (location.pathname === "/home/calendar") {
           } else if (location.pathname === "/home/recent") {
           } else if (location.pathname === "/home/profile") {
+          } else if (location.pathname === "/home/friends") {
           } else {
             navigate("/home/calendar");
           }
@@ -57,46 +109,6 @@ const HomePage = () => {
     };
     checkAuthentication();
   }, []);
-
-  const [isActive, setIsActive] = useState(true);
-
-  useEffect(() => {
-    const handleUserActivity = () => {
-      setIsActive(true);
-    };
-    const handleFocus = () => setIsActive(true);
-    const handleBlur = () => setIsActive(false);
-
-    const changeActiveStatus = async () => {
-      try {
-        await api.patch(`/api/user/update/${login_user.id}`, {
-          is_active: isActive,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    changeActiveStatus();
-
-    window.addEventListener("mousemove", handleUserActivity);
-    window.addEventListener("keydown", handleUserActivity);
-    window.addEventListener("scroll", handleUserActivity);
-    window.addEventListener("focus", handleFocus);
-    window.addEventListener("blur", handleBlur);
-
-    const interval = setInterval(() => {
-      changeActiveStatus();
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("mousemove", handleUserActivity);
-      window.removeEventListener("keydown", handleUserActivity);
-      window.removeEventListener("scroll", handleUserActivity);
-      window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("blur", handleBlur);
-    };
-  }, [isActive]);
 
   const nodeRef = useRef(null);
 
@@ -149,7 +161,10 @@ const HomePage = () => {
                 <div
                   ref={nodeRef}
                   className="draggable-wrapper"
-                  style={{ opacity: Opacity ? "0.5" : "1" }}
+                  style={{
+                    opacity: Opacity ? "0.5" : "1",
+                    zIndex: 10000000000,
+                  }}
                 >
                   <button
                     ref={nodeRef}

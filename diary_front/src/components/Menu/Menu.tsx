@@ -21,7 +21,6 @@ const Menu: React.FC<MenuProps> = ({ on, status }) => {
     const res = await api.get("/api/logout/");
 
     if (res.status === 200) {
-      console.log("Logout successful");
       navigate("/login");
     } else {
       console.error("Logout failed");

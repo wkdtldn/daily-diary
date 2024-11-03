@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../hooks/recoil/userState";
 import { userSearch } from "../../api/user";
 import { useSpring, animated } from "@react-spring/web";
+import { useNavigate } from "react-router-dom";
 
 interface CommentProps {
   id: number;
@@ -40,6 +41,8 @@ const Comment: React.FC<CommentProps> = ({
   like_list,
   load_comment,
 }) => {
+  const navigate = useNavigate();
+
   const login_user = useRecoilValue(LoginUser);
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -102,6 +105,9 @@ const Comment: React.FC<CommentProps> = ({
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
     }
+    if (!showOptions) {
+      navigate(`/home/user/${writer}`);
+    }
   };
 
   const [showMore, setShowMore] = useState<boolean>(false);
@@ -140,13 +146,6 @@ const Comment: React.FC<CommentProps> = ({
             onMouseUp={handleMouseUp}
             onTouchStart={handleMouseDown}
             onTouchEnd={handleMouseUp}
-            style={
-              isDelete
-                ? { display: "none" }
-                : showOptions
-                ? { backgroundColor: "rgb(245, 245, 245)" }
-                : {}
-            }
           >
             <div className="comment-profile-box">
               <img

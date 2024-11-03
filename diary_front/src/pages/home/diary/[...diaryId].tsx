@@ -1,6 +1,6 @@
 import "./diary.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDiary } from "../../../api/diary";
 import { useRecoilValue } from "recoil";
@@ -16,6 +16,27 @@ import Comment from "../../../components/Comment/Comment";
 import { Link } from "react-router-dom";
 import Dompurify from "dompurify";
 import RemoveComponent from "../../../components/modal/question/Remove";
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  Tooltip,
+  Rectangle,
+  Legend,
+  PieChart,
+  Pie,
+  Cell,
+  Sector,
+  PieProps,
+} from "recharts";
+
+type probsPiece = {
+  name: string;
+  pv: number;
+};
 
 type Diary = {
   id: string;
@@ -28,6 +49,8 @@ type Diary = {
   writer: number;
   date: string;
   images: string[];
+  emotion: number | null;
+  probs: probsPiece[] | [];
 };
 
 type Comment = {
@@ -192,7 +215,86 @@ const CommunicateComponent: React.FC<CommunicateComponentProps> = ({
   );
 };
 
+const renderActiveShape = (props: any) => {
+  const RADIAN = Math.PI / 180;
+  const {
+    cx,
+    cy,
+    name,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+  } = props;
+  const sin = Math.sin(-RADIAN * midAngle);
+  const cos = Math.cos(-RADIAN * midAngle);
+  const sx = cx + (outerRadius + 10) * cos;
+  const sy = cy + (outerRadius + 10) * sin;
+  const mx = cx + (outerRadius + 30) * cos;
+  const my = cy + (outerRadius + 30) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+  const ey = my;
+  const textAnchor = cos >= 0 ? "start" : "end";
+
+  return (
+    <g>
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+        {payload.name}
+      </text>
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+      <Sector
+        cx={cx}
+        cy={cy}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        innerRadius={outerRadius + 6}
+        outerRadius={outerRadius + 10}
+        fill={fill}
+      />
+      <path
+        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+        stroke={fill}
+        fill="none"
+      />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        textAnchor={textAnchor}
+        fill="#333"
+        fontSize={16}
+      >
+        {name}
+      </text>
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        dy={18}
+        textAnchor={textAnchor}
+        fill="#999"
+        fontSize={13}
+      >
+        {`(확률 : ${(percent * 100).toFixed(2)}%)`}
+      </text>
+    </g>
+  );
+};
+
 function DiaryPage() {
+  const modalRef = useRef<HTMLDialogElement>(null);
+
   const navigate = useNavigate();
 
   const { diaryId } = useParams<{ diaryId: string }>();
@@ -241,7 +343,12 @@ function DiaryPage() {
     pointerEvents: selectOpen ? "auto" : "none",
   });
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [pieIndexState, setPieIndexState] = useState(0);
+  const onPieEnter = (_: any, index: number) => {
+    setPieIndexState(index);
+  };
+
+  const [chartOption, setChartOption] = useState(1);
 
   return (
     <div className="diary-container">
@@ -286,7 +393,7 @@ function DiaryPage() {
                     ),
                   }}
                   className="diary-option_select"
-                  onClick={() => setIsOpen(true)}
+                  onClick={() => modalRef.current?.showModal()}
                 >
                   삭제
                 </animated.button>
@@ -309,11 +416,82 @@ function DiaryPage() {
             />
           </div>
           <RemoveComponent
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
             diary_id={diaryId!}
             navigate={navigate}
+            modalRef={modalRef}
           />
+          {diary.emotion ? (
+            <div
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div className="diary-result-header">
+                <button
+                  className="chart-controler"
+                  onClick={() => setChartOption(0)}
+                >
+                  &lt;
+                </button>
+                <h3>감정분석 결과</h3>
+                <button
+                  className="chart-controler"
+                  onClick={() => setChartOption(1)}
+                >
+                  &gt;
+                </button>
+              </div>
+              <br />
+              {chartOption ? (
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart
+                    width={500}
+                    height={300}
+                    data={diary.probs}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => [`확률 : ${value}`]} />
+                    <Bar
+                      dataKey="pv"
+                      fill="#8884d8"
+                      activeBar={<Rectangle fill="yellow" stroke="blue" />}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <ResponsiveContainer width="100%" height={250}>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={diary.probs}
+                      dataKey="pv"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={60}
+                      fill="#8884d8"
+                      activeIndex={pieIndexState}
+                      activeShape={renderActiveShape}
+                      onMouseEnter={onPieEnter}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       ) : (
         <p>존재하지 않는 일기입니다.</p>

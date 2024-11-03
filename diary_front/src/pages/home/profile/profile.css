@@ -85,12 +85,20 @@
   text-shadow: 1px 1px 2px white;
   font-size: 25px;
   font-weight: bold;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile__name {
   font-size: 20px;
   font-weight: 150;
   margin-bottom: 8px;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile-follow {

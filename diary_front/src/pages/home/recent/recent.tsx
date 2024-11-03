@@ -5,6 +5,11 @@ import ListBox from "../../../components/ContentBox/ListBox";
 
 type InputDatePicker = string | number | readonly string[] | undefined;
 
+type probsPiece = {
+  name: string;
+  pv: number;
+};
+
 type Diary = {
   id: string;
   writer_name: string;

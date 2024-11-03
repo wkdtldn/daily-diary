@@ -20,14 +20,19 @@
 .preview-content-main__header-title {
   font-size: 16px;
   font-weight: 350;
-  a {
-    color: black;
-    text-decoration-line: none;
-  }
-  a:hover {
-    text-decoration-line: underline;
-  }
 }
+.preview-content-main__header-title_username {
+  color: black;
+  text-decoration-line: none;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.preview-content-main__header-title_username:hover {
+  text-decoration-line: underline;
+}
+
 .preview-content-main__detail {
   box-sizing: border-box;
   width: 100%;

@@ -9,7 +9,6 @@ interface User {
   image: string;
   followings: string[];
   followers: string[];
-  csrftoken: string;
 }
 
 export const userState = atom<User>({
@@ -22,7 +21,6 @@ export const userState = atom<User>({
     image: "",
     followings: [],
     followers: [],
-    csrftoken: "",
   },
 });
 
@@ -40,7 +38,6 @@ export const LoginUser = selector({
       following_count: params.followings.length,
       followers: params.followers,
       follower_count: params.followers.length,
-      csrftoken: params.csrftoken,
     };
   },
 });

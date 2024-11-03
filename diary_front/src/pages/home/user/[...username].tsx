@@ -28,6 +28,11 @@ interface SearchTargetType {
   following: boolean;
 }
 
+type probsPiece = {
+  name: string;
+  pv: number;
+};
+
 type Diary = {
   id: string;
   writer_name: string;
