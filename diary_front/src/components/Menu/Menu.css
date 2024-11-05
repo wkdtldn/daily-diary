@@ -16,7 +16,7 @@
   transition: all 0.2s ease;
   animation-name: menuOpen;
   gap: 10px;
-  z-index: 10000;
+  z-index: 1000;
 }
 
 .close {

@@ -107,7 +107,7 @@ const ListBox: React.FC<ListBoxProps> = ({
     transform: showOptions
       ? "translateY(200%) translateX(100%)"
       : "translateY(0%) translateX(0%)",
-    zIndex: 10000000,
+    zIndex: 10000,
   });
 
   return (

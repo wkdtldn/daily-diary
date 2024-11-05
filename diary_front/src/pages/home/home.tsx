@@ -21,11 +21,6 @@ import { check_auth } from "../../api/user";
 import Draggable, { DraggableData } from "react-draggable";
 import FriendPage from "./friend/friend";
 
-interface UserActivity {
-  user: string;
-  status: string;
-}
-
 const HomePage = () => {
   // const [userActivity, setUserActivity] = useState<UserActivity[]>([]);
   // const socket = new WebSocket(
@@ -79,8 +74,6 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const [, setUser] = useRecoilState(userState);
-
-  const login_user = useRecoilValue(LoginUser);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -163,7 +156,7 @@ const HomePage = () => {
                   className="draggable-wrapper"
                   style={{
                     opacity: Opacity ? "0.5" : "1",
-                    zIndex: 10000000000,
+                    zIndex: 1000,
                   }}
                 >
                   <button

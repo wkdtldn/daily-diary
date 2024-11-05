@@ -65,7 +65,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  z-index: 1000;
+  z-index: 10;
 }
 .listbox-middle-writer:hover {
   text-decoration-line: underline;

@@ -8,7 +8,7 @@ import { userSearch } from "../../../api/user";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../../api/axiosInstance";
 
-type FriendType = {
+type Friend = {
   id: number;
   username: string;
   name: string;
@@ -22,7 +22,7 @@ function FriendPage() {
 
   const login_user = useRecoilValue(LoginUser);
 
-  const [Friends, setFriends] = useState<FriendType[]>([]);
+  const [Friends, setFriends] = useState<Friend[]>([]);
 
   useEffect(() => {
     const load_friend = () => {
@@ -48,7 +48,7 @@ function FriendPage() {
 
   const follow = async (
     e: React.MouseEvent<HTMLButtonElement>,
-    targetFriend: FriendType
+    targetFriend: Friend
   ) => {
     if (targetFriend.following) {
       await api.delete(`/api/follow/${targetFriend.id}/unfollow/`);

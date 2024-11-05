@@ -25,12 +25,9 @@ import {
   Bar,
   Tooltip,
   Rectangle,
-  Legend,
   PieChart,
   Pie,
-  Cell,
   Sector,
-  PieProps,
 } from "recharts";
 
 type probsPiece = {

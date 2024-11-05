@@ -102,18 +102,18 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1000000;
+  z-index: 10000;
 }
 
 .commentModal {
   position: fixed;
   border-radius: 10px 10px 0px 0px;
   width: min(100%, 430px);
-  padding: 15px;
+  padding: 15px 15px 5px 15px;
   height: 80%;
   max-height: 80%;
   top: 0%;
-  z-index: 1000001;
+  z-index: 10001;
   background-color: white;
   display: flex;
   flex-direction: column;
