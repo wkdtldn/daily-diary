@@ -105,50 +105,48 @@ const FollowComponent: React.FC<FollowComponentProps> = ({
             </div>
             <div className="follow-body">
               {followList.map((user, idx) => (
-                <>
-                  <article
-                    className="follow-content"
-                    onClick={() => navigate(`/home/user/${user.username}`)}
-                    key={idx}
-                  >
-                    <div className="follow-image">
-                      <img
-                        className="follow-image_profile"
-                        src={user.image}
-                        alt="user-profile"
-                      />
-                    </div>
-                    <div className="follow-info">
-                      <span className="follow-info_username">
-                        {user.username}
-                      </span>
-                    </div>
-                    <div className="follow-options">
-                      <button
-                        className="follow-options_btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowOptions(!showOptions);
-                        }}
-                      >
-                        <HiOutlineDotsVertical />
-                      </button>
-                    </div>
-                    {showOptions ? (
-                      <button
-                        className="follow-option"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          follow(e, user);
-                        }}
-                      >
-                        {user.following ? "팔로우 취소" : "팔로우"}
-                      </button>
-                    ) : (
-                      <></>
-                    )}
-                  </article>
-                </>
+                <article
+                  className="follow-content"
+                  onClick={() => navigate(`/home/user/${user.username}`)}
+                  key={idx}
+                >
+                  <div className="follow-image">
+                    <img
+                      className="follow-image_profile"
+                      src={user.image}
+                      alt="user-profile"
+                    />
+                  </div>
+                  <div className="follow-info">
+                    <span className="follow-info_username">
+                      {user.username}
+                    </span>
+                  </div>
+                  <div className="follow-options">
+                    <button
+                      className="follow-options_btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowOptions(!showOptions);
+                      }}
+                    >
+                      <HiOutlineDotsVertical />
+                    </button>
+                  </div>
+                  {showOptions ? (
+                    <button
+                      className="follow-option"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        follow(e, user);
+                      }}
+                    >
+                      {user.following ? "팔로우 취소" : "팔로우"}
+                    </button>
+                  ) : (
+                    <></>
+                  )}
+                </article>
               ))}
             </div>
           </>

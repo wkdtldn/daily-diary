@@ -29,6 +29,7 @@ import {
   Pie,
   Sector,
 } from "recharts";
+import CommentModal from "../../../components/modal/CommentModal";
 
 type probsPiece = {
   name: string;
@@ -48,168 +49,6 @@ type Diary = {
   images: string[];
   emotion: number | null;
   probs: probsPiece[] | [];
-};
-
-type Comment = {
-  id: number;
-  writer_name: string;
-  diary: string;
-  like_count: number;
-  created_at: string;
-  comment: string;
-  likes: string[];
-};
-
-interface CommunicateComponentProps {
-  diary_id: string;
-  like_count: number;
-  like_list: string[];
-}
-
-const CommunicateComponent: React.FC<CommunicateComponentProps> = ({
-  diary_id,
-  like_count,
-  like_list,
-}) => {
-  const login_user = useRecoilValue(LoginUser);
-
-  const [CommentValue, setCommentValue] = useState<string>("");
-
-  const [like, setLike] = useState<boolean>(
-    like_list.includes(login_user.username)
-  );
-
-  const [commentShow, setCommentShow] = useState<boolean>(false);
-
-  const [comments, setComments] = useState<Comment[] | null>(null);
-
-  const load_comment = async () => {
-    const res = await api.get(`/api/comments/${diary_id}`);
-    if (res.data[0]) {
-      setComments(res.data);
-    } else {
-      setComments(null);
-    }
-  };
-
-  useEffect(() => {
-    if (commentShow) {
-      load_comment();
-    }
-  }, [commentShow]);
-
-  const animation = useSpring({
-    transform: commentShow
-      ? `translateY(25%) translateX(-5px)`
-      : `translateY(125%) translateX(-5px)`,
-    opacity: commentShow ? 1 : 0,
-  });
-
-  const overlay_animation = useSpring({
-    display: commentShow ? "block" : "none",
-    opacity: commentShow ? 0.6 : 0,
-    backgroundColor: commentShow ? "black" : "rgba(0,0,0,0)",
-  });
-
-  const diary_like = async () => {
-    await api.post(`/api/diary/like/${diary_id}/`, {}).then((res) => {
-      setLike(res.data);
-    });
-  };
-
-  const addComment = () => {
-    if (CommentValue) {
-      const write_comment = async () => {
-        await api.post("/api/comments/", {
-          diary: diary_id,
-          comment: CommentValue,
-        });
-        setCommentValue("");
-        load_comment();
-      };
-      write_comment();
-    } else {
-      alert("내용이 비여있습니다.");
-    }
-  };
-
-  return (
-    <div className="communicate-container">
-      <span className="communicate-like_count">
-        좋아요{" "}
-        {like_list.includes(login_user.username)
-          ? !like
-            ? like_count - 1
-            : like_count
-          : like
-          ? like_count + 1
-          : like_count}
-        개
-      </span>
-      <button className="communicate-like communicate-btn" onClick={diary_like}>
-        {like ? <IoIosHeart /> : <IoIosHeartEmpty />}
-      </button>
-      <button
-        className="communicate-comment communicate-btn"
-        onClick={() => setCommentShow(!commentShow)}
-      >
-        {commentShow ? (
-          <TfiCommentAlt id="comment" />
-        ) : (
-          <TfiComment id="comment" />
-        )}
-      </button>
-      <button className="communicate-share communicate-btn">
-        <IonIcon icon={shareSocialOutline} />
-      </button>
-      <animated.div
-        style={overlay_animation}
-        className="commentModalOverlay"
-        onClick={() => setCommentShow(false)}
-      ></animated.div>
-      <animated.div style={animation} className="commentModal">
-        <div className="modal-header">
-          <span>댓글</span>
-          <button
-            className="modal-cancel"
-            onClick={() => setCommentShow(false)}
-          >
-            <IonIcon icon={close} />
-          </button>
-        </div>
-        <div className="modal-body">
-          {comments ? (
-            comments.map((comment, value) => (
-              <Comment
-                id={comment.id}
-                writer={comment.writer_name}
-                comment={comment.comment}
-                created_at={comment.created_at}
-                like_count={comment.like_count}
-                like_list={comment.likes}
-                load_comment={load_comment}
-                key={value}
-              />
-            ))
-          ) : (
-            <p>댓글이 없습니다.</p>
-          )}
-        </div>
-        <div className="modal-comment-write">
-          <input
-            type="text"
-            value={CommentValue}
-            onChange={(e) => setCommentValue(e.target.value)}
-            className="modal-comment-write_input"
-            placeholder="댓글 입력..."
-          />
-          <button className="modal-comment-write_btn" onClick={addComment}>
-            <IonIcon icon={send} className="modal-send-icon" />
-          </button>
-        </div>
-      </animated.div>
-    </div>
-  );
 };
 
 const renderActiveShape = (props: any) => {
@@ -302,6 +141,8 @@ function DiaryPage() {
 
   const login_user = useRecoilValue(LoginUser);
 
+  const [commentShow, setCommentShow] = useState<boolean>(false);
+
   useState(() => {
     setLoading(true);
     if (diaryId) {
@@ -347,153 +188,198 @@ function DiaryPage() {
 
   const [chartOption, setChartOption] = useState(1);
 
+  const [like, setLike] = useState<boolean | undefined>(
+    diary?.likes.includes(login_user.username)
+  );
+
+  const diary_like = async () => {
+    await api.post(`/api/diary/like/${diaryId}/`, {}).then((res) => {
+      setLike(res.data);
+    });
+  };
+
   return (
-    <div className="diary-container">
-      {loading ? (
-        <p>loading</p>
-      ) : diary !== null ? (
-        <div className="diary-wrapper">
-          <div className="diary-header">
-            <span>{diary.date}</span>
-            <Link
-              className="diary_writer"
-              to={`/home/user/${diary.writer_name}`}
-            >
-              @{diary.writer_name}
-            </Link>
-            {login_user.username === diary.writer_name ? (
-              <>
-                <div className="diary-option">
-                  <button
-                    className="diary-option_btn"
-                    onClick={() => setSelectOpen(!selectOpen)}
+    <>
+      <div className="diary-container">
+        {loading ? (
+          <p>loading</p>
+        ) : diary !== null ? (
+          <div className="diary-wrapper">
+            <div className="diary-header">
+              <span>{diary.date}</span>
+              <Link
+                className="diary_writer"
+                to={`/home/user/${diary.writer_name}`}
+              >
+                @{diary.writer_name}
+              </Link>
+              {login_user.username === diary.writer_name ? (
+                <>
+                  <div className="diary-option">
+                    <button
+                      className="diary-option_btn"
+                      onClick={() => setSelectOpen(!selectOpen)}
+                    >
+                      <HiOutlineDotsVertical />
+                    </button>
+                  </div>
+                  <animated.button
+                    style={{
+                      ...EditOptionAnimation,
+                      pointerEvents: EditOptionAnimation.opacity.to((opacity) =>
+                        opacity === 0 ? "none" : "auto"
+                      ),
+                    }}
+                    className="diary-option_select"
                   >
-                    <HiOutlineDotsVertical />
+                    수정
+                  </animated.button>
+                  <animated.button
+                    style={{
+                      ...DeleteOptionAnimation,
+                      pointerEvents: DeleteOptionAnimation.opacity.to(
+                        (opacity) => (opacity === 0 ? "none" : "auto")
+                      ),
+                    }}
+                    className="diary-option_select"
+                    onClick={() => modalRef.current?.showModal()}
+                  >
+                    삭제
+                  </animated.button>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div
+              className="diary-body"
+              dangerouslySetInnerHTML={{
+                __html: Dompurify.sanitize(diary.content),
+              }}
+            ></div>
+            <div className="diary-footer">
+              <div className="communicate-container">
+                <span className="communicate-like_count">
+                  좋아요{" "}
+                  {diary.likes.includes(login_user.username)
+                    ? !like
+                      ? diary.like_count - 1
+                      : diary.like_count
+                    : like
+                    ? diary.like_count + 1
+                    : diary.like_count}
+                  개
+                </span>
+                <button
+                  className="communicate-like communicate-btn"
+                  onClick={diary_like}
+                >
+                  {like ? <IoIosHeart /> : <IoIosHeartEmpty />}
+                </button>
+                <button
+                  className="communicate-comment communicate-btn"
+                  onClick={() => setCommentShow(!commentShow)}
+                >
+                  {commentShow ? (
+                    <TfiCommentAlt id="comment" />
+                  ) : (
+                    <TfiComment id="comment" />
+                  )}
+                </button>
+                <button className="communicate-share communicate-btn">
+                  <IonIcon icon={shareSocialOutline} />
+                </button>
+              </div>
+            </div>
+            <RemoveComponent
+              diary_id={diaryId!}
+              navigate={navigate}
+              modalRef={modalRef}
+            />
+
+            {diary.emotion !== null ? (
+              <div
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="diary-result-header">
+                  <button
+                    className="chart-controler"
+                    onClick={() => setChartOption(0)}
+                  >
+                    &lt;
+                  </button>
+                  <h3>감정분석 결과</h3>
+                  <button
+                    className="chart-controler"
+                    onClick={() => setChartOption(1)}
+                  >
+                    &gt;
                   </button>
                 </div>
-                <animated.button
-                  style={{
-                    ...EditOptionAnimation,
-                    pointerEvents: EditOptionAnimation.opacity.to((opacity) =>
-                      opacity === 0 ? "none" : "auto"
-                    ),
-                  }}
-                  className="diary-option_select"
-                >
-                  수정
-                </animated.button>
-                <animated.button
-                  style={{
-                    ...DeleteOptionAnimation,
-                    pointerEvents: DeleteOptionAnimation.opacity.to((opacity) =>
-                      opacity === 0 ? "none" : "auto"
-                    ),
-                  }}
-                  className="diary-option_select"
-                  onClick={() => modalRef.current?.showModal()}
-                >
-                  삭제
-                </animated.button>
-              </>
+                <br />
+                {chartOption ? (
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart
+                      width={500}
+                      height={300}
+                      data={diary.probs}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip formatter={(value) => [`확률 : ${value}`]} />
+                      <Bar
+                        dataKey="pv"
+                        fill="#8884d8"
+                        activeBar={<Rectangle fill="yellow" stroke="blue" />}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <ResponsiveContainer width="100%" height={250}>
+                    <PieChart width={400} height={400}>
+                      <Pie
+                        data={diary.probs}
+                        dataKey="pv"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={60}
+                        fill="#8884d8"
+                        activeIndex={pieIndexState}
+                        activeShape={renderActiveShape}
+                        onMouseEnter={onPieEnter}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                )}
+              </div>
             ) : (
               <></>
             )}
           </div>
-          <div
-            className="diary-body"
-            dangerouslySetInnerHTML={{
-              __html: Dompurify.sanitize(diary.content),
-            }}
-          ></div>
-          <div className="diary-footer">
-            <CommunicateComponent
-              diary_id={diary.id}
-              like_count={diary.like_count}
-              like_list={diary.likes}
-            />
-          </div>
-          <RemoveComponent
-            diary_id={diaryId!}
-            navigate={navigate}
-            modalRef={modalRef}
-          />
-          {diary.emotion ? (
-            <div
-              style={{
-                width: "100%",
-                height: "auto",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div className="diary-result-header">
-                <button
-                  className="chart-controler"
-                  onClick={() => setChartOption(0)}
-                >
-                  &lt;
-                </button>
-                <h3>감정분석 결과</h3>
-                <button
-                  className="chart-controler"
-                  onClick={() => setChartOption(1)}
-                >
-                  &gt;
-                </button>
-              </div>
-              <br />
-              {chartOption ? (
-                <ResponsiveContainer width="100%" height={200}>
-                  <BarChart
-                    width={500}
-                    height={300}
-                    data={diary.probs}
-                    margin={{
-                      top: 5,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => [`확률 : ${value}`]} />
-                    <Bar
-                      dataKey="pv"
-                      fill="#8884d8"
-                      activeBar={<Rectangle fill="yellow" stroke="blue" />}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              ) : (
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart width={400} height={400}>
-                    <Pie
-                      data={diary.probs}
-                      dataKey="pv"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={60}
-                      fill="#8884d8"
-                      activeIndex={pieIndexState}
-                      activeShape={renderActiveShape}
-                      onMouseEnter={onPieEnter}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              )}
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-      ) : (
-        <p>존재하지 않는 일기입니다.</p>
-      )}
-    </div>
+        ) : (
+          <p>존재하지 않는 일기입니다.</p>
+        )}
+      </div>
+      <CommentModal
+        isOpen={commentShow}
+        onClose={() => setCommentShow(false)}
+        diary_id={diaryId!}
+      />
+    </>
   );
 }
 

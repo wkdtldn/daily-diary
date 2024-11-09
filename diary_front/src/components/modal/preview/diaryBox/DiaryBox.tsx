@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./DiaryBox.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CommunicateMenu from "../../../CommunicateMenu/CommunicateMenu";
 import Comment from "../../../Comment/Comment";
 import { api } from "../../../../api/axiosInstance";
 import { IoMdArrowRoundForward } from "react-icons/io";
+import { IonIcon } from "@ionic/react";
+import { arrowForward } from "ionicons/icons";
 
 interface DiaryBoxProps {
   id: string;
@@ -35,6 +37,8 @@ const DiaryBox: React.FC<DiaryBoxProps> = ({
   like_list,
   text,
 }) => {
+  const navigate = useNavigate();
+
   const [seemore, setSeemore] = useState<boolean>(false);
 
   const [CommentShowState, setCommentShowState] = useState<boolean>(false);
@@ -82,14 +86,20 @@ const DiaryBox: React.FC<DiaryBoxProps> = ({
     <div className="preview-content-main">
       <div className="preview-content-main__header">
         <p className="preview-content-main__header-title">
-          <Link
-            to={`/home/user/${writer}`}
+          <div
+            onClick={() => navigate(`/home/user/${writer}`)}
             className="preview-content-main__header-title_username"
           >
             {writer}
-          </Link>
+          </div>
           의 일기
         </p>
+        <button
+          onClick={() => navigate(`/home/diary/${id}`)}
+          className="detail_btn"
+        >
+          <IonIcon icon={arrowForward} />
+        </button>
       </div>
       <div
         className={`preview-content-main__detail ${

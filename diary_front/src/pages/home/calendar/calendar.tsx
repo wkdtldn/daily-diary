@@ -17,11 +17,6 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 type PreviewValue = HTMLDialogElement | null;
 
-type probsPiece = {
-  name: string;
-  pv: number;
-};
-
 type Diary = {
   id: string;
   writer_name: string;
@@ -33,6 +28,68 @@ type Diary = {
   date: string;
   images: string[];
   emotion: number;
+};
+
+interface DotProps {
+  date: string;
+  diaries: Diary[] | null;
+  username: string;
+}
+
+const Dot: React.FC<DotProps> = ({ date, diaries, username }) => {
+  if (diaries) {
+    const matchingDiaries_other = diaries.filter(
+      (diary) => diary.date === date && diary.writer_name !== username
+    );
+    const count_other = matchingDiaries_other.length;
+
+    const matchingDiaries_mine = diaries.filter(
+      (diary) => diary.date === date && diary.writer_name === username
+    );
+    const count_mine = matchingDiaries_mine.length;
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "2px",
+        }}
+      >
+        {count_other > 0 && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="dot other-dot"></div>
+            {count_other > 1 && (
+              <span className="dot-plus">+{count_other - 1}</span>
+            )}
+          </div>
+        )}
+        {count_mine > 0 && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="dot mine-dot"></div>
+            {count_mine > 1 && (
+              <span className="dot-plus">+{count_mine - 1}</span>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 function CalendarPage() {
@@ -88,6 +145,78 @@ function CalendarPage() {
 
   const COLORS = ["#a00d0d", "#d66f6f", "#9f9f9f", "#6f8ddb", "#1e43a1"];
 
+  // const Dot = (diary: Diary) => {
+  //   if (count_other > 1) {
+  //     return (
+  //       <div
+  //         key={diary.id}
+  //         style={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           justifyContent: "center",
+  //         }}
+  //       >
+  //         <div
+  //           className="dot"
+  //           style={{ border: "1.3px solid rgb(245, 216, 245)" }}
+  //         ></div>
+  //         <span>+ {count_other - 1}</span>
+  //       </div>
+  //     );
+  //   } else if (count_other > 0) {
+  //     return (
+  //       <div
+  //         key={diary.id}
+  //         style={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           justifyContent: "center",
+  //         }}
+  //       >
+  //         <div
+  //           className="dot"
+  //           style={
+  //             diary.writer_name === login_user.username
+  //               ? { backgroundColor: COLORS[diary.emotion] }
+  //               : { border: "1.3px solid rgb(245, 216, 245)" }
+  //           }
+  //         ></div>
+  //       </div>
+  //     );
+  //   }
+  //   if (count_mine > 1) {
+  //     return (
+  //       <div
+  //         key={diary.id}
+  //         style={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           justifyContent: "center",
+  //         }}
+  //       >
+  //         <div
+  //           className="dot"
+  //           style={{ border: "1.3px solid rgb(245, 216, 245)" }}
+  //         ></div>
+  //         <span>+ {count_mine - 1}</span>
+  //       </div>
+  //     );
+  //   } else if (count_mine > 0) {
+  //     return (
+  //       <div
+  //         key={diary.id}
+  //         style={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           justifyContent: "center",
+  //         }}
+  //       >
+  //         <div className="dot" style={{ backgroundColor: COLORS[4] }}></div>
+  //       </div>
+  //     );
+  //   }
+  // };
+
   return (
     <div className="calendar-page">
       <Preview modalRef={PreviewRef} />
@@ -101,6 +230,7 @@ function CalendarPage() {
           tileContent={({ date }: { date: Date }) => {
             return (
               <div
+                className="calendar-dot"
                 style={{
                   width: "100%",
                   height: "100%",
@@ -108,31 +238,14 @@ function CalendarPage() {
                   position: "relative",
                   alignItems: "center",
                   justifyContent: "center",
+                  gap: "2px",
                 }}
               >
-                {diaries?.map((diary) => {
-                  if (diary.date === moment(date).format("YYYY-MM-DD")) {
-                    return (
-                      <div
-                        key={diary.id}
-                        style={{
-                          display: "flex",
-                          position: "absolute",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <div
-                          className="dot"
-                          style={{
-                            backgroundColor: "gray",
-                          }}
-                        ></div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
+                <Dot
+                  date={moment(date).format("YYYY-MM-DD")}
+                  diaries={diaries}
+                  username={login_user.username}
+                />
               </div>
             );
           }}

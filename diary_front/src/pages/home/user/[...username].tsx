@@ -22,16 +22,9 @@ interface SearchTargetType {
   email: string;
   image: string;
   followings: string[];
-  following_count: number;
   followers: string[];
-  follower_count: number;
   following: boolean;
 }
-
-type probsPiece = {
-  name: string;
-  pv: number;
-};
 
 type Diary = {
   id: string;
@@ -197,13 +190,19 @@ const UserProfile: React.FC = () => {
                   <div className="profile-follow_option">
                     <span>팔로워</span>
                     <span className="follow_number">
-                      {login_user.follower_count}
+                      {searchTarget.following
+                        ? !followState
+                          ? searchTarget.followers.length - 1
+                          : searchTarget.followers.length
+                        : followState
+                        ? searchTarget.followers.length + 1
+                        : searchTarget.followers.length}
                     </span>
                   </div>
                   <div className="profile-follow_option">
                     <span>팔로잉</span>
                     <span className="follow_number">
-                      {login_user.following_count}
+                      {searchTarget.followings.length}
                     </span>
                   </div>
                   <button

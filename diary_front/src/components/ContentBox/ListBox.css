@@ -60,15 +60,11 @@
 }
 .listbox-middle-writer {
   color: gray;
-  text-decoration-line: none;
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   z-index: 10;
-}
-.listbox-middle-writer:hover {
-  text-decoration-line: underline;
 }
 .listbox-middle-timeline {
   display: flex;
@@ -121,7 +117,7 @@
 
 .diary-options {
   position: absolute;
-  border-radius: 8px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;

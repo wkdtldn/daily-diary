@@ -12,13 +12,13 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <BrowserRouter>
-    <CookiesProvider>
+  <CookiesProvider>
+    <BrowserRouter>
       <RecoilRoot>
         <App />
       </RecoilRoot>
-    </CookiesProvider>
-  </BrowserRouter>
+    </BrowserRouter>
+  </CookiesProvider>
 );
 
 defineCustomElements(window);

@@ -10,14 +10,13 @@
 
 .friendpage-content {
   width: 100%;
-  height: 70px;
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  border: none;
-  background: none;
   margin-bottom: 5px;
   border-radius: 10px;
+  padding: 5px;
 }
 
 .friendpage-content:hover,

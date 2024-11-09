@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./friend.css";
 import { useRecoilValue } from "recoil";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -14,7 +14,8 @@ type Friend = {
   name: string;
   image: string;
   following: boolean;
-  is_active: boolean;
+  isActive: boolean;
+  last_active: string | null;
 };
 
 function FriendPage() {
@@ -24,16 +25,29 @@ function FriendPage() {
 
   const [Friends, setFriends] = useState<Friend[]>([]);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    const load_friend = () => {
+    const load_friend = async () => {
+      setLoading(true);
       let friend_list = Array.from(
         new Set([...login_user.followers, ...login_user.followings])
       );
 
       friend_list.forEach(async (username, index) => {
-        const user = await userSearch(username);
-        setFriends((prevFriends) => [...prevFriends, user]);
+        const user = (await userSearch(username)) as Friend;
+        await api.get(`/api/check-status/${user.id}`).then((res) => {
+          if (res.status === 200) {
+            const data = res.data;
+            setFriends((prevFriends) => [
+              ...prevFriends,
+              { ...user, isActive: data.status },
+            ]);
+          }
+        });
       });
+      console.log(friend_list);
+      setLoading(false);
     };
     load_friend();
   }, []);
@@ -74,50 +88,83 @@ function FriendPage() {
   return (
     <>
       <div className="friendpage-container">
-        {Friends.map((friend, index) => (
+        {Friends.length === 0 ? (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h3>팔로우, 팔로잉을 하면 여기에 표시됩니다</h3>
+          </div>
+        ) : (
           <>
-            <button
-              className="friendpage-content"
-              key={index}
-              onClick={() => navigate(`/home/user/${friend.username}`)}
-            >
-              <div className="friendpage-image_wrapper">
-                <img
-                  className="friendpage-image"
-                  style={
-                    friend.is_active
-                      ? {
-                          borderColor: "blue",
-                        }
-                      : { borderColor: "gray" }
-                  }
-                  src={friend.image}
-                  alt="friend-image"
-                />
-              </div>
-              <div className="friendpage-info">
-                <span className="friendpage_username">@{friend.username}</span>
-                <span className="friendpage_name">{friend.name}</span>
-              </div>
-              <button
-                className="friendpage-option_select"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowOptions(!showOptions);
-                }}
-              >
-                <HiOutlineDotsVertical />
-              </button>
-            </button>
-            <animated.button
-              style={FriendOptionAnimation}
-              className="friend-option"
-              onClick={(e) => follow(e, friend)}
-            >
-              {friend.following ? "팔로우 취소" : "팔로우"}
-            </animated.button>
+            {loading ? (
+              <p>loading...</p>
+            ) : (
+              <>
+                {Friends.map((friend, index) => (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "70px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    key={index}
+                  >
+                    <div
+                      className="friendpage-content"
+                      key={index}
+                      onClick={() => navigate(`/home/user/${friend.username}`)}
+                    >
+                      <div className="friendpage-image_wrapper">
+                        <img
+                          className="friendpage-image"
+                          style={
+                            friend.isActive
+                              ? {
+                                  borderColor: "blue",
+                                }
+                              : { borderColor: "gray" }
+                          }
+                          src={friend.image}
+                          alt="friend-image"
+                        />
+                      </div>
+                      <div className="friendpage-info">
+                        <span className="friendpage_username">
+                          @{friend.username}
+                        </span>
+                        <span className="friendpage_name">{friend.name}</span>
+                      </div>
+                      <button
+                        className="friendpage-option_select"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowOptions(!showOptions);
+                        }}
+                      >
+                        <HiOutlineDotsVertical />
+                      </button>
+                    </div>
+                    <animated.button
+                      style={FriendOptionAnimation}
+                      className="friend-option"
+                      onClick={(e) => follow(e, friend)}
+                    >
+                      {friend.following ? "팔로우 취소" : "팔로우"}
+                    </animated.button>
+                  </div>
+                ))}
+              </>
+            )}
           </>
-        ))}
+        )}
       </div>
     </>
   );

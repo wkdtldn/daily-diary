@@ -10,64 +10,32 @@ import UserProfile from "./user/[...username]";
 import NotFound from "../notfound/notfound";
 import Footer from "../../components/Layout/Footer/Footer";
 import DiaryPage from "./diary/[...diaryId]";
+import FriendPage from "./friend/friend";
 
 import { IoColorWand } from "react-icons/io5";
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { LoginUser, userState } from "../../hooks/recoil/userState";
+import { useRecoilState } from "recoil";
+import { userState } from "../../hooks/recoil/userState";
 import { useEffect, useRef, useState } from "react";
 import { check_auth } from "../../api/user";
 import Draggable, { DraggableData } from "react-draggable";
-import FriendPage from "./friend/friend";
+import { api } from "../../api/axiosInstance";
 
 const HomePage = () => {
-  // const [userActivity, setUserActivity] = useState<UserActivity[]>([]);
-  // const socket = new WebSocket(
-  //   `wss://${api.defaults.baseURL?.replace("https://", "")}/ws/activity/`
-  // );
+  const updateStatus = async () => {
+    try {
+      await api.get("/api/update-status/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   socket.onopen = () => {
-  //     console.log("WebSocket connected");
-  //   };
+  useEffect(() => {
+    const interval = setInterval(updateStatus, 10000);
 
-  //   socket.onmessage = (event) => {
-  //     const data = JSON.parse(event.data);
-  //     setUserActivity((prev) => [
-  //       ...prev,
-  //       { user: data.user, status: data.status },
-  //     ]);
-  //   };
-  //   console.log(setUserActivity);
-
-  //   socket.onclose = () => {
-  //     console.log("WebSocket closed");
-  //   };
-
-  //   // 컴포넌트 언마운트 시 WebSocket 연결 종료
-  //   return () => {
-  //     socket.close();
-  //   };
-  // }, []);
-
-  // // 유저의 활동 상태를 서버에 전송
-  // const sendActivityUpdate = (status: string) => {
-  //   socket.send(JSON.stringify({ action: "update", status }));
-  // };
-
-  // // 유저가 활동을 시작할 때 상태 업데이트
-  // useEffect(() => {
-  //   const updateStatus = () => sendActivityUpdate("active");
-
-  //   window.addEventListener("mousemove", updateStatus);
-  //   window.addEventListener("keypress", updateStatus);
-
-  //   return () => {
-  //     window.removeEventListener("mousemove", updateStatus);
-  //     window.removeEventListener("keypress", updateStatus);
-  //   };
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   const location = useLocation();
 
@@ -85,13 +53,6 @@ const HomePage = () => {
 
         if (auth) {
           setUser(auth.user);
-          if (location.pathname === "/home/calendar") {
-          } else if (location.pathname === "/home/recent") {
-          } else if (location.pathname === "/home/profile") {
-          } else if (location.pathname === "/home/friends") {
-          } else {
-            navigate("/home/calendar");
-          }
         }
       } catch (error) {
         alert("로그인을 먼저 진행해주세요");
@@ -156,7 +117,7 @@ const HomePage = () => {
                   className="draggable-wrapper"
                   style={{
                     opacity: Opacity ? "0.5" : "1",
-                    zIndex: 1000,
+                    zIndex: 10000,
                   }}
                 >
                   <button

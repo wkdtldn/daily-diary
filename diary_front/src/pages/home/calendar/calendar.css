@@ -60,5 +60,35 @@
   width: 8px;
   border-radius: 50%;
   display: flex;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus,
+.react-calendar__tile--active {
+  background-color: cornflowerblue !important;
+  color: white !important;
+  .mine-dot {
+    background-color: rgb(215, 216, 185) !important;
+  }
+  .other-dot {
+    border: 1.3px solid rgb(255, 226, 255) !important;
+  }
+  .dot-plus {
+    color: rgb(231, 231, 231) !important;
+  }
+}
+
+.other-dot {
+  border: 1.3px solid rgb(245, 216, 245);
+}
+
+.mine-dot {
+  background-color: rgb(185, 186, 155);
+}
+
+.dot-plus {
+  font-size: 11px;
+  font-weight: 200;
+  color: rgb(190, 190, 190) !important;
   margin-left: 1px;
 }

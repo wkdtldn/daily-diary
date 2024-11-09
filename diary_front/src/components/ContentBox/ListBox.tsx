@@ -128,15 +128,12 @@ const ListBox: React.FC<ListBoxProps> = ({
         <div className="listbox-middle">
           <span className="listbox-middle-date">{content_date.date}</span>
           <div className="listbox-middle__detail-wrapper">
-            <Link
-              to={`/home/user/${writer}`}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
+            <span
+              onClick={(e) => e.stopPropagation()}
               className="listbox-middle-writer"
             >
               @{writer}
-            </Link>
+            </span>
             <span className="listbox-middle-timeline">
               <CiClock2 className="clock-icon" />
               {content_date.time}
@@ -174,7 +171,23 @@ const ListBox: React.FC<ListBoxProps> = ({
           />
         </>
       ) : (
-        <></>
+        <>
+          <animated.button
+            style={DiaryOptionAnimation}
+            className="diary-options"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/home/user/${writer}`);
+            }}
+          >
+            프로필보기
+          </animated.button>
+          <RemoveComponent
+            modalRef={modalRef}
+            diary_id={id}
+            navigate={navigate}
+          />
+        </>
       )}
     </div>
   );

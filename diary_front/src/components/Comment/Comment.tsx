@@ -105,9 +105,6 @@ const Comment: React.FC<CommentProps> = ({
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
     }
-    if (!showOptions) {
-      navigate(`/home/user/${writer}`);
-    }
   };
 
   const [showMore, setShowMore] = useState<boolean>(false);
