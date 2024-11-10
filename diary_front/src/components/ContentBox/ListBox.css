@@ -12,10 +12,6 @@
   background: none;
   position: relative;
 }
-.listbox-wrapper:hover,
-.listbox-wrapper:active {
-  background-color: rgb(242, 242, 242);
-}
 
 .listbox-left {
   flex: 0 0 12%;

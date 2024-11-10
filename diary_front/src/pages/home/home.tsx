@@ -21,6 +21,7 @@ import { useEffect, useRef, useState } from "react";
 import { check_auth } from "../../api/user";
 import Draggable, { DraggableData } from "react-draggable";
 import { api } from "../../api/axiosInstance";
+import DiaryEditPage from "./diary-edit/[...diaryId]";
 
 const HomePage = () => {
   const updateStatus = async () => {
@@ -77,7 +78,7 @@ const HomePage = () => {
   const handleEnd = () => {
     setTimeout(() => {
       setOpacity(false);
-    }, 150);
+    }, 100);
   };
   const handleWriteDiary = () => {
     if (Opacity) return;
@@ -100,6 +101,10 @@ const HomePage = () => {
               <Route path="/profile-edit" element={<ProfileEditPage />}></Route>
               <Route path="/user/:username" element={<UserProfile />}></Route>
               <Route path="/diary/:diaryId" element={<DiaryPage />}></Route>
+              <Route
+                path="/diary/edit/:diaryId"
+                element={<DiaryEditPage />}
+              ></Route>
               <Route path="/friends" element={<FriendPage />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>

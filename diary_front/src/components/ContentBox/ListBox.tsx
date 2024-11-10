@@ -6,12 +6,6 @@ import { api } from "../../api/axiosInstance";
 import { useSpring, animated } from "@react-spring/web";
 import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../hooks/recoil/userState";
-import RemoveComponent from "../modal/question/Remove";
-
-type probsPiece = {
-  name: string;
-  pv: number;
-};
 
 interface ListBoxProps {
   id: string;
@@ -29,8 +23,6 @@ const ListBox: React.FC<ListBoxProps> = ({
   time,
   images,
 }) => {
-  const modalRef = useRef<HTMLDialogElement>(null);
-
   const login_user = useRecoilValue(LoginUser);
 
   const navigate = useNavigate();
@@ -40,8 +32,24 @@ const ListBox: React.FC<ListBoxProps> = ({
     return day[idx];
   };
 
+  const createDate = (dateStr: string, timeStr: string) => {
+    const [year, month, day] = dateStr.split("-");
+    const [hours, minutes, seconds] = timeStr.split(":");
+
+    // Date 객체를 생성하고, 날짜와 시간을 설정
+    const datetime = new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hours),
+      Number(minutes),
+      Number(seconds)
+    );
+    return datetime;
+  };
+
   const generalTime = () => {
-    const datetime = new Date(date + "T" + time + "Z");
+    const datetime = createDate(date, time);
 
     const formattedDate = datetime.toLocaleDateString("ko-KR", {
       year: "numeric",
@@ -74,6 +82,7 @@ const ListBox: React.FC<ListBoxProps> = ({
     if (!target.classList.contains("diary-options")) {
       setShowOptions(false);
     } else {
+      return;
     }
   };
 
@@ -87,22 +96,21 @@ const ListBox: React.FC<ListBoxProps> = ({
   }, [showOptions]);
 
   const handleMouseDown = () => {
-    setIsScroll(false);
     pressTimer.current = setTimeout(() => {
-      setShowOptions(true);
+      if (!isScroll) {
+        setShowOptions(true);
+      }
     }, 500);
   };
 
-  const handleMouseUp = (
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ) => {
+  const handleMouseUp = () => {
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
     }
     if (!showOptions && !isScroll) {
       navigate(`/home/diary/${id}`);
-      setIsScroll(false);
     }
+    setIsScroll(false);
   };
 
   const DiaryOptionAnimation = useSpring({
@@ -115,14 +123,31 @@ const ListBox: React.FC<ListBoxProps> = ({
     zIndex: 10000,
   });
 
+  const delete_diary = async () => {
+    const res = window.confirm(
+      "일기를 삭제하실 경우 다시 복구할 수 없습니다.\n정말 삭제하시겠습니까?"
+    );
+    if (res) {
+      await api.delete(`/api/diary/delete/${id}/`).then((res) => {
+        if (res.status === 204) {
+          navigate("/home/calendar");
+          window.location.reload();
+        } else {
+        }
+      });
+    } else {
+    }
+  };
+
   return (
     <div style={{ width: "100%", height: "auto", position: "relative" }}>
-      <div
+      <button
         className="listbox-wrapper"
         onMouseDown={handleMouseDown}
-        onMouseUp={(e) => handleMouseUp(e)}
+        onMouseUp={handleMouseUp}
         onTouchStart={handleMouseDown}
-        onTouchEnd={(e) => handleMouseUp(e)}
+        onTouchEnd={handleMouseUp}
+        onMouseMove={() => setIsScroll(true)}
         onTouchMove={() => setIsScroll(true)}
       >
         <div className="listbox-left">
@@ -134,12 +159,7 @@ const ListBox: React.FC<ListBoxProps> = ({
         <div className="listbox-middle">
           <span className="listbox-middle-date">{content_date.date}</span>
           <div className="listbox-middle__detail-wrapper">
-            <span
-              onClick={(e) => e.stopPropagation()}
-              className="listbox-middle-writer"
-            >
-              @{writer}
-            </span>
+            <span className="listbox-middle-writer">@{writer}</span>
             <span className="listbox-middle-timeline">
               <CiClock2 className="clock-icon" />
               {content_date.time}
@@ -157,7 +177,7 @@ const ListBox: React.FC<ListBoxProps> = ({
             ""
           )}
         </div>
-      </div>
+      </button>
       {writer === login_user.username ? (
         <>
           <animated.button
@@ -165,16 +185,11 @@ const ListBox: React.FC<ListBoxProps> = ({
             className="diary-options"
             onClick={(e) => {
               e.stopPropagation();
-              modalRef.current?.showModal();
+              delete_diary();
             }}
           >
             삭제
           </animated.button>
-          <RemoveComponent
-            modalRef={modalRef}
-            diary_id={id}
-            navigate={navigate}
-          />
         </>
       ) : (
         <>
@@ -188,11 +203,6 @@ const ListBox: React.FC<ListBoxProps> = ({
           >
             프로필보기
           </animated.button>
-          <RemoveComponent
-            modalRef={modalRef}
-            diary_id={id}
-            navigate={navigate}
-          />
         </>
       )}
     </div>

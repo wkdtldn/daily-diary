@@ -1,21 +1,19 @@
 import "./diary.css";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDiary } from "../../../api/diary";
 import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../../hooks/recoil/userState";
 import { api } from "../../../api/axiosInstance";
 import { IonIcon } from "@ionic/react";
-import { close, send, shareSocialOutline } from "ionicons/icons";
+import { shareSocialOutline } from "ionicons/icons";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { TfiComment, TfiCommentAlt } from "react-icons/tfi";
 import { useSpring, animated } from "@react-spring/web";
-import Comment from "../../../components/Comment/Comment";
 import { Link } from "react-router-dom";
 import Dompurify from "dompurify";
-import RemoveComponent from "../../../components/modal/question/Remove";
 import {
   XAxis,
   YAxis,
@@ -129,8 +127,6 @@ const renderActiveShape = (props: any) => {
 };
 
 function DiaryPage() {
-  const modalRef = useRef<HTMLDialogElement>(null);
-
   const navigate = useNavigate();
 
   const { diaryId } = useParams<{ diaryId: string }>();
@@ -198,6 +194,20 @@ function DiaryPage() {
     });
   };
 
+  const delete_diary = async () => {
+    const res = window.confirm(
+      "일기를 삭제하실 경우 다시 복구할 수 없습니다.\n정말 삭제하시겠습니까?"
+    );
+    if (res) {
+      await api.delete(`/api/diary/delete/${diaryId}/`).then((res) => {
+        if (res.status === 204) {
+          navigate("/home/calendar");
+        }
+      });
+    } else {
+    }
+  };
+
   return (
     <>
       <div className="diary-container">
@@ -231,6 +241,7 @@ function DiaryPage() {
                       ),
                     }}
                     className="diary-option_select"
+                    onClick={() => navigate(`/home/diary/edit/${diaryId}`)}
                   >
                     수정
                   </animated.button>
@@ -242,7 +253,7 @@ function DiaryPage() {
                       ),
                     }}
                     className="diary-option_select"
-                    onClick={() => modalRef.current?.showModal()}
+                    onClick={delete_diary}
                   >
                     삭제
                   </animated.button>
@@ -291,12 +302,6 @@ function DiaryPage() {
                 </button>
               </div>
             </div>
-            <RemoveComponent
-              diary_id={diaryId!}
-              navigate={navigate}
-              modalRef={modalRef}
-            />
-
             {diary.emotion !== null ? (
               <div
                 style={{

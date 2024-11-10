@@ -12,6 +12,7 @@ import { LoginUser } from "../../../hooks/recoil/userState";
 import React, { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
+import { codeSlashOutline } from "ionicons/icons";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -124,16 +125,12 @@ function CalendarPage() {
   useEffect(() => {
     const load_data = async () => {
       if (lastSelectedValue?.toString()) {
-        const lastValue = new Date(lastSelectedValue?.toString());
-        if (lastValue.getFullYear() !== selected_date?.year) return;
-        if (lastValue.getMonth() + 1 !== selected_date?.month) return;
-
         setLoading(true);
         let date = selected_date?.year + "-" + selected_date?.month;
         let option = filterValue;
-        const diaries = await diary_by_month(date, option);
-        if (diaries) {
-          setDiaries(diaries);
+        const diary_data = await diary_by_month(date, option);
+        if (diary_data) {
+          setDiaries(diary_data);
         }
         setLoading(false);
       } else {
@@ -142,80 +139,6 @@ function CalendarPage() {
     };
     load_data();
   }, [selected_date, filterValue]);
-
-  const COLORS = ["#a00d0d", "#d66f6f", "#9f9f9f", "#6f8ddb", "#1e43a1"];
-
-  // const Dot = (diary: Diary) => {
-  //   if (count_other > 1) {
-  //     return (
-  //       <div
-  //         key={diary.id}
-  //         style={{
-  //           display: "flex",
-  //           alignItems: "center",
-  //           justifyContent: "center",
-  //         }}
-  //       >
-  //         <div
-  //           className="dot"
-  //           style={{ border: "1.3px solid rgb(245, 216, 245)" }}
-  //         ></div>
-  //         <span>+ {count_other - 1}</span>
-  //       </div>
-  //     );
-  //   } else if (count_other > 0) {
-  //     return (
-  //       <div
-  //         key={diary.id}
-  //         style={{
-  //           display: "flex",
-  //           alignItems: "center",
-  //           justifyContent: "center",
-  //         }}
-  //       >
-  //         <div
-  //           className="dot"
-  //           style={
-  //             diary.writer_name === login_user.username
-  //               ? { backgroundColor: COLORS[diary.emotion] }
-  //               : { border: "1.3px solid rgb(245, 216, 245)" }
-  //           }
-  //         ></div>
-  //       </div>
-  //     );
-  //   }
-  //   if (count_mine > 1) {
-  //     return (
-  //       <div
-  //         key={diary.id}
-  //         style={{
-  //           display: "flex",
-  //           alignItems: "center",
-  //           justifyContent: "center",
-  //         }}
-  //       >
-  //         <div
-  //           className="dot"
-  //           style={{ border: "1.3px solid rgb(245, 216, 245)" }}
-  //         ></div>
-  //         <span>+ {count_mine - 1}</span>
-  //       </div>
-  //     );
-  //   } else if (count_mine > 0) {
-  //     return (
-  //       <div
-  //         key={diary.id}
-  //         style={{
-  //           display: "flex",
-  //           alignItems: "center",
-  //           justifyContent: "center",
-  //         }}
-  //       >
-  //         <div className="dot" style={{ backgroundColor: COLORS[4] }}></div>
-  //       </div>
-  //     );
-  //   }
-  // };
 
   return (
     <div className="calendar-page">

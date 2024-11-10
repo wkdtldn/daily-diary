@@ -78,6 +78,7 @@ function FriendPage() {
                       friend={friend}
                       handleFriendState={setFriends}
                       navigate={navigate}
+                      key={index}
                     />
                   </div>
                 ))}

@@ -73,6 +73,7 @@
   display: flex;
   align-items: center;
   margin-top: 3px;
+  margin-bottom: 3px;
   position: relative;
 }
 
@@ -126,13 +127,15 @@
 }
 
 .follow-option {
-  width: 80px;
-  height: 35px;
+  width: 70px;
+  height: 30px;
   text-align: center;
   border-radius: 5px;
   border: 1.5px solid rgb(228, 228, 228);
+  box-shadow: 1.3px 1.3px 3px rgb(236, 236, 236);
   background: none;
   font-weight: 300;
+  font-size: 11px;
   position: absolute;
   right: 0px;
   top: 50px;

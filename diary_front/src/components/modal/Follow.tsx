@@ -7,7 +7,7 @@ import { IonIcon } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { api } from "../../api/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 type User = {
   id: number;
@@ -15,6 +15,83 @@ type User = {
   username: string;
   name: string;
   following: boolean;
+};
+
+interface FollowContentProps {
+  navigate: NavigateFunction;
+  handleFollowState: React.Dispatch<React.SetStateAction<User[]>>;
+  user: User;
+}
+
+const FollowContent: React.FC<FollowContentProps> = ({
+  user,
+  handleFollowState,
+  navigate,
+}) => {
+  const [showOptions, setShowOptions] = useState(false);
+
+  const follow = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    targetUser: User
+  ) => {
+    if (targetUser.following) {
+      await api.delete(`/api/follow/${targetUser.id}/unfollow/`);
+      handleFollowState((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === targetUser.id ? { ...user, following: false } : user
+        )
+      );
+    } else {
+      await api.post("/api/follow/", { following: targetUser.id });
+      handleFollowState((prevFriends) =>
+        prevFriends.map((friend) =>
+          friend.id === targetUser.id ? { ...friend, following: true } : friend
+        )
+      );
+    }
+  };
+
+  return (
+    <article
+      className="follow-content"
+      onClick={() => navigate(`/home/user/${user.username}`)}
+    >
+      <div className="follow-image">
+        <img
+          className="follow-image_profile"
+          src={user.image}
+          alt="user-profile"
+        />
+      </div>
+      <div className="follow-info">
+        <span className="follow-info_username">{user.username}</span>
+      </div>
+      <div className="follow-options">
+        <button
+          className="follow-options_btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowOptions(!showOptions);
+          }}
+        >
+          <HiOutlineDotsVertical />
+        </button>
+      </div>
+      {showOptions ? (
+        <button
+          className="follow-option"
+          onClick={(e) => {
+            e.stopPropagation();
+            follow(e, user);
+          }}
+        >
+          {user.following ? "팔로우 취소" : "팔로우"}
+        </button>
+      ) : (
+        <></>
+      )}
+    </article>
+  );
 };
 
 interface FollowComponentProps {
@@ -60,29 +137,6 @@ const FollowComponent: React.FC<FollowComponentProps> = ({
     opacity: isOpen ? 1 : 0,
   });
 
-  const [showOptions, setShowOptions] = useState(false);
-
-  const follow = async (
-    e: React.MouseEvent<HTMLButtonElement>,
-    targetUser: User
-  ) => {
-    if (targetUser.following) {
-      await api.delete(`/api/follow/${targetUser.id}/unfollow/`);
-      setFollowList((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === targetUser.id ? { ...user, following: false } : user
-        )
-      );
-    } else {
-      await api.post("/api/follow/", { following: targetUser.id });
-      setFollowList((prevFriends) =>
-        prevFriends.map((friend) =>
-          friend.id === targetUser.id ? { ...friend, following: true } : friend
-        )
-      );
-    }
-  };
-
   return (
     <>
       <animated.div
@@ -105,48 +159,12 @@ const FollowComponent: React.FC<FollowComponentProps> = ({
             </div>
             <div className="follow-body">
               {followList.map((user, idx) => (
-                <article
-                  className="follow-content"
-                  onClick={() => navigate(`/home/user/${user.username}`)}
+                <FollowContent
+                  user={user}
+                  navigate={navigate}
+                  handleFollowState={setFollowList}
                   key={idx}
-                >
-                  <div className="follow-image">
-                    <img
-                      className="follow-image_profile"
-                      src={user.image}
-                      alt="user-profile"
-                    />
-                  </div>
-                  <div className="follow-info">
-                    <span className="follow-info_username">
-                      {user.username}
-                    </span>
-                  </div>
-                  <div className="follow-options">
-                    <button
-                      className="follow-options_btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowOptions(!showOptions);
-                      }}
-                    >
-                      <HiOutlineDotsVertical />
-                    </button>
-                  </div>
-                  {showOptions ? (
-                    <button
-                      className="follow-option"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        follow(e, user);
-                      }}
-                    >
-                      {user.following ? "팔로우 취소" : "팔로우"}
-                    </button>
-                  ) : (
-                    <></>
-                  )}
-                </article>
+                />
               ))}
             </div>
           </>

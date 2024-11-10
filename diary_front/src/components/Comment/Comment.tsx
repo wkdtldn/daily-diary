@@ -118,15 +118,13 @@ const Comment: React.FC<CommentProps> = ({
       : "translateY(0%) translateX(0%)",
   });
 
-  const [isDelete, setIsDelete] = useState<boolean>(false);
-
   const deleteComment = async () => {
-    await api.delete(`/api/comments/${id}/`).then((res) => {
-      if (res.status === 204) {
-        setIsDelete(true);
-      }
-    });
-    load_comment();
+    const res = window.confirm("댓글을 삭제하시겠습니까?");
+    if (res) {
+      await api.delete(`/api/comments/${id}/`);
+      load_comment();
+    } else {
+    }
   };
 
   return (
@@ -179,7 +177,6 @@ const Comment: React.FC<CommentProps> = ({
                     : like_count}
                   개
                 </span>
-                {/* <span className="comment-main__reaction__comment">답글 달기</span> */}
               </div>
             </div>
             <div className="comment-reaction">
