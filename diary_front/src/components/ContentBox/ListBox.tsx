@@ -67,6 +67,7 @@ const ListBox: React.FC<ListBoxProps> = ({
 
   const [showOptions, setShowOptions] = useState(false);
   const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isScroll, setIsScroll] = useState(false);
 
   const ClickOther = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -86,17 +87,21 @@ const ListBox: React.FC<ListBoxProps> = ({
   }, [showOptions]);
 
   const handleMouseDown = () => {
+    setIsScroll(false);
     pressTimer.current = setTimeout(() => {
       setShowOptions(true);
     }, 500);
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ) => {
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
     }
-    if (!showOptions) {
+    if (!showOptions && !isScroll) {
       navigate(`/home/diary/${id}`);
+      setIsScroll(false);
     }
   };
 
@@ -112,12 +117,13 @@ const ListBox: React.FC<ListBoxProps> = ({
 
   return (
     <div style={{ width: "100%", height: "auto", position: "relative" }}>
-      <article
+      <div
         className="listbox-wrapper"
         onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
+        onMouseUp={(e) => handleMouseUp(e)}
         onTouchStart={handleMouseDown}
-        onTouchEnd={handleMouseUp}
+        onTouchEnd={(e) => handleMouseUp(e)}
+        onTouchMove={() => setIsScroll(true)}
       >
         <div className="listbox-left">
           <span className="listbox-left-date__date">{date_.getDate()}</span>
@@ -151,7 +157,7 @@ const ListBox: React.FC<ListBoxProps> = ({
             ""
           )}
         </div>
-      </article>
+      </div>
       {writer === login_user.username ? (
         <>
           <animated.button

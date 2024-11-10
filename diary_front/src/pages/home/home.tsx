@@ -77,7 +77,7 @@ const HomePage = () => {
   const handleEnd = () => {
     setTimeout(() => {
       setOpacity(false);
-    }, 100);
+    }, 150);
   };
   const handleWriteDiary = () => {
     if (Opacity) return;
