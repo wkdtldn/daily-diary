@@ -28,6 +28,7 @@ import {
   Sector,
 } from "recharts";
 import CommentModal from "../../../components/modal/CommentModal";
+import ShareModal from "../../../components/modal/ShareModal";
 
 type probsPiece = {
   name: string;
@@ -134,10 +135,12 @@ function DiaryPage() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [diary, setDiary] = useState<Diary | null>(null);
+  const [commentCount, setCommentCount] = useState<number>(0);
 
   const login_user = useRecoilValue(LoginUser);
 
   const [commentShow, setCommentShow] = useState<boolean>(false);
+  const [ShareShow, setShareShow] = useState<boolean>(false);
 
   useState(() => {
     setLoading(true);
@@ -150,7 +153,7 @@ function DiaryPage() {
       searchDiary();
     } else {
       alert("잘못된 주소입니다.");
-      navigate("/home/calendar");
+      navigate("/home");
     }
   });
 
@@ -201,10 +204,17 @@ function DiaryPage() {
     if (res) {
       await api.delete(`/api/diary/delete/${diaryId}/`).then((res) => {
         if (res.status === 204) {
-          navigate("/home/calendar");
+          navigate("/home");
         }
       });
     } else {
+    }
+  };
+
+  const count_comment = async () => {
+    const res = await api.get(`/api/comments/${diaryId}`);
+    if (res.status === 200) {
+      setCommentCount(res.data.length);
     }
   };
 
@@ -297,7 +307,13 @@ function DiaryPage() {
                     <TfiComment id="comment" />
                   )}
                 </button>
-                <button className="communicate-share communicate-btn">
+                <button
+                  className="communicate-share communicate-btn"
+                  onClick={() => {
+                    count_comment();
+                    setShareShow(!ShareShow);
+                  }}
+                >
                   <IonIcon icon={shareSocialOutline} />
                 </button>
               </div>
@@ -384,6 +400,16 @@ function DiaryPage() {
         onClose={() => setCommentShow(false)}
         diary_id={diaryId!}
       />
+      {diary && (
+        <ShareModal
+          writer={diary.writer_name}
+          date={new Date(diary.date)}
+          like_count={diary.like_count}
+          comment_count={commentCount}
+          isOpen={ShareShow}
+          onClose={() => setShareShow(false)}
+        />
+      )}
     </>
   );
 }

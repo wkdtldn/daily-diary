@@ -5,11 +5,6 @@ import ListBox from "../../../components/ContentBox/ListBox";
 
 type InputDatePicker = string | number | readonly string[] | undefined;
 
-type probsPiece = {
-  name: string;
-  pv: number;
-};
-
 type Diary = {
   id: string;
   writer_name: string;
@@ -32,11 +27,9 @@ function RecentPage() {
   const [selectedDate, setSelectedDate] =
     useState<InputDatePicker>(getTodayString);
 
-  const [loading, setLoading] = useState(true);
-  const [diaries, setDiaries] = useState<Diary[] | null>(null);
+  const [diaries, setDiaries] = useState<Diary[]>([]);
 
   useEffect(() => {
-    setLoading(true);
     const load_data = async () => {
       let date = selectedDate?.toString();
       if (date) {
@@ -45,7 +38,6 @@ function RecentPage() {
           setDiaries(diaries);
         }
       }
-      setLoading(false);
     };
     load_data();
   }, [selectedDate]);
@@ -61,8 +53,18 @@ function RecentPage() {
         />
       </div>
       <div className="recent-history-content">
-        {loading ? (
-          <p>loadding...</p>
+        {diaries.length === 0 ? (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h2>비여있음</h2>
+          </div>
         ) : (
           diaries?.map((diary, value) => (
             <ListBox

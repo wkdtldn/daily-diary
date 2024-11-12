@@ -103,9 +103,7 @@ function CalendarPage() {
 
   const [filterValue, setFilterValue] = useState<string>("recent");
 
-  const [loading, setLoading] = useState(true);
-
-  const [diaries, setDiaries] = useState<Diary[] | null>(null);
+  const [diaries, setDiaries] = useState<Diary[]>([]);
 
   const login_user = useRecoilValue(LoginUser);
 
@@ -125,14 +123,12 @@ function CalendarPage() {
   useEffect(() => {
     const load_data = async () => {
       if (lastSelectedValue?.toString()) {
-        setLoading(true);
         let date = selected_date?.year + "-" + selected_date?.month;
         let option = filterValue;
         const diary_data = await diary_by_month(date, option);
         if (diary_data) {
           setDiaries(diary_data);
         }
-        setLoading(false);
       } else {
         return;
       }
@@ -202,9 +198,7 @@ function CalendarPage() {
         </select>
       </div>
       <div className="content-container">
-        {loading ? (
-          <p>loading</p>
-        ) : diaries !== null && diaries.length === 0 ? (
+        {diaries.length === 0 ? (
           <p>오늘의 일기 작성</p>
         ) : (
           diaries?.map((diary, value) => (

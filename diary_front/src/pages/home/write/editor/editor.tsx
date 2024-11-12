@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./editor.css";
@@ -55,7 +55,7 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
     });
     if (res.status === 201) {
       modalRef.current?.close();
-      navigate("/home/calendar");
+      navigate("/home");
     } else {
     }
   };

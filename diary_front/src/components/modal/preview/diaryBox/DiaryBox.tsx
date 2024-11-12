@@ -162,11 +162,13 @@ const DiaryBox: React.FC<DiaryBoxProps> = ({
             onChange={(e) => setCommentInputValue(e.target.value)}
             type="text"
             className="comment-write__input"
-            placeholder="댓글을 입력해주세요."
+            placeholder="댓글 입력..."
           />
-          <button className="comment-write__submit" onClick={createComment}>
-            <IoMdArrowRoundForward fontSize={15} color="white" />
-          </button>
+          {CommentInputValue && (
+            <button className="comment-write__submit" onClick={createComment}>
+              <IoMdArrowRoundForward fontSize={15} />
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ function DiaryEditPage() {
       searchDiary();
     } else {
       alert("잘못된 주소입니다.");
-      navigate("/home/calendar");
+      navigate("/home");
     }
   }, []);
 

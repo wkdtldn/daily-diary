@@ -49,7 +49,8 @@ const CommentModal: React.FC<CommentModalProps> = ({
 
   const animation = useSpring({
     transform: isOpen ? `translateY(25%)` : `translateY(125%)`,
-    opacity: isOpen ? 1 : 0,
+    opacity: 1,
+    config: { tension: 170, friction: 26 },
   });
 
   const overlay_animation = useSpring({
@@ -81,13 +82,13 @@ const CommentModal: React.FC<CommentModalProps> = ({
         onClick={onClose}
       ></animated.div>
       <animated.div style={animation} className="commentModal">
-        <div className="modal-header">
+        <div className="commentModal-header">
           <span>댓글</span>
-          <button className="modal-cancel" onClick={onClose}>
+          <button className="commentModal-cancel" onClick={onClose}>
             <IonIcon icon={close} />
           </button>
         </div>
-        <div className="modal-body">
+        <div className="commentModal-body">
           {comments ? (
             comments.map((comment, value) => (
               <Comment
@@ -105,16 +106,19 @@ const CommentModal: React.FC<CommentModalProps> = ({
             <p>댓글이 없습니다.</p>
           )}
         </div>
-        <div className="modal-comment-write">
+        <div className="commentModal-comment-write">
           <input
             type="text"
             value={CommentValue}
             onChange={(e) => setCommentValue(e.target.value)}
-            className="modal-comment-write_input"
+            className="commentModal-comment-write_input"
             placeholder="댓글 입력..."
           />
-          <button className="modal-comment-write_btn" onClick={addComment}>
-            <IonIcon icon={send} className="modal-send-icon" />
+          <button
+            className="commentModal-comment-write_btn"
+            onClick={addComment}
+          >
+            <IonIcon icon={send} className="commentModal-send-icon" />
           </button>
         </div>
       </animated.div>

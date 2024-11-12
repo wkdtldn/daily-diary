@@ -134,7 +134,8 @@ const FollowComponent: React.FC<FollowComponentProps> = ({
 
   const ModalAnimation = useSpring({
     transform: isOpen ? "translateY(25%)" : "translateY(125%)",
-    opacity: isOpen ? 1 : 0,
+    opacity: 1,
+    config: { tension: 170, friction: 26 },
   });
 
   return (

@@ -68,11 +68,7 @@ const DiaryEditor: React.FC<DiaryEditorProps> = ({
       date: writeDate(),
       is_public: isPublic,
     });
-    // if (res.status === 201) {
-    //   modalRef.current?.close();
-    navigate("/home/calendar");
-    // } else {
-    // }
+    navigate("/home");
   };
 
   const save = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -102,7 +98,7 @@ const DiaryEditor: React.FC<DiaryEditorProps> = ({
                   "수정 전과 바뀐 내용이 없습니다.\n그래도 저장하시겠습니까?"
                 );
                 if (res) {
-                  navigate("/home/calendar");
+                  navigate("/home");
                 } else {
                 }
               } else {

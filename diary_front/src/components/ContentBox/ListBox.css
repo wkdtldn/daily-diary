@@ -11,6 +11,7 @@
   justify-content: space-evenly;
   background: none;
   position: relative;
+  cursor: pointer;
 }
 
 .listbox-left {
@@ -55,13 +56,20 @@
   gap: 10px;
 }
 .listbox-middle-writer {
-  color: gray;
+  cursor: pointer;
+  color: gray !important;
   max-width: 100px;
   overflow: hidden;
+  text-decoration-line: none;
   text-overflow: ellipsis;
   white-space: nowrap;
   z-index: 10;
 }
+.listbox-middle-writer:hover,
+.listbox-middle-writer:active {
+  text-decoration-line: underline;
+}
+
 .listbox-middle-timeline {
   display: flex;
   justify-content: center;

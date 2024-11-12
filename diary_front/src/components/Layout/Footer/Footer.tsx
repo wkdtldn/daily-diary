@@ -2,10 +2,10 @@ import "./Footer.css";
 import { Link, useLocation } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
 import {
-  calendar,
-  calendarOutline,
   compass,
   compassOutline,
+  home,
+  homeOutline,
   people,
   peopleOutline,
   personCircle,
@@ -18,15 +18,15 @@ const Footer = () => {
   const footerOption = [
     // 달력
     {
-      title: "달력",
-      location: "/home/calendar",
-      icons: <IonIcon icon={calendarOutline} size="23" color="gray" />,
-      focus: <IonIcon icon={calendar} size="23" color="cornflowerblue" />,
+      title: "홈",
+      location: "/home",
+      icons: <IonIcon icon={homeOutline} size="23" color="gray" />,
+      focus: <IonIcon icon={home} size="23" color="cornflowerblue" />,
     },
     // 둘러보기
     {
       title: "둘러보기",
-      location: "/home/recent",
+      location: "/home/map",
       icons: <IonIcon icon={compassOutline} size="23" color="gray" />,
       focus: <IonIcon icon={compass} size="23" color="cornflowerblue" />,
     },

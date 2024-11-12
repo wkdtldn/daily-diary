@@ -8,7 +8,7 @@ declare global {
 
 const { kakao } = window;
 
-export function Map() {
+function MapPage() {
   useEffect(() => {
     var mapContainer = document.getElementById("map"),
       mapOption = {
@@ -43,3 +43,5 @@ export function Map() {
   }, []);
   return <div id="map" style={{ width: "500px", height: "400px" }}></div>;
 }
+
+export default MapPage;

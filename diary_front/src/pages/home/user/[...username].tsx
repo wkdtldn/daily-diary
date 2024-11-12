@@ -15,7 +15,7 @@ import { RiApps2Line } from "react-icons/ri";
 import ListBox from "../../../components/ContentBox/ListBox";
 import AlbumsBox from "../../../components/ContentBox/AlbumsBox";
 
-interface SearchTargetType {
+type SearchTargetType = {
   id: number;
   username: string;
   name: string;
@@ -24,7 +24,7 @@ interface SearchTargetType {
   followings: string[];
   followers: string[];
   following: boolean;
-}
+};
 
 type Diary = {
   id: string;

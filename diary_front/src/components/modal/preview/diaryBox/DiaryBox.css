@@ -76,6 +76,7 @@
 
 .preview-comment-wrapper {
   width: 100%;
+  padding: 0 10px;
   display: flex;
   height: auto;
   flex-direction: column;
@@ -91,29 +92,30 @@
 }
 
 .comment-write {
-  padding: 0 7px;
+  padding-left: 10px;
+  padding-right: 3px;
   width: 100%;
+  border: 2px solid rgb(235, 235, 235);
+  border-radius: 23px;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 2px;
+  overflow: hidden;
 }
 
 .comment-write__input {
-  font-weight: 600;
-  padding: 7px;
   flex: 1;
   height: 40px;
-  font-size: 15px;
+  font-size: 14px;
   border-radius: 6px;
-  border: 2px solid #c7c7c7;
+  border: none;
 }
 
 .comment-write__submit {
-  width: 55px;
-  height: 40px;
+  width: 40px;
+  height: 90%;
   border-radius: 20px;
-  border: 3.5px solid white;
-  background-color: rgb(42, 42, 254);
-  box-shadow: 1px 1px 3px rgb(148, 148, 148);
+  border: 2px solid rgb(235, 235, 235);
+  background-color: rgb(226, 226, 226);
 }

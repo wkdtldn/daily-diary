@@ -41,20 +41,14 @@ const Comment: React.FC<CommentProps> = ({
   like_list,
   load_comment,
 }) => {
-  const navigate = useNavigate();
-
   const login_user = useRecoilValue(LoginUser);
 
-  const [profileImage, setProfileImage] = useState<string | null>(null);
-
-  const [loading, setLoading] = useState<boolean>(false);
+  const [profileImage, setProfileImage] = useState<string>("");
 
   useEffect(() => {
     const load_proflie = async () => {
-      setLoading(true);
       const writer_profile = (await userSearch(writer)) as ProfileType;
       setProfileImage(writer_profile.image);
-      setLoading(false);
     };
     load_proflie();
   }, []);
@@ -129,84 +123,76 @@ const Comment: React.FC<CommentProps> = ({
 
   return (
     <>
-      {loading ? (
-        <p>loading</p>
-      ) : (
-        <>
-          <article
-            className={`comment-container ${
-              showOptions ? "comment_select" : ""
-            } `}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onTouchStart={handleMouseDown}
-            onTouchEnd={handleMouseUp}
+      <article
+        className={`comment-container ${showOptions ? "comment_select" : ""} `}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchEnd={handleMouseUp}
+      >
+        <div className="comment-profile-box">
+          <img
+            className="comment-profile__img"
+            src={profileImage!}
+            alt="comment-user_profile"
+          />
+        </div>
+        <div className="comment-main">
+          <div className="comment-main__info-box">
+            <span className="comment-main-username">{writer}</span>
+            <span className="comment-main-created_at">{generalTime()}</span>
+          </div>
+          <span
+            className={`comment-main-detail ${
+              showMore ? "" : "not_seemore_comment"
+            }`}
+            onClick={() => setShowMore(!showMore)}
           >
-            <div className="comment-profile-box">
-              <img
-                className="comment-profile__img"
-                src={profileImage!}
-                alt="comment-user_profile"
-              />
-            </div>
-            <div className="comment-main">
-              <div className="comment-main__info-box">
-                <span className="comment-main-username">{writer}</span>
-                <span className="comment-main-created_at">{generalTime()}</span>
-              </div>
-              <span
-                className={`comment-main-detail ${
-                  showMore ? "" : "not_seemore_comment"
-                }`}
-                onClick={() => setShowMore(!showMore)}
-              >
-                {comment}
-              </span>
-              <div className="comment-main__reaction-history-box">
-                <span
-                  className="comment-main__reaction__heart-history"
-                  onClick={() => setLike(!like)}
-                >
-                  좋아요{" "}
-                  {like_list.includes(login_user.username)
-                    ? !like
-                      ? like_count - 1
-                      : like_count
-                    : like
-                    ? like_count + 1
-                    : like_count}
-                  개
-                </span>
-              </div>
-            </div>
-            <div className="comment-reaction">
-              <button
-                className="comment-reaction__heart"
-                onClick={() => setLike(!like)}
-              >
-                {like ? <IoHeart /> : <IoHeartOutline />}
-              </button>
-            </div>
-            {writer === login_user.username ? (
-              <animated.button
-                style={CommentOptionAnimation}
-                className="comment-option"
-                onClick={deleteComment}
-              >
-                삭제
-              </animated.button>
-            ) : (
-              <animated.button
-                style={CommentOptionAnimation}
-                className="comment-option"
-                onClick={() => setLike(!like)}
-              >
-                {like ? "좋아요 취소" : "좋아요"}
-              </animated.button>
-            )}
-          </article>
-        </>
-      )}
+            {comment}
+          </span>
+          <div className="comment-main__reaction-history-box">
+            <span
+              className="comment-main__reaction__heart-history"
+              onClick={() => setLike(!like)}
+            >
+              좋아요{" "}
+              {like_list.includes(login_user.username)
+                ? !like
+                  ? like_count - 1
+                  : like_count
+                : like
+                ? like_count + 1
+                : like_count}
+              개
+            </span>
+          </div>
+        </div>
+        <div className="comment-reaction">
+          <button
+            className="comment-reaction__heart"
+            onClick={() => setLike(!like)}
+          >
+            {like ? <IoHeart /> : <IoHeartOutline />}
+          </button>
+        </div>
+        {writer === login_user.username ? (
+          <animated.button
+            style={CommentOptionAnimation}
+            className="comment-option"
+            onClick={deleteComment}
+          >
+            삭제
+          </animated.button>
+        ) : (
+          <animated.button
+            style={CommentOptionAnimation}
+            className="comment-option"
+            onClick={() => setLike(!like)}
+          >
+            {like ? "좋아요 취소" : "좋아요"}
+          </animated.button>
+        )}
+      </article>
       {showOptions ? (
         <div
           className="comment-overlay"

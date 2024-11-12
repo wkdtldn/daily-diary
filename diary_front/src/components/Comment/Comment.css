@@ -18,18 +18,16 @@
   width: 100%;
   min-height: 95px;
   height: auto;
-  padding: 12px 8px;
+  padding: 10px 0;
   box-sizing: border-box;
   display: flex;
   gap: 10px;
-  margin: 5px 0;
   border-radius: 7px;
 }
 
 .comment-profile-box {
-  margin-top: 7px;
+  margin-top: 10px;
   position: relative;
-  height: 100%;
   width: 35px;
   overflow: hidden;
 }
@@ -44,9 +42,9 @@
 
 .comment-main {
   flex: 1;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 .comment-main__info-box {
   width: 100%;
@@ -81,7 +79,6 @@
   white-space: normal;
 }
 .comment-main-detail {
-  flex: 1;
   padding-top: 3px;
   font-size: 15px;
 }
@@ -95,7 +92,6 @@
 }
 
 .comment-reaction {
-  height: 100%;
   width: 35px;
   display: flex;
   margin-top: 15px;

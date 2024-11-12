@@ -1,4 +1,7 @@
 import "./home.css";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 import Header from "../../components/Layout/Header/Header";
 import CalendarPage from "./calendar/calendar";
@@ -11,19 +14,49 @@ import NotFound from "../notfound/notfound";
 import Footer from "../../components/Layout/Footer/Footer";
 import DiaryPage from "./diary/[...diaryId]";
 import FriendPage from "./friend/friend";
+import MapPage from "./map/map";
 
 import { IoColorWand } from "react-icons/io5";
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { userState } from "../../hooks/recoil/userState";
 import { useEffect, useRef, useState } from "react";
-import { check_auth } from "../../api/user";
 import Draggable, { DraggableData } from "react-draggable";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { check_auth } from "../../api/user";
+import { userState } from "../../hooks/recoil/userState";
 import { api } from "../../api/axiosInstance";
 import DiaryEditPage from "./diary-edit/[...diaryId]";
 
-const HomePage = () => {
+function DefaultPage() {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <Swiper
+        spaceBetween={0}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <SwiperSlide>
+          <CalendarPage />
+        </SwiperSlide>
+        <SwiperSlide>
+          <RecentPage />
+        </SwiperSlide>
+      </Swiper>
+    </div>
+  );
+}
+
+function HomePage() {
   const updateStatus = async () => {
     try {
       await api.get("/api/update-status/");
@@ -94,8 +127,8 @@ const HomePage = () => {
           <Header />
           <div className="home-content-wrapper">
             <Routes>
-              <Route path="/calendar" element={<CalendarPage />}></Route>
-              <Route path="/recent" element={<RecentPage />}></Route>
+              <Route path="/" element={<DefaultPage />}></Route>
+              <Route path="/map" element={<MapPage />}></Route>
               <Route path="/write" element={<WritePage />}></Route>
               <Route path="/profile" element={<ProfilePage />}></Route>
               <Route path="/profile-edit" element={<ProfileEditPage />}></Route>
@@ -143,6 +176,6 @@ const HomePage = () => {
       )}
     </div>
   );
-};
+}
 
 export default HomePage;
