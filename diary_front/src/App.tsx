@@ -1,6 +1,6 @@
 import "@ionic/react/css/core.css";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import LoginPage from "./pages/login/login";
 import SigninPage from "./pages/signup/signup";
 import NotFound from "./pages/notfound/notfound";
@@ -11,6 +11,7 @@ import { api } from "./api/axiosInstance";
 import { useEffect } from "react";
 
 function App() {
+  const location = useLocation();
   useEffect(() => {
     const initialSet = async () => {
       const csrftoken = await fetchCookies();
@@ -18,7 +19,7 @@ function App() {
     };
 
     initialSet();
-  }, []);
+  }, [location]);
   return (
     <div className="app">
       <Routes>

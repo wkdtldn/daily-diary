@@ -84,7 +84,6 @@ function HomePage() {
       setLoading(true);
       try {
         const auth = await check_auth();
-
         if (auth) {
           setUser(auth.user);
         }
@@ -96,7 +95,7 @@ function HomePage() {
       }
     };
     checkAuthentication();
-  }, []);
+  }, [location]);
 
   const nodeRef = useRef(null);
 
