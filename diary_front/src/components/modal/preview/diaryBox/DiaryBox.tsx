@@ -26,6 +26,7 @@ type Comment = {
   created_at: string;
   comment: string;
   likes: string[];
+  writer_image_url: string;
 };
 
 const DiaryBox: React.FC<DiaryBoxProps> = ({
@@ -140,6 +141,7 @@ const DiaryBox: React.FC<DiaryBoxProps> = ({
               created_at={comment.created_at}
               like_count={comment.like_count}
               like_list={comment.likes}
+              writer_profile={comment.writer_image_url}
               load_comment={load_comment}
               key={value}
             />

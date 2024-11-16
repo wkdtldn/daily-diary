@@ -5,9 +5,7 @@ import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { api } from "../../api/axiosInstance";
 import { useRecoilValue } from "recoil";
 import { LoginUser } from "../../hooks/recoil/userState";
-import { userSearch } from "../../api/user";
 import { useSpring, animated } from "@react-spring/web";
-import { useNavigate } from "react-router-dom";
 
 interface CommentProps {
   id: number;
@@ -16,21 +14,9 @@ interface CommentProps {
   comment: string;
   like_count: number;
   like_list: string[];
+  writer_profile: string;
   load_comment: () => void;
 }
-
-type ProfileType = {
-  id: string;
-  username: string;
-  name: string;
-  email: string;
-  image: string;
-  followings: string[];
-  following_count: number;
-  followers: string[];
-  follower_count: number;
-  following: boolean;
-};
 
 const Comment: React.FC<CommentProps> = ({
   id,
@@ -39,19 +25,10 @@ const Comment: React.FC<CommentProps> = ({
   comment,
   like_count,
   like_list,
+  writer_profile,
   load_comment,
 }) => {
   const login_user = useRecoilValue(LoginUser);
-
-  const [profileImage, setProfileImage] = useState<string>("");
-
-  useEffect(() => {
-    const load_proflie = async () => {
-      const writer_profile = (await userSearch(writer)) as ProfileType;
-      setProfileImage(writer_profile.image);
-    };
-    load_proflie();
-  }, []);
 
   const isMounted = useRef(false);
 
@@ -133,7 +110,7 @@ const Comment: React.FC<CommentProps> = ({
         <div className="comment-profile-box">
           <img
             className="comment-profile__img"
-            src={profileImage!}
+            src={writer_profile}
             alt="comment-user_profile"
           />
         </div>

@@ -30,5 +30,10 @@
 }
 
 .selected {
-  color: cornflowerblue;
+  color: cornflowerblue !important;
+}
+
+.footer_write {
+  width: 28px;
+  height: 28px;
 }

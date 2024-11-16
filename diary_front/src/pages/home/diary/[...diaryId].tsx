@@ -45,7 +45,6 @@ type Diary = {
   time: string;
   writer: number;
   date: string;
-  images: string[];
   emotion: number | null;
   probs: probsPiece[] | [];
 };

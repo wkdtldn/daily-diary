@@ -11,7 +11,7 @@ type Friend = {
   id: number;
   username: string;
   name: string;
-  image: string;
+  image_url: string;
   following: boolean;
   isActive: boolean;
   last_active: string | null;

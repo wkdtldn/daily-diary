@@ -217,6 +217,8 @@
 
 .profile-list {
   width: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .profile-albums {
@@ -226,4 +228,5 @@
   justify-content: flex-start;
   align-content: flex-start;
   height: 100%;
+  overflow-y: auto;
 }

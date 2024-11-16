@@ -20,7 +20,7 @@ type SearchTargetType = {
   username: string;
   name: string;
   email: string;
-  image: string;
+  image_url: string;
   followings: string[];
   followers: string[];
   following: boolean;
@@ -159,7 +159,7 @@ const UserProfile: React.FC = () => {
                 className="profile-header-wrapper"
                 style={
                   {
-                    "--bg-image-url": `url(${searchTarget.image})`,
+                    "--bg-image-url": `url(${searchTarget.image_url})`,
                   } as React.CSSProperties
                 }
               >
@@ -167,7 +167,7 @@ const UserProfile: React.FC = () => {
                   <div className="profile-info-left">
                     <img
                       className="profile-img"
-                      src={searchTarget.image}
+                      src={searchTarget.image_url}
                       alt="profile-img"
                     />
                   </div>
@@ -261,7 +261,6 @@ const UserProfile: React.FC = () => {
                         writer={diary.writer_name}
                         date={diary.date}
                         time={diary.time}
-                        images={diary.images}
                         key={value}
                       />
                     ))}
@@ -275,7 +274,6 @@ const UserProfile: React.FC = () => {
                         date={diary.date}
                         time={diary.time}
                         like_count={diary.like_count}
-                        images={diary.images}
                         writer={diary.writer_name}
                         key={value}
                       />

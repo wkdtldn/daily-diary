@@ -28,6 +28,7 @@ import { check_auth } from "../../api/user";
 import { userState } from "../../hooks/recoil/userState";
 import { api } from "../../api/axiosInstance";
 import DiaryEditPage from "./diary-edit/[...diaryId]";
+import { SyncLoader } from "react-spinners";
 
 function DefaultPage() {
   return (
@@ -42,9 +43,13 @@ function DefaultPage() {
       <Swiper
         spaceBetween={0}
         slidesPerView={1}
+        initialSlide={1}
         pagination={{ clickable: true }}
         style={{ width: "100%", height: "100%" }}
       >
+        <SwiperSlide>
+          <WritePage />
+        </SwiperSlide>
         <SwiperSlide>
           <CalendarPage />
         </SwiperSlide>
@@ -97,30 +102,40 @@ function HomePage() {
     checkAuthentication();
   }, [location]);
 
-  const nodeRef = useRef(null);
+  // const nodeRef = useRef(null);
 
-  const [, setPosition] = useState({ x: 0, y: 0 });
-  const [Opacity, setOpacity] = useState(false);
-  const trackPos = (data: DraggableData) => {
-    setPosition({ x: data.x, y: data.y });
-  };
-  const handleStart = () => {
-    setOpacity(true);
-  };
-  const handleEnd = () => {
-    setTimeout(() => {
-      setOpacity(false);
-    }, 100);
-  };
-  const handleWriteDiary = () => {
-    if (Opacity) return;
-    navigate("/home/write");
-  };
+  // const [, setPosition] = useState({ x: 0, y: 0 });
+  // const [Opacity, setOpacity] = useState(false);
+  // const trackPos = (data: DraggableData) => {
+  //   setPosition({ x: data.x, y: data.y });
+  // };
+  // const handleStart = () => {
+  //   setOpacity(true);
+  // };
+  // const handleEnd = () => {
+  //   setTimeout(() => {
+  //     setOpacity(false);
+  //   }, 100);
+  // };
+  // const handleWriteDiary = () => {
+  //   if (Opacity) return;
+  //   navigate("/home/write");
+  // };
 
   return (
     <div className="HomePage">
       {loading ? (
-        <p>loading</p>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <SyncLoader />
+        </div>
       ) : (
         <div className="homepage-wrapper">
           <Header />
@@ -140,7 +155,7 @@ function HomePage() {
               <Route path="/friends" element={<FriendPage />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
-            {location.pathname === "/home/write" ? (
+            {/* {location.pathname === "/home/write" ? (
               ""
             ) : (
               <Draggable
@@ -168,7 +183,7 @@ function HomePage() {
                   </button>
                 </div>
               </Draggable>
-            )}
+            )} */}
           </div>
           <Footer />
         </div>

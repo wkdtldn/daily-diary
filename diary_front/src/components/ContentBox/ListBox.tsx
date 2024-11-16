@@ -1,11 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./ListBox.css";
 import { CiClock2 } from "react-icons/ci";
-import React, { useEffect, useRef, useState } from "react";
-import { api } from "../../api/axiosInstance";
-import { useSpring, animated } from "@react-spring/web";
-import { useRecoilValue } from "recoil";
-import { LoginUser } from "../../hooks/recoil/userState";
+import React from "react";
 
 interface ListBoxProps {
   id: string;
@@ -13,18 +9,9 @@ interface ListBoxProps {
   date: string;
   text: string;
   time: string;
-  images: string[];
 }
 
-const ListBox: React.FC<ListBoxProps> = ({
-  id,
-  writer,
-  date,
-  time,
-  images,
-}) => {
-  const login_user = useRecoilValue(LoginUser);
-
+const ListBox: React.FC<ListBoxProps> = ({ id, writer, date, time }) => {
   const navigate = useNavigate();
 
   const get_day = (idx: number) => {
@@ -102,17 +89,6 @@ const ListBox: React.FC<ListBoxProps> = ({
               {content_date.time}
             </span>
           </div>
-        </div>
-        <div className="listbox-right">
-          {images.length > 0 ? (
-            <img
-              className="diary-listbox-img"
-              src={api.defaults.baseURL + "/" + images[0]}
-              alt="diary-img"
-            />
-          ) : (
-            ""
-          )}
         </div>
       </article>
     </div>

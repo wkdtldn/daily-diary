@@ -32,7 +32,7 @@ type TargetUser = {
   username: string;
   name: string;
   email: string;
-  image: string;
+  image_url: string;
   followings: string[];
   followers: string[];
   following: boolean;
@@ -111,8 +111,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
         },
         itemContent: {
           profileText: `@${targetUser.username}`,
-          profileImageUrl: targetUser.image,
-          titleImageUrl: targetUser.image,
+          profileImageUrl: targetUser.image_url,
+          titleImageUrl: targetUser.image_url,
           titleImageText: targetUser.username,
           titleImageCategory: targetUser.name,
         },
@@ -198,7 +198,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                   <div className="sharemodal-app_profile">
                     <img
                       className="sharemodal_app-icon"
-                      src="https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg"
+                      src={targetUser?.image_url}
                       alt="app-icon"
                     />
                   </div>

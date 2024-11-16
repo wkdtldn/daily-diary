@@ -23,7 +23,6 @@ type Diary = {
   time: string;
   writer: number;
   date: string;
-  images: string[];
 };
 
 function ProfilePage() {
@@ -226,7 +225,6 @@ function ProfilePage() {
                       writer={diary.writer_name}
                       date={diary.date}
                       time={diary.time}
-                      images={diary.images}
                       key={value}
                     />
                   ))}
@@ -240,7 +238,6 @@ function ProfilePage() {
                       date={diary.date}
                       time={diary.time}
                       like_count={diary.like_count}
-                      images={diary.images}
                       writer={diary.writer_name}
                       key={value}
                     />

@@ -11,7 +11,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 
 type User = {
   id: number;
-  image: string;
+  image_url: string;
   username: string;
   name: string;
   following: boolean;
@@ -59,7 +59,7 @@ const FollowContent: React.FC<FollowContentProps> = ({
       <div className="follow-image">
         <img
           className="follow-image_profile"
-          src={user.image}
+          src={user.image_url}
           alt="user-profile"
         />
       </div>

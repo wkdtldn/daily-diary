@@ -12,7 +12,6 @@ import { LoginUser } from "../../../hooks/recoil/userState";
 import React, { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
-import { codeSlashOutline } from "ionicons/icons";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -27,7 +26,6 @@ type Diary = {
   time: string;
   writer: number;
   date: string;
-  images: string[];
   emotion: number;
 };
 
@@ -201,14 +199,13 @@ function CalendarPage() {
         {diaries.length === 0 ? (
           <p>오늘의 일기 작성</p>
         ) : (
-          diaries?.map((diary, value) => (
+          diaries!.map((diary, value) => (
             <ListBox
               id={diary.id}
               text={diary.text}
               writer={diary.writer_name}
               date={diary.date}
               time={diary.time}
-              images={diary.images}
               key={value}
             />
           ))

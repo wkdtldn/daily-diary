@@ -33,7 +33,7 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
   };
 
   const [value, setValue] = useState("");
-  const [images, setImages] = useState<string[]>([]);
+  // const [images, setImages] = useState<string[]>([]);
   const [textContent, setTextContent] = useState("");
 
   const handleChange = (content: string) => {
@@ -48,7 +48,6 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
   const write = async (isPublic: boolean) => {
     const res = await api.post("/api/diary/", {
       text: textContent,
-      images: images,
       content: value,
       date: writeDate(),
       is_public: isPublic,
@@ -74,35 +73,35 @@ const WriteEditor: React.FC<WriteEditorProps> = ({
         if (!value) {
           alert("일기를 작성해주세요");
         } else {
-          const quillInstance = quillref.current!.getEditor();
-          const ops = quillInstance.getContents().ops;
-          if (ops) {
-            ops.forEach((op: any) => {
-              if (op.insert && op.insert.image) {
-                const imageUrl = op.insert.image;
-                if (imageUrl.startsWith("data:image/")) {
-                  setImages([imageUrl]);
-                } else {
-                  fetch(imageUrl)
-                    .then((response) => response.blob())
-                    .then((blob) => {
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        const base64String = reader.result as string;
-                        setImages((prevImages) => [
-                          ...prevImages,
-                          base64String,
-                        ]);
-                      };
-                      reader.readAsDataURL(blob);
-                    })
-                    .catch((error) =>
-                      console.error("Error converting image:", error)
-                    );
-                }
-              }
-            });
-          }
+          // const quillInstance = quillref.current!.getEditor();
+          // const ops = quillInstance.getContents().ops;
+          // if (ops) {
+          //   ops.forEach((op: any) => {
+          //     if (op.insert && op.insert.image) {
+          //       const imageUrl = op.insert.image;
+          //       if (imageUrl.startsWith("data:image/")) {
+          //         setImages([imageUrl]);
+          //       } else {
+          //         fetch(imageUrl)
+          //           .then((response) => response.blob())
+          //           .then((blob) => {
+          //             const reader = new FileReader();
+          //             reader.onloadend = () => {
+          //               const base64String = reader.result as string;
+          //               setImages((prevImages) => [
+          //                 ...prevImages,
+          //                 base64String,
+          //               ]);
+          //             };
+          //             reader.readAsDataURL(blob);
+          //           })
+          //           .catch((error) =>
+          //             console.error("Error converting image:", error)
+          //           );
+          //       }
+          //     }
+          //   });
+          // }
           modalRef.current?.showModal();
         }
       }

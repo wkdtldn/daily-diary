@@ -12,7 +12,6 @@ type Diary = {
   time: string;
   writer: number;
   date: string;
-  images: string[];
 };
 
 function RecentPage() {
@@ -73,7 +72,6 @@ function RecentPage() {
               writer={diary.writer_name}
               date={diary.date}
               time={diary.time}
-              images={diary.images}
               key={value}
             />
           ))
