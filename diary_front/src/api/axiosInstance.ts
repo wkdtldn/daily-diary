@@ -6,7 +6,7 @@ import axios from "axios";
 // };
 
 export const api = axios.create({
-  baseURL: "https://7ab7-221-149-135-202.ngrok-free.app",
+  baseURL: "http://192.168.40.2:8000/",
   headers: {
     "Content-Type": "application/json",
   },
