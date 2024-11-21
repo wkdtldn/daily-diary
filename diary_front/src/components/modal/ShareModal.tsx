@@ -170,12 +170,21 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
   const shareRef = useRef<HTMLDivElement>(null);
 
-  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    if (shareRef.current) {
-      shareRef.current.scrollLeft += event.deltaY;
-    }
-  };
+  useEffect(() => {
+    const container = shareRef.current;
+    if (!container) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      container.scrollLeft += event.deltaY;
+    };
+
+    container.addEventListener("wheel", handleWheel);
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
 
   return (
     <>
@@ -215,11 +224,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                 <h3 style={{ width: "100%", paddingLeft: "10px" }}>
                   다른 옵션 보기
                 </h3>
-                <div
-                  ref={shareRef}
-                  onWheel={handleWheel}
-                  className="sharemodal_share-btn_wrapper"
-                >
+                <div ref={shareRef} className="sharemodal_share-btn_wrapper">
                   <FacebookShareButton
                     className="share-btn"
                     url={shareData.url}
@@ -283,26 +288,28 @@ const ShareModal: React.FC<ShareModalProps> = ({
           )}
         </>
       </animated.div>
-      <div
-        style={{
-          width: "100%",
-          height: "auto",
-          position: "fixed",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 10000000,
-          top: 0,
-          left: 0,
-        }}
-      >
-        <animated.div className="copy-alert" style={CopyModalAnimation}>
-          <span className="copy-alert_check">
-            <IonIcon icon={checkmarkOutline} />
-          </span>
-          클립보드에 복사되었습니다!
-        </animated.div>
-      </div>
+      {showCopy && (
+        <div
+          style={{
+            width: "100%",
+            height: "auto",
+            position: "fixed",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 10000000,
+            top: 0,
+            left: 0,
+          }}
+        >
+          <animated.div className="copy-alert" style={CopyModalAnimation}>
+            <span className="copy-alert_check">
+              <IonIcon icon={checkmarkOutline} />
+            </span>
+            클립보드에 복사되었습니다!
+          </animated.div>
+        </div>
+      )}
     </>
   );
 };

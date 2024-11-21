@@ -61,22 +61,38 @@ const ListBox: React.FC<ListBoxProps> = ({ id, writer, date, time }) => {
   const date_ = new Date(date);
 
   return (
-    <div style={{ width: "100%", height: "auto", position: "relative" }}>
+    <div
+      className="m-w h-a relative"
+      style={{ borderBottom: "1px solid rgb(203,203,203)" }}
+    >
       <article
-        className="listbox-wrapper"
+        className="m-w border-n p-5 flex a-c j-se bg-n relative cursor-p"
+        style={{
+          height: "85px",
+          borderBottom: "1.5px solid rgb(196, 196, 196) !important",
+        }}
         onClick={() => navigate(`/home/diary/${id}`)}
       >
-        <div className="listbox-left">
+        <div
+          className="listbox-left m-h flex flex-c a-c j-c"
+          style={{ flex: "0 0 12%", gap: "1px" }}
+        >
           <span className="listbox-left-date__date">{date_.getDate()}</span>
           <span className="listbox-left-date__day">
             {get_day(date_.getDay())}
           </span>
         </div>
-        <div className="listbox-middle">
+        <div
+          className="over-h f-1 m-h p-5 flex flex-c j-c a-fs"
+          style={{ gap: "5px" }}
+        >
           <span className="listbox-middle-date">{content_date.date}</span>
-          <div className="listbox-middle__detail-wrapper">
+          <div
+            className="flex a-c"
+            style={{ fontSize: "14px", color: "gray", gap: "10px" }}
+          >
             <span
-              className="listbox-middle-writer"
+              className="cursor-p over-h sumtext listbox-middle-writer"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/home/user/${writer}`);
@@ -84,8 +100,8 @@ const ListBox: React.FC<ListBoxProps> = ({ id, writer, date, time }) => {
             >
               @{writer}
             </span>
-            <span className="listbox-middle-timeline">
-              <CiClock2 className="clock-icon" />
+            <span className="flex a-c j-c" style={{ gap: "3px" }}>
+              <CiClock2 style={{ fontSize: "15px !important" }} />
               {content_date.time}
             </span>
           </div>

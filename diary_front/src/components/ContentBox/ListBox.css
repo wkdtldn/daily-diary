@@ -1,28 +1,3 @@
-.listbox-wrapper {
-  box-sizing: border-box;
-  width: 100%;
-  height: 85px;
-  border: none;
-  border-bottom: 1.5px solid rgb(196, 196, 196) !important;
-  padding: 5px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  background: none;
-  position: relative;
-  cursor: pointer;
-}
-
-.listbox-left {
-  flex: 0 0 12%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-}
 .listbox-left-date__date {
   font-size: 16px;
   font-weight: bold;
@@ -31,92 +6,17 @@
   font-size: 14px;
 }
 
-.listbox-middle {
-  overflow: hidden;
-  flex: 1;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 5px;
-}
 .listbox-middle-date {
   font-size: 13px;
   font-weight: bold;
 }
-.listbox-middle__detail-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 14px;
-  color: gray;
-  gap: 10px;
-}
 .listbox-middle-writer {
-  cursor: pointer;
   color: gray !important;
   max-width: 100px;
-  overflow: hidden;
   text-decoration-line: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   z-index: 10;
 }
 .listbox-middle-writer:hover,
 .listbox-middle-writer:active {
   text-decoration-line: underline;
-}
-
-.listbox-middle-timeline {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3px;
-}
-
-.clock-icon {
-  font-size: 15px !important;
-}
-
-.diary-press-option {
-  position: absolute;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13.5px;
-  font-weight: bold;
-  color: white;
-  border: none;
-  background-color: gray;
-  left: 50%;
-  top: 25%;
-}
-
-.diary-press-option:hover,
-.diary-press-option:active {
-  background-color: rgb(65, 65, 65) !important;
-}
-
-.diary-options {
-  position: absolute;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13.5px;
-  font-weight: bold;
-  color: white;
-  border: none;
-  top: 50%;
-  left: 20px;
-  background-color: gray;
-}
-
-.diary-options:hover,
-.diary-options:active {
-  background-color: rgb(65, 65, 65) !important;
 }

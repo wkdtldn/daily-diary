@@ -6,6 +6,7 @@ import { userSearch } from "../../../api/user";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../../api/axiosInstance";
 import FriendComponent from "../../../components/modal/FriendContent";
+import { SyncLoader } from "react-spinners";
 
 type Friend = {
   id: number;
@@ -53,27 +54,21 @@ function FriendPage() {
 
   return (
     <>
-      <div className="friendpage-container">
+      <div className="m-w m-h flex flex-c a-c p-10 overy-a">
         {Friends.length === 0 ? (
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <div className="m-w m-h flex a-c j-c">
             <h3>팔로우, 팔로잉을 하면 여기에 표시됩니다</h3>
           </div>
         ) : (
           <>
             {loading ? (
-              <p>loading...</p>
+              <div className="m-w m-h flex a-c j-c">
+                <SyncLoader />
+              </div>
             ) : (
               <>
                 {Friends.map((friend, index) => (
-                  <div className="friendpage-content_wrapper">
+                  <div className="m-w" style={{ height: "75px" }}>
                     <FriendComponent
                       friend={friend}
                       handleFriendState={setFriends}

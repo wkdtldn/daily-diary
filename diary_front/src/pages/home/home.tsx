@@ -14,14 +14,10 @@ import NotFound from "../notfound/notfound";
 import Footer from "../../components/Layout/Footer/Footer";
 import DiaryPage from "./diary/[...diaryId]";
 import FriendPage from "./friend/friend";
-import MapPage from "./map/map";
-
-import { IoColorWand } from "react-icons/io5";
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { useEffect, useRef, useState } from "react";
-import Draggable, { DraggableData } from "react-draggable";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { check_auth } from "../../api/user";
@@ -29,35 +25,41 @@ import { userState } from "../../hooks/recoil/userState";
 import { api } from "../../api/axiosInstance";
 import DiaryEditPage from "./diary-edit/[...diaryId]";
 import { SyncLoader } from "react-spinners";
+import SearchPage from "./search/search";
 
 function DefaultPage() {
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <Swiper
-        spaceBetween={0}
-        slidesPerView={1}
-        initialSlide={1}
-        pagination={{ clickable: true }}
-        style={{ width: "100%", height: "100%" }}
+    <>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
       >
-        <SwiperSlide>
-          <WritePage />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CalendarPage />
-        </SwiperSlide>
-        <SwiperSlide>
-          <RecentPage />
-        </SwiperSlide>
-      </Swiper>
-    </div>
+        <Header />
+        <Swiper
+          spaceBetween={0}
+          slidesPerView={1}
+          initialSlide={1}
+          pagination={{ clickable: true }}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <SwiperSlide>
+            <WritePage />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CalendarPage />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecentPage />
+          </SwiperSlide>
+        </Swiper>
+      </div>
+    </>
   );
 }
 
@@ -102,47 +104,22 @@ function HomePage() {
     checkAuthentication();
   }, [location]);
 
-  // const nodeRef = useRef(null);
-
-  // const [, setPosition] = useState({ x: 0, y: 0 });
-  // const [Opacity, setOpacity] = useState(false);
-  // const trackPos = (data: DraggableData) => {
-  //   setPosition({ x: data.x, y: data.y });
-  // };
-  // const handleStart = () => {
-  //   setOpacity(true);
-  // };
-  // const handleEnd = () => {
-  //   setTimeout(() => {
-  //     setOpacity(false);
-  //   }, 100);
-  // };
-  // const handleWriteDiary = () => {
-  //   if (Opacity) return;
-  //   navigate("/home/write");
-  // };
-
   return (
-    <div className="HomePage">
-      {loading ? (
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+    <>
+      {loading && (
+        <div className="m-w m-h flex a-c j-c absolute top left">
           <SyncLoader />
         </div>
-      ) : (
-        <div className="homepage-wrapper">
-          <Header />
-          <div className="home-content-wrapper">
+      )}
+      <div
+        className="m-w m-h relative m-0 p-0"
+        style={loading ? { backgroundColor: "gray", opacity: 0.1 } : {}}
+      >
+        <div className="m-w m-h flex flex-c a-c relative">
+          <div className="relative m-w f-1 over-h">
             <Routes>
               <Route path="/" element={<DefaultPage />}></Route>
-              <Route path="/map" element={<MapPage />}></Route>
+              <Route path="/search" element={<SearchPage />} />
               <Route path="/write" element={<WritePage />}></Route>
               <Route path="/profile" element={<ProfilePage />}></Route>
               <Route path="/profile-edit" element={<ProfileEditPage />}></Route>
@@ -155,40 +132,11 @@ function HomePage() {
               <Route path="/friends" element={<FriendPage />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
-            {/* {location.pathname === "/home/write" ? (
-              ""
-            ) : (
-              <Draggable
-                nodeRef={nodeRef}
-                onDrag={(e, data) => trackPos(data)}
-                onStart={handleStart}
-                onStop={handleEnd}
-              >
-                <div
-                  ref={nodeRef}
-                  className="draggable-wrapper"
-                  style={{
-                    opacity: Opacity ? "0.5" : "1",
-                    zIndex: 10000,
-                  }}
-                >
-                  <button
-                    ref={nodeRef}
-                    className="draggable-btn"
-                    style={{ opacity: Opacity ? "0.5" : "1" }}
-                    onClick={handleWriteDiary}
-                    onTouchEnd={handleWriteDiary}
-                  >
-                    <IoColorWand fontSize={23} fontWeight={600} color="white" />
-                  </button>
-                </div>
-              </Draggable>
-            )} */}
           </div>
           <Footer />
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
 

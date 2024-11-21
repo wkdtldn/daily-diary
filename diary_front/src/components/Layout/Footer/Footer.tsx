@@ -28,7 +28,7 @@ const Footer = () => {
     // 둘러보기
     {
       title: "둘러보기",
-      location: "/home/map",
+      location: "/home/search",
       icons: <IonIcon icon={compassOutline} size="23" color="gray" />,
       focus: <IonIcon icon={compass} size="23" color="cornflowerblue" />,
     },
@@ -70,7 +70,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="Footer">
+    <footer>
       {footerOption.map((option, index) => (
         <NavLink
           key={index}
@@ -80,7 +80,7 @@ const Footer = () => {
           to={option.location}
         >
           {location.pathname === option.location ? option.focus : option.icons}
-          <p className="footer-option-title">{option.title}</p>
+          <p className="footer-option-title m-0 p-0">{option.title}</p>
         </NavLink>
       ))}
     </footer>

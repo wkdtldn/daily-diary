@@ -10,10 +10,11 @@ import { api } from "../../../api/axiosInstance";
 import { useSpring, animated } from "@react-spring/web";
 import { getDiaryByUser } from "../../../api/diary";
 import { IonIcon } from "@ionic/react";
-import { arrowBack, list } from "ionicons/icons";
+import { arrowBack, arrowForward, list } from "ionicons/icons";
 import { RiApps2Line } from "react-icons/ri";
 import ListBox from "../../../components/ContentBox/ListBox";
 import AlbumsBox from "../../../components/ContentBox/AlbumsBox";
+import FollowComponent from "../../../components/modal/Follow";
 
 type SearchTargetType = {
   id: number;
@@ -149,139 +150,173 @@ const UserProfile: React.FC = () => {
     }
   }, []);
 
+  const [followingOpen, setFollowingOpen] = useState(false);
+  const [followerOpen, setFollowerOpen] = useState(false);
+
   return (
-    <div className="profile-container">
+    <div className="m-w m-h flex flex-c a-c over-h">
       {login_user.username ? (
         !loading ? (
           searchTarget?.username ? (
-            <div className="profile-container">
-              <div
-                className="profile-header-wrapper"
-                style={
-                  {
-                    "--bg-image-url": `url(${searchTarget.image_url})`,
-                  } as React.CSSProperties
-                }
-              >
-                <div className="profile-info">
-                  <div className="profile-info-left">
-                    <img
-                      className="profile-img"
-                      src={searchTarget.image_url}
-                      alt="profile-img"
-                    />
-                  </div>
+            <>
+              <div className="m-w m-h flex flex-c a-c over-h">
+                <div
+                  ref={profileBackgroundRef}
+                  className="profile-header-wrapper m-w relative flex flex-c a-c j-se"
+                >
                   <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      flexBasis: "50%",
-                    }}
+                    className="profile-info m-w h-a flex relative a-c j-c"
+                    style={{ gap: "20px" }}
                   >
-                    <span className="profile__username">
-                      @{searchTarget.username}
-                    </span>
-                    <span className="profile__name">{searchTarget.name}</span>
+                    <div
+                      className="profile-info-left flex flex-c a-c relative j-fs"
+                      style={{ height: "140px" }}
+                    >
+                      <img
+                        className="fitimg border-n round"
+                        style={{ width: "120px", height: "120px" }}
+                        src={searchTarget.image_url}
+                        alt="profile-img"
+                      />
+                    </div>
+                    <div
+                      className="flex flex-c j-c"
+                      style={{ flexBasis: "50%" }}
+                    >
+                      <span className="profile__username bold sumtext">
+                        @{searchTarget.username}
+                      </span>
+                      <span className="profile__name sumtext">
+                        {searchTarget.name}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div id="profile-follow" className="m-w flex a-c j-se">
+                    <button
+                      className="profile-follow_option flex flex-c a-c j-c bold border-n bg-n"
+                      onClick={() => setFollowerOpen(true)}
+                    >
+                      <span>팔로워</span>
+                      <span className="follow_number">
+                        {searchTarget.following
+                          ? !followState
+                            ? searchTarget.followers.length - 1
+                            : searchTarget.followers.length
+                          : followState
+                          ? searchTarget.followers.length + 1
+                          : searchTarget.followers.length}
+                      </span>
+                    </button>
+                    <button
+                      className="profile-follow_option flex flex-c a-c j-c bold border-n bg-n"
+                      onClick={() => setFollowingOpen(true)}
+                    >
+                      <span>팔로잉</span>
+                      <span className="follow_number">
+                        {searchTarget.followings.length}
+                      </span>
+                    </button>
+                    <button
+                      className={` ${followState ? "followed" : "follow-btn"}`}
+                      onClick={() => follow()}
+                    >
+                      {`${followState ? "팔로우 취소" : "팔로우"}`}
+                    </button>
                   </div>
                 </div>
 
-                <div className="profile-follow">
-                  <div className="profile-follow_option">
-                    <span>팔로워</span>
-                    <span className="follow_number">
-                      {searchTarget.following
-                        ? !followState
-                          ? searchTarget.followers.length - 1
-                          : searchTarget.followers.length
-                        : followState
-                        ? searchTarget.followers.length + 1
-                        : searchTarget.followers.length}
-                    </span>
-                  </div>
-                  <div className="profile-follow_option">
-                    <span>팔로잉</span>
-                    <span className="follow_number">
-                      {searchTarget.followings.length}
-                    </span>
-                  </div>
-                  <button
-                    className={` ${followState ? "followed" : "follow-btn"}`}
-                    onClick={() => follow()}
+                <div
+                  className="f-1 m-w flex relative overy-a"
+                  style={{ zIndex: 100 }}
+                >
+                  <article
+                    className="absolute flex a-c j-c"
+                    style={{ top: "10px", right: "10px" }}
                   >
-                    {`${followState ? "팔로우 취소" : "팔로우"}`}
-                  </button>
+                    <animated.button
+                      style={selectBtnAnimation}
+                      ref={selectRef}
+                      type="button"
+                      className="select-btn flex a-c j-c bold border-n"
+                      onClick={() => setSelectOpen(!selectOpen)}
+                    >
+                      {selectOpen ? (
+                        <IonIcon icon={arrowForward} />
+                      ) : (
+                        <IonIcon icon={arrowBack} />
+                      )}
+                    </animated.button>
+                    <animated.button
+                      style={{
+                        ...listBtnAnimation,
+                        pointerEvents: listBtnAnimation.opacity.to((opacity) =>
+                          opacity === 0 ? "none" : "auto"
+                        ),
+                      }}
+                      className="option-btn"
+                      value="list"
+                      onClick={handleSelectValue}
+                    >
+                      <IonIcon icon={list} />
+                    </animated.button>
+                    <animated.button
+                      style={{
+                        ...albumsBtnAnimation,
+                        pointerEvents: albumsBtnAnimation.opacity.to(
+                          (opacity) => (opacity === 0 ? "none" : "auto")
+                        ),
+                      }}
+                      className="option-btn"
+                      value="albums"
+                      onClick={handleSelectValue}
+                    >
+                      <RiApps2Line />
+                    </animated.button>
+                  </article>
+                  {selectValue === "list" ? (
+                    <div className="profile-list">
+                      {Diaries?.map((diary, value) => (
+                        <ListBox
+                          id={diary.id}
+                          text={diary.text}
+                          writer={diary.writer_name}
+                          date={diary.date}
+                          time={diary.time}
+                          key={value}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="profile-albums">
+                      {Diaries?.map((diary, value) => (
+                        <AlbumsBox
+                          id={diary.id}
+                          text={diary.text}
+                          date={diary.date}
+                          time={diary.time}
+                          like_count={diary.like_count}
+                          writer={diary.writer_name}
+                          key={value}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
-
-              <div className="profile-content">
-                <article className="profile-filter">
-                  <animated.button
-                    style={selectBtnAnimation}
-                    ref={selectRef}
-                    type="button"
-                    className="select-btn"
-                    onClick={() => setSelectOpen(!selectOpen)}
-                  >
-                    <IonIcon icon={arrowBack} />
-                  </animated.button>
-                  <animated.button
-                    style={{
-                      ...listBtnAnimation,
-                      pointerEvents: listBtnAnimation.opacity.to((opacity) =>
-                        opacity === 0 ? "none" : "auto"
-                      ),
-                    }}
-                    className="option-btn"
-                    value="list"
-                    onClick={handleSelectValue}
-                  >
-                    <IonIcon icon={list} />
-                  </animated.button>
-                  <animated.button
-                    style={{
-                      ...albumsBtnAnimation,
-                      pointerEvents: albumsBtnAnimation.opacity.to((opacity) =>
-                        opacity === 0 ? "none" : "auto"
-                      ),
-                    }}
-                    className="option-btn"
-                    value="albums"
-                    onClick={handleSelectValue}
-                  >
-                    <RiApps2Line />
-                  </animated.button>
-                </article>
-                {selectValue === "list" ? (
-                  <div className="profile-list">
-                    {Diaries?.map((diary, value) => (
-                      <ListBox
-                        id={diary.id}
-                        text={diary.text}
-                        writer={diary.writer_name}
-                        date={diary.date}
-                        time={diary.time}
-                        key={value}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="profile-albums">
-                    {Diaries?.map((diary, value) => (
-                      <AlbumsBox
-                        id={diary.id}
-                        text={diary.text}
-                        date={diary.date}
-                        time={diary.time}
-                        like_count={diary.like_count}
-                        writer={diary.writer_name}
-                        key={value}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+              <FollowComponent
+                option="follower"
+                isOpen={followerOpen}
+                follow_list={searchTarget.followers}
+                close={() => setFollowerOpen(false)}
+              />
+              <FollowComponent
+                option="following"
+                isOpen={followingOpen}
+                follow_list={searchTarget.followings}
+                close={() => setFollowingOpen(false)}
+              />
+            </>
           ) : (
             <p>존재하지 않는 사용자</p>
           )

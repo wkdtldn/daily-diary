@@ -101,22 +101,28 @@ const Comment: React.FC<CommentProps> = ({
   return (
     <>
       <article
-        className={`comment-container ${showOptions ? "comment_select" : ""} `}
+        className={`relative m-w h-a pt-10 pb-10 flex ${
+          showOptions ? "comment_select" : ""
+        } `}
+        style={{ minHeight: "95px", gap: "10px", borderRadius: "7px" }}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onTouchStart={handleMouseDown}
         onTouchEnd={handleMouseUp}
       >
-        <div className="comment-profile-box">
+        <div className="mt-10 relative over-h" style={{ width: "35px" }}>
           <img
-            className="comment-profile__img"
+            className="round fitimg mt-5"
+            style={{ width: "35px", height: "35px" }}
             src={writer_profile}
             alt="comment-user_profile"
           />
         </div>
-        <div className="comment-main">
-          <div className="comment-main__info-box">
-            <span className="comment-main-username">{writer}</span>
+        <div className="f-1 flex flex-c j-c">
+          <div className="m-w flex a-c j-fs" style={{ gap: "5px" }}>
+            <span className="comment-main-username sumtext w-a bold">
+              {writer}
+            </span>
             <span className="comment-main-created_at">{generalTime()}</span>
           </div>
           <span
@@ -127,11 +133,8 @@ const Comment: React.FC<CommentProps> = ({
           >
             {comment}
           </span>
-          <div className="comment-main__reaction-history-box">
-            <span
-              className="comment-main__reaction__heart-history"
-              onClick={() => setLike(!like)}
-            >
+          <div className="comment-main__reaction-history-box flex">
+            <span onClick={() => setLike(!like)}>
               좋아요{" "}
               {like_list.includes(login_user.username)
                 ? !like
@@ -144,9 +147,13 @@ const Comment: React.FC<CommentProps> = ({
             </span>
           </div>
         </div>
-        <div className="comment-reaction">
+        <div
+          className="flex a-fs j-c"
+          style={{ width: "35px", marginTop: "15px" }}
+        >
           <button
-            className="comment-reaction__heart"
+            className="m-w flex a-c j-c border-n bg-n"
+            style={{ fontSize: "larger" }}
             onClick={() => setLike(!like)}
           >
             {like ? <IoHeart /> : <IoHeartOutline />}
@@ -172,7 +179,7 @@ const Comment: React.FC<CommentProps> = ({
       </article>
       {showOptions ? (
         <div
-          className="comment-overlay"
+          className="comment-overlay fixed m-w top left"
           onClick={() => setShowOptions(false)}
         ></div>
       ) : (

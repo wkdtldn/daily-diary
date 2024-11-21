@@ -1,8 +1,6 @@
 import "./Public.css";
 
 import React, { RefObject } from "react";
-import { NavigateFunction } from "react-router-dom";
-import { api } from "../../../api/axiosInstance";
 import { IonIcon } from "@ionic/react";
 import { close } from "ionicons/icons";
 
@@ -19,26 +17,39 @@ const PublicComponent: React.FC<PublicProps> = ({ modalRef, write }) => {
   };
 
   return (
-    <dialog className="public-modal" ref={modalRef} onClick={ModalClose}>
-      <div className="public-modal-container">
-        <div className="public-modal-header">
+    <dialog
+      className="public-modal border-n over-h"
+      ref={modalRef}
+      onClick={ModalClose}
+    >
+      <div
+        className="public-modal-container m-w m-h border-n flex flex-c a-c pb-10"
+        style={{ gap: "8px" }}
+      >
+        <div className="public-modal-header h-a flex a-c j-c relative">
           <h3 className="public-modal-title">공개/비공개</h3>
           <button
-            className="public-modal-cancel"
+            className="public-modal-cancel absolute right border-n round flex a-c j-c"
             onClick={() => modalRef.current?.close()}
           >
             <IonIcon icon={close} size="23" />
           </button>
         </div>
-        <div className="public-modal-body">
+        <div className="public-modal-body f-1 ta-c">
           공개하실 경우 <strong>모든 사용자</strong>와 함께 당신의 이야기를
           공유할 수 있습니다.
         </div>
-        <div className="public-modal-footer">
-          <button className="public-modal-btn" onClick={() => write(true)}>
+        <div className="m-w h-a flex j-se a-c">
+          <button
+            className="public-modal-btn border-n"
+            onClick={() => write(true)}
+          >
             공개
           </button>
-          <button className="public-modal-btn" onClick={() => write(false)}>
+          <button
+            className="public-modal-btn border-n"
+            onClick={() => write(false)}
+          >
             비공개
           </button>
         </div>

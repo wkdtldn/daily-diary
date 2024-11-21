@@ -47,10 +47,10 @@ function SignupPage() {
   };
 
   return (
-    <div className="signup-container">
-      <h1 className="signup-title">회원가입</h1>
-      <form className="signup-form" onSubmit={submit}>
-        <div className="signup-input-wrapper">
+    <div className="m-w m-h flex flex-c a-c j-c" style={{ gap: "10px" }}>
+      <h1>회원가입</h1>
+      <form className="m-w flex flex-c a-c j-c signup-form" onSubmit={submit}>
+        <div className="signup-input-wrapper relative flex a-c j-c">
           <input
             id="id"
             name="username"
@@ -68,7 +68,7 @@ function SignupPage() {
             <IonIcon icon={close} />
           </button>
         </div>
-        <div className="signup-input-wrapper">
+        <div className="signup-input-wrapper relative flex a-c j-c">
           <input
             id="email"
             name="email"
@@ -86,7 +86,7 @@ function SignupPage() {
             <IonIcon icon={close} />
           </button>
         </div>
-        <div className="signup-input-wrapper">
+        <div className="signup-input-wrapper relative flex a-c j-c">
           <input
             id="name"
             name="name"
@@ -104,7 +104,7 @@ function SignupPage() {
             <IonIcon icon={close} />
           </button>
         </div>
-        <div className="signup-input-wrapper">
+        <div className="signup-input-wrapper relative flex a-c j-c">
           <input
             id="password"
             name="password"
@@ -122,7 +122,7 @@ function SignupPage() {
             {passwordShow ? <IonIcon icon={eye} /> : <IonIcon icon={eyeOff} />}
           </button>
         </div>
-        <button tabIndex={-1} type="submit" className="signup-submit">
+        <button tabIndex={-1} type="submit" className="signup-submit border-n">
           회원가입
         </button>
       </form>

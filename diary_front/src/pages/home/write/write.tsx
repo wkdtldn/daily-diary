@@ -27,16 +27,25 @@ function WritePage() {
   };
 
   return (
-    <div className="write-container">
-      <div className="write-title-wrapper">
-        <button className="write-button" onClick={minusDate}>
+    <div className="m-w m-h pt-10 flex a-c flex-c">
+      <div
+        className="mt-10 mb-10 m-w flex a-c j-fs pl-10"
+        style={{ height: "35px", gap: "10px" }}
+      >
+        <button
+          className="border-n bg-n flex a-c j-c write-button"
+          onClick={minusDate}
+        >
           &lt;
         </button>
         <span className="write-date">
           {writeDate?.year}년 {writeDate?.month}월 {writeDate?.date}일{" "}
           {writeDate?.day}요일
         </span>
-        <button className="write-button" onClick={plusDate}>
+        <button
+          className="border-n bg-n flex a-c j-c write-button"
+          onClick={plusDate}
+        >
           &gt;
         </button>
       </div>

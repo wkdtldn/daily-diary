@@ -46,12 +46,14 @@ const AlbumsBox: React.FC<AlbumsBoxProps> = ({
   return (
     <>
       <button
-        className="albumsbox-wrapper"
+        className="albumsbox-wrapper flex flex-c a-c border-n relative over-h"
         onClick={() => navigate(`/home/diary/${id}`)}
       >
-        <div className="albumsbox-content">
+        <div className="m-w m-h flex a-c j-c">
           <div className="albumsbox-date">{content_date.date}</div>
-          <div className="albumsbox-like">좋아요 {like_count}개</div>
+          <div className="albumsbox-like bold absolute">
+            좋아요 {like_count}개
+          </div>
         </div>
       </button>
     </>

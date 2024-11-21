@@ -45,10 +45,10 @@ function LoginPage() {
   };
 
   return (
-    <div className="login-container">
-      <h1 className="login-title">로그인</h1>
-      <form className="login-form" onSubmit={submit}>
-        <div className="login-input-wrapper">
+    <div className="m-w m-h flex flex-c a-c j-c" style={{ gap: "10px" }}>
+      <h1>로그인</h1>
+      <form className="login-form m-w flex a-c j-c flex-c" onSubmit={submit}>
+        <div className="login-input-wrapper relative flex a-c j-c">
           <input
             id="id"
             name="username"
@@ -66,7 +66,7 @@ function LoginPage() {
             <IonIcon icon={close} />
           </button>
         </div>
-        <div className="login-input-wrapper">
+        <div className="login-input-wrapper relative flex a-c j-c">
           <input
             id="password"
             name="password"
@@ -84,11 +84,11 @@ function LoginPage() {
             {passwordShow ? <IonIcon icon={eye} /> : <IonIcon icon={eyeOff} />}
           </button>
         </div>
-        <button type="submit" className="login-submit">
+        <button type="submit" className="login-submit border-n">
           로그인
         </button>
       </form>
-      <div className="options">
+      <div className="options flex a-c j-sb">
         <Link to="/signin">회원가입</Link>
         <Link to="/lost">비밀번호를 잃어버리셨나요?</Link>
       </div>

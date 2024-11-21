@@ -9,13 +9,7 @@
 
 .profile-header-wrapper {
   z-index: 10;
-  width: 100%;
   height: 250px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
   box-shadow: 0 3px 3px rgb(214, 214, 214);
 }
 
@@ -36,17 +30,6 @@
   z-index: 100;
 }
 
-.profile-info {
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-
 .profile-img {
   border: none;
   width: 120px;
@@ -56,39 +39,21 @@
   object-fit: cover;
 }
 
-.profile-info-left {
-  height: 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  justify-content: flex-start;
-}
-
 .profile-edit-button {
   width: 60px;
   height: 35px;
   border-radius: 5px;
   font-size: 13px;
   box-shadow: 1.3px 1.3px 5px rgb(112, 112, 112);
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  bottom: 0;
   right: 25%;
   background-color: blue;
   color: white;
-  border: none;
 }
 
 .profile__username {
   text-shadow: 1px 1px 2px white;
   font-size: 25px;
-  font-weight: bold;
   max-width: 250px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .profile__name {
@@ -96,35 +61,17 @@
   font-weight: 150;
   margin-bottom: 8px;
   max-width: 250px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.profile-follow {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.profile-follow > * {
+#profile-follow > * {
   width: 95px;
 }
 
 .profile-follow_option {
   width: 80px;
   height: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: 17px;
-  font-weight: bold;
-  border: none;
   border-radius: 7px;
-  background: none;
 }
 
 .profile-follow_option:hover,
@@ -153,34 +100,11 @@
   box-shadow: none;
 }
 
-.profile-content {
-  z-index: 100;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  position: relative;
-  overflow-y: auto;
-}
-
-.profile-filter {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .select-btn {
   z-index: 100;
   width: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 15px;
-  font-weight: bold;
-  border: none;
   border-radius: 25px;
   color: black;
   opacity: 0.6;

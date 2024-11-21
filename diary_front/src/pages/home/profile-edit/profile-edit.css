@@ -1,75 +1,21 @@
-.profile-edit-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-}
-
-.profile-edit-img__wrapper {
-  width: auto;
-  height: 170px;
-  position: relative;
-  margin-bottom: 35px;
-}
-
-.profile-edit-img {
-  border: none;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  overflow: hidden;
-  object-fit: cover;
-}
 .profile-edit-img__capture {
   width: 50px;
   height: 35px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
   background-color: rgb(0, 0, 227);
-  border: none;
   border-radius: 0.3rem;
 }
 
-.profile-edit-input__wrapper {
-  width: auto;
-  height: 60px;
-  position: relative;
-  margin-bottom: 10px;
-}
-
-.profile-edit-label {
-  position: absolute;
-  bottom: 0;
-  left: 3px;
-  font-size: 12px;
-  font-weight: bold;
-  color: red;
-}
-
 .profile-edit-input {
-  border: none;
-  box-shadow: 2px 2px 3px rgb(191, 191, 191), -1px -1px 3px rgb(225, 225, 225);
-  border-radius: 8px;
+  border-bottom: 2.3px solid rgb(206, 206, 206);
+  font-size: 16.5px;
   width: 280px;
   height: 40px;
-  padding: 10px;
 }
 
 .UpdateBtn {
   width: 120px;
   height: 42px;
   border-radius: 8px;
-  border: none;
   background-color: deepskyblue;
-  box-shadow: 2px 2px 5px rgb(159, 159, 159), -1px -1px 2px rgb(168, 168, 168);
   transition-duration: 0.2s;
-}
-
-.UpdateBtn:hover,
-.UpdateBtn:active {
-  box-shadow: none;
 }

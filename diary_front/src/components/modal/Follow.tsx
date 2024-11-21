@@ -53,22 +53,22 @@ const FollowContent: React.FC<FollowContentProps> = ({
 
   return (
     <article
-      className="follow-content"
+      className="follow-content m-w flex a-c relative"
       onClick={() => navigate(`/home/user/${user.username}`)}
     >
-      <div className="follow-image">
+      <div className="follow-image m-h flex a-c j-c">
         <img
-          className="follow-image_profile"
+          className="follow-image_profile fitimg round"
           src={user.image_url}
           alt="user-profile"
         />
       </div>
-      <div className="follow-info">
-        <span className="follow-info_username">{user.username}</span>
+      <div className="ml-10 f-1 m-h flex a-c j-fs ta-c">
+        <span className="follow-info_username bold">{user.username}</span>
       </div>
-      <div className="follow-options">
+      <div className="w-a m-h flex a-c j-c">
         <button
-          className="follow-options_btn"
+          className="follow-options_btn flex a-c j-c bg-n round"
           onClick={(e) => {
             e.stopPropagation();
             setShowOptions(!showOptions);
@@ -79,7 +79,7 @@ const FollowContent: React.FC<FollowContentProps> = ({
       </div>
       {showOptions ? (
         <button
-          className="follow-option"
+          className="follow-option ta-c bg-n absolute right"
           onClick={(e) => {
             e.stopPropagation();
             follow(e, user);
@@ -142,23 +142,29 @@ const FollowComponent: React.FC<FollowComponentProps> = ({
     <>
       <animated.div
         style={ModalOverlayAnimation}
-        className="follow-overlay"
+        className="follow-overlay fixed m-w m-h top left"
         onClick={() => close()}
       ></animated.div>
-      <animated.div className="follow-container" style={ModalAnimation}>
+      <animated.div
+        className="follow-container fixed flex flex-c top a-c"
+        style={ModalAnimation}
+      >
         {loading ? (
           <p>loading</p>
         ) : (
           <>
-            <div className="follow-header">
+            <div className="follow-header m-w flex a-c relative">
               <span className="follow-title">
                 {option === "follower" ? "팔로우" : "팔로잉"}
               </span>
-              <button className="follow-close" onClick={() => close()}>
+              <button
+                className="follow-close flex a-c j-c border-n bg-n absolute right over-h round"
+                onClick={() => close()}
+              >
                 <IonIcon icon={closeOutline} />
               </button>
             </div>
-            <div className="follow-body">
+            <div className="follow-body m-w f-1 overy-a flex a-c flex-c j-fs">
               {followList.map((user, idx) => (
                 <FollowContent
                   user={user}

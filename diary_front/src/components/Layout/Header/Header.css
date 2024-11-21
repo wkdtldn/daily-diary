@@ -4,8 +4,8 @@ header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  box-shadow: 1.5px 0px 4px gray;
+  justify-content: space-evenly;
+  border-bottom: 1px solid gray;
   z-index: 100;
 }
 
@@ -15,14 +15,9 @@ header {
 }
 
 .header-button {
-  border: none;
   width: 45px;
   height: 35px;
   font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
   border-radius: 5px;
 }
 

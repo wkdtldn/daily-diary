@@ -69,41 +69,54 @@ function ProfileEditPage() {
   };
 
   const takePicture = async () => {
-    const image = await Camera.getPhoto({
-      quality: 100,
-      resultType: CameraResultType.DataUrl,
-    });
-    setPhoto(image.dataUrl);
+    try {
+      const image = await Camera.getPhoto({
+        quality: 100,
+        resultType: CameraResultType.DataUrl,
+      });
+      setPhoto(image.dataUrl);
+    } catch (error) {
+      console.log("Camera close");
+    }
   };
 
   return (
-    <div className="profile-edit-container">
-      <div className="profile-edit-img__wrapper">
-        <img className="profile-edit-img" src={photo} alt="profile-edit-img" />
+    <div className="m-w m-h flex flex-c a-c j-c" style={{ padding: "30px" }}>
+      <div
+        className="w-a relative"
+        style={{ height: "170px", marginBottom: "35px" }}
+      >
+        <img
+          className="border-n round fitimg"
+          style={{ width: "150px", height: "150px" }}
+          src={photo}
+          alt="profile-edit-img"
+        />
         <button
-          className="profile-edit-img__capture"
+          className="profile-edit-img__capture absolute bottom right border-n"
           color="secondary"
           onClick={() => takePicture()}
         >
           <IoCamera size={22} color="white" />
         </button>
       </div>
-      <div className="profile-edit-input__wrapper">
+      <div className="w-a relative mb-10" style={{ height: "60px" }}>
         <input
           value={usernameValue}
           onChange={(e) => setUsernameValue(e.target.value)}
           name="username"
           type="text"
-          className="profile-edit-input"
+          className="profile-edit-input border-n p-10"
           maxLength={40}
           placeholder={`아이디 (${login_user.username})`}
         />
-        {!valiable ? (
-          <label className="profile-edit-label">
+        {!valiable && (
+          <label
+            className="absolute bottom bold"
+            style={{ left: "3px", fontSize: "12px", color: "red" }}
+          >
             사용할 수 없는 아이디입니다.
           </label>
-        ) : (
-          false
         )}
       </div>
       <input
@@ -111,12 +124,12 @@ function ProfileEditPage() {
         onChange={(e) => setNameValue(e.target.value)}
         type="text"
         name="name"
-        className="profile-edit-input"
+        className="profile-edit-input border-n p-10"
         placeholder={`이름 (${login_user.name})`}
       />
       <button
         type="submit"
-        className="UpdateBtn"
+        className="UpdateBtn border-n"
         style={{ marginTop: "50px" }}
         onClick={(e) => update(e)}
       >

@@ -117,44 +117,49 @@ function ProfilePage() {
   const [followerOpen, setFollowerOpen] = useState(false);
 
   return (
-    <div className="profile-container">
+    <div className="m-w m-h flex flex-c a-c over-h">
       {login_user.username ? (
         <>
-          <div className="profile-container">
-            <div ref={profileBackgroundRef} className="profile-header-wrapper">
-              <div className="profile-info">
-                <div className="profile-info-left">
+          <div className="m-w m-h flex flex-c a-c over-h">
+            <div
+              ref={profileBackgroundRef}
+              className="profile-header-wrapper m-w relative flex flex-c a-c j-se"
+            >
+              <div
+                className="profile-info m-w h-a flex relative a-c j-c"
+                style={{ gap: "20px" }}
+              >
+                <div
+                  className="profile-info-left flex flex-c a-c relative j-fs"
+                  style={{ height: "140px" }}
+                >
                   <img
-                    className="profile-img"
+                    className="fitimg border-n round"
+                    style={{ width: "120px", height: "120px" }}
                     src={login_user.image}
                     alt="profile-img"
                   />
                   <button
-                    className="profile-edit-button"
+                    className="profile-edit-button p-0 m-0 absolute b-0 border-n bottom"
                     onClick={() => navigate("/home/profile-edit")}
                   >
                     편집
                     <IonIcon icon={create} size="10" />
                   </button>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    flexBasis: "50%",
-                  }}
-                >
-                  <span className="profile__username">
+                <div className="flex flex-c j-c" style={{ flexBasis: "50%" }}>
+                  <span className="profile__username bold sumtext">
                     @{login_user.username}
                   </span>
-                  <span className="profile__name">{login_user.name}</span>
+                  <span className="profile__name sumtext">
+                    {login_user.name}
+                  </span>
                 </div>
               </div>
 
-              <div className="profile-follow">
+              <div id="profile-follow" className=" m-w flex a-c j-se">
                 <button
-                  className="profile-follow_option"
+                  className="profile-follow_option flex flex-c a-c j-c bold border-n bg-n"
                   onClick={() => setFollowerOpen(true)}
                 >
                   <span>팔로워</span>
@@ -163,7 +168,7 @@ function ProfilePage() {
                   </span>
                 </button>
                 <button
-                  className="profile-follow_option"
+                  className="profile-follow_option flex flex-c a-c j-c bold border-n bg-n"
                   onClick={() => setFollowingOpen(true)}
                 >
                   <span>팔로잉</span>
@@ -174,13 +179,19 @@ function ProfilePage() {
               </div>
             </div>
 
-            <div className="profile-content">
-              <article className="profile-filter">
+            <div
+              className="f-1 m-w flex relative overy-a"
+              style={{ zIndex: 100 }}
+            >
+              <article
+                className="absolute flex a-c j-c"
+                style={{ top: "10px", right: "10px" }}
+              >
                 <animated.button
                   style={selectBtnAnimation}
                   ref={selectRef}
                   type="button"
-                  className="select-btn"
+                  className="select-btn flex a-c j-c bold border-n"
                   onClick={() => setSelectOpen(!selectOpen)}
                 >
                   {selectOpen ? (

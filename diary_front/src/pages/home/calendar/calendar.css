@@ -1,58 +1,15 @@
-.calendar-page {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-}
-
-.calendar-wrapper {
-  height: 350px;
-  width: 100%;
-  overflow: hidden;
-}
-
 .filter-wrapper {
-  width: 100%;
   height: 50px;
   background-color: rgb(200, 228, 239);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  .selected-date {
-    flex-basis: 70%;
-  }
-  .filter-show__select {
-    border: none;
-    background: none;
-    height: 70%;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .filter-select__year,
-  .filter-select__month,
-  .filter-select__date,
-  .filter-select__day {
-    font-weight: 200;
-  }
-
-  .filter-select__day {
-    color: rgb(76, 76, 76);
-    font-weight: bold !important;
-  }
+}
+.selected-date {
+  flex-basis: 70%;
+  font-weight: 200;
 }
 
-.content-container {
-  width: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  overflow-y: auto;
+.filter-select__day {
+  color: rgb(76, 76, 76);
+  font-weight: bold !important;
 }
 
 .dot {

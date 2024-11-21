@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getDiary } from "../../../api/diary";
 import DiaryEditor from "./editor/editor";
+import { BarLoader } from "react-spinners";
 
 type Diary = {
   id: string;
@@ -64,18 +65,29 @@ function DiaryEditPage() {
   return (
     <>
       {loading ? (
-        <p>loading...</p>
+        <div className="m-w m-h flex a-c j-c">
+          <BarLoader />
+        </div>
       ) : (
-        <div className="write-container">
-          <div className="write-title-wrapper">
-            <button className="write-button" onClick={minusDate}>
+        <div className="m-w m-h pt-10 flex a-c flex-c">
+          <div
+            className="mt-10 mb-10 m-w flex a-c j-fs pl-10"
+            style={{ height: "35px", gap: "10px" }}
+          >
+            <button
+              className="write-button border-n bg-n flex a-c j-c"
+              onClick={minusDate}
+            >
               &lt;
             </button>
             <span className="write-date">
               {writeDate?.year}년 {writeDate?.month}월 {writeDate?.date}일{" "}
               {writeDate?.day}요일
             </span>
-            <button className="write-button" onClick={plusDate}>
+            <button
+              className="write-button border-n bg-n flex a-c j-c"
+              onClick={plusDate}
+            >
               &gt;
             </button>
           </div>

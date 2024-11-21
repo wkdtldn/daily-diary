@@ -79,17 +79,23 @@ const CommentModal: React.FC<CommentModalProps> = ({
     <>
       <animated.div
         style={overlay_animation}
-        className="commentModalOverlay"
+        className="commentModalOverlay fixed m-w m-h top left"
         onClick={onClose}
       ></animated.div>
-      <animated.div style={animation} className="commentModal">
-        <div className="commentModal-header">
+      <animated.div
+        style={animation}
+        className="commentModal fixed flex flex-c a-c top"
+      >
+        <div className="commentModal-header m-w flex a-c bolder j-sb">
           <span>댓글</span>
-          <button className="commentModal-cancel" onClick={onClose}>
+          <button
+            className="commentModal-cancel border-n flex a-c j-c round"
+            onClick={onClose}
+          >
             <IonIcon icon={close} />
           </button>
         </div>
-        <div className="commentModal-body">
+        <div className="m-w m-h overy-a pl-10 pr-10">
           {comments ? (
             comments.map((comment, value) => (
               <Comment
@@ -108,16 +114,17 @@ const CommentModal: React.FC<CommentModalProps> = ({
             <p>댓글이 없습니다.</p>
           )}
         </div>
-        <div className="commentModal-comment-write">
+        <div className="commentModal-comment-write m-w flex a-c over-h">
           <input
             type="text"
             value={CommentValue}
             onChange={(e) => setCommentValue(e.target.value)}
-            className="commentModal-comment-write_input"
+            className="f-1 m-h border-n p-10"
+            style={{ borderRadius: "15px" }}
             placeholder="댓글 입력..."
           />
           <button
-            className="commentModal-comment-write_btn"
+            className="commentModal-comment-write_btn m-h"
             onClick={addComment}
           >
             <IonIcon icon={send} className="commentModal-send-icon" />

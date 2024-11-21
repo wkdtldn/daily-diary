@@ -48,22 +48,9 @@ const Dot: React.FC<DotProps> = ({ date, diaries, username }) => {
     const count_mine = matchingDiaries_mine.length;
 
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "2px",
-        }}
-      >
+      <div className="flex a-c j-c" style={{ gap: "2px" }}>
         {count_other > 0 && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <div className="flex a-c j-c">
             <div className="dot other-dot"></div>
             {count_other > 1 && (
               <span className="dot-plus">+{count_other - 1}</span>
@@ -71,13 +58,7 @@ const Dot: React.FC<DotProps> = ({ date, diaries, username }) => {
           </div>
         )}
         {count_mine > 0 && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <div className="flex a-c j-c">
             <div className="dot mine-dot"></div>
             {count_mine > 1 && (
               <span className="dot-plus">+{count_mine - 1}</span>
@@ -135,9 +116,9 @@ function CalendarPage() {
   }, [selected_date, filterValue]);
 
   return (
-    <div className="calendar-page">
+    <div className="m-w m-h flex a-c over-h flex-c relative">
       <Preview modalRef={PreviewRef} />
-      <div className="calendar-wrapper">
+      <div className="m-w over-h" style={{ height: "350px" }}>
         <Calendar
           value={value}
           onChange={handleDateClick}
@@ -147,16 +128,8 @@ function CalendarPage() {
           tileContent={({ date }: { date: Date }) => {
             return (
               <div
-                className="calendar-dot"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  position: "relative",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "2px",
-                }}
+                className="m-w m-h flex relative a-c j-c"
+                style={{ gap: "2px" }}
               >
                 <Dot
                   date={moment(date).format("YYYY-MM-DD")}
@@ -171,31 +144,29 @@ function CalendarPage() {
           next2Label={null}
         />
       </div>
-      <div className="filter-wrapper">
+      <div
+        className="m-w flex a-c j-sa"
+        style={{ height: "50px", backgroundColor: "rgb(200, 228, 239)" }}
+      >
         <div className="selected-date">
-          <span className="filter-select__year">{selected_date?.year}년</span>{" "}
-          <span className="filter-select__month">{selected_date?.month}월</span>{" "}
-          <span className="filter-select__date">{selected_date?.date}일</span>{" "}
-          <span className="filter-select__day">{selected_date?.day}요일</span>
+          <span>{selected_date?.year}년</span>{" "}
+          <span>{selected_date?.month}월</span>{" "}
+          <span>{selected_date?.date}일</span>{" "}
+          <span>{selected_date?.day}요일</span>
         </div>
         <select
           id="showOption"
-          className="filter-show__select"
+          className="border-n bg-n cursor-p bold"
+          style={{ height: "70%" }}
           value={filterValue}
           onChange={(e) => setFilterValue(e.target.value)}
         >
-          <option value="recent" className="filter-show__option">
-            최신순
-          </option>
-          <option value="old" className="filter-show__option">
-            오래된순
-          </option>
-          <option value="like" className="filter-show__option">
-            좋아요순
-          </option>
+          <option value="recent">최신순</option>
+          <option value="old">오래된순</option>
+          <option value="like">좋아요순</option>
         </select>
       </div>
-      <div className="content-container">
+      <div className="m-w f-1 flex flex-c a-c j-fs overy-a">
         {diaries.length === 0 ? (
           <p>오늘의 일기 작성</p>
         ) : (

@@ -1,5 +1,3 @@
-import "./notfound.css";
-
 function NotFound() {
   return (
     <div>

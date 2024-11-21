@@ -6,26 +6,6 @@
   font-style: normal;
 }
 
-.write-container {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.write-title-wrapper {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-}
-
 .write-date {
   font-size: 18px;
   font-weight: normal;
@@ -35,14 +15,9 @@
 .write-button {
   width: 30px;
   height: 30px;
-  border: none;
   border-radius: 8px;
-  background: none;
   font-size: 15px;
   font-family: "SBAggroB";
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 250;
 }
 
@@ -51,10 +26,11 @@
   background-color: rgb(230, 230, 230);
 }
 
-.content-input {
+.ql-snow {
   width: 100%;
-  padding: 10px;
+}
+
+.ql-container {
+  flex: 1;
   overflow-y: auto;
-  resize: none;
-  border: none;
 }

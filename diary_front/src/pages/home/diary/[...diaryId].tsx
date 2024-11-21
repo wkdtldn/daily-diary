@@ -219,24 +219,29 @@ function DiaryPage() {
 
   return (
     <>
-      <div className="diary-container">
+      <div className="m-w m-h flex flex-c a-c j-fs overy-a">
         {loading ? (
           <p>loading</p>
         ) : diary !== null ? (
-          <div className="diary-wrapper">
-            <div className="diary-header">
+          <div className="m-w h-a flex flex-c a-c">
+            <div className="diary-header m-w flex a-c j-fs">
               <span>{diary.date}</span>
               <Link
-                className="diary_writer"
+                className="diary_writer sumtext"
                 to={`/home/user/${diary.writer_name}`}
               >
                 @{diary.writer_name}
               </Link>
               {login_user.username === diary.writer_name ? (
                 <>
-                  <div className="diary-option">
+                  <div className="f-1 flex j-fe pr-10">
                     <button
-                      className="diary-option_btn"
+                      className="border-n flex a-c j-c bg-n"
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        fontSize: "18px",
+                      }}
                       onClick={() => setSelectOpen(!selectOpen)}
                     >
                       <HiOutlineDotsVertical />
@@ -249,7 +254,7 @@ function DiaryPage() {
                         opacity === 0 ? "none" : "auto"
                       ),
                     }}
-                    className="diary-option_select"
+                    className="diary-option_select absolute ta-c bold border-n"
                     onClick={() => navigate(`/home/diary/edit/${diaryId}`)}
                   >
                     수정
@@ -261,7 +266,7 @@ function DiaryPage() {
                         (opacity) => (opacity === 0 ? "none" : "auto")
                       ),
                     }}
-                    className="diary-option_select"
+                    className="diary-option_select absolute ta-c bold border-n"
                     onClick={delete_diary}
                   >
                     삭제
@@ -272,14 +277,14 @@ function DiaryPage() {
               )}
             </div>
             <div
-              className="diary-body"
+              className="diary-body m-w overy-a"
               dangerouslySetInnerHTML={{
                 __html: Dompurify.sanitize(diary.content),
               }}
             ></div>
-            <div className="diary-footer">
-              <div className="communicate-container">
-                <span className="communicate-like_count">
+            <div className="diary-footer m-w">
+              <div className="communicate-container m-w m-h flex a-c j-se pr-5">
+                <span className="communicate-like_count f-1">
                   좋아요{" "}
                   {diary.likes.includes(login_user.username)
                     ? !like
@@ -291,13 +296,13 @@ function DiaryPage() {
                   개
                 </span>
                 <button
-                  className="communicate-like communicate-btn"
+                  className="communicate-btn border-n bg-n flex a-c j-c"
                   onClick={diary_like}
                 >
                   {like ? <IoIosHeart /> : <IoIosHeartEmpty />}
                 </button>
                 <button
-                  className="communicate-comment communicate-btn"
+                  className="communicate-btn border-n bg-n flex a-c j-c"
                   onClick={() => setCommentShow(!commentShow)}
                 >
                   {commentShow ? (
@@ -307,7 +312,7 @@ function DiaryPage() {
                   )}
                 </button>
                 <button
-                  className="communicate-share communicate-btn"
+                  className="communicate-btn border-n bg-n flex a-c j-c"
                   onClick={() => {
                     count_comment();
                     setShareShow(!ShareShow);
@@ -318,26 +323,17 @@ function DiaryPage() {
               </div>
             </div>
             {diary.emotion !== null ? (
-              <div
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div className="diary-result-header">
+              <div className="m-w h-a flex flex-c a-c j-c">
+                <div className="m-w flex a-c j-se" style={{ height: "55px" }}>
                   <button
-                    className="chart-controler"
+                    className="chart-controler flex a-c j-c bold border-n bg-n"
                     onClick={() => setChartOption(0)}
                   >
                     &lt;
                   </button>
                   <h3>감정분석 결과</h3>
                   <button
-                    className="chart-controler"
+                    className="chart-controler flex a-c j-c bold border-n bg-n"
                     onClick={() => setChartOption(1)}
                   >
                     &gt;

@@ -42,16 +42,16 @@ function RecentPage() {
   }, [selectedDate]);
 
   return (
-    <div className="recent-container">
-      <div className="recent-filter-wrapper">
+    <div className="m-w m-h flex flex-c a-c">
+      <div className="recent-filter-wrapper m-w flex a-c p-5">
         <input
-          className="recent-date-picker"
+          className="recent-date-picker border-n bg-n ml-10"
           value={selectedDate}
           onChange={(e) => setSelectedDate(e.target.value)}
           type="month"
         />
       </div>
-      <div className="recent-history-content">
+      <div className="m-w m-h flex flex-c a-c j-fs overy-a">
         {diaries.length === 0 ? (
           <div
             style={{

@@ -62,22 +62,14 @@ const FriendComponent: React.FC<FriendComponentProps> = ({
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "70px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div className="m-w flex a-c j-c" style={{ height: "70px" }}>
       <div
-        className="friendpage-content"
+        className="m-w m-h flex a-c mb-5 p-5 friendpage-content"
         onClick={() => navigate(`/home/user/${friend.username}`)}
       >
-        <div className="friendpage-image_wrapper">
+        <div className="m-h flex a-c j-c">
           <img
-            className="friendpage-image"
+            className="friendpage-image fitimg round"
             style={
               friend.isActive
                 ? {
@@ -89,12 +81,14 @@ const FriendComponent: React.FC<FriendComponentProps> = ({
             alt="friend-image"
           />
         </div>
-        <div className="friendpage-info">
-          <span className="friendpage_username">@{friend.username}</span>
-          <span className="friendpage_name">{friend.name}</span>
+        <div className="flex f-1 j-c a-fs pl-10 m-h flex-c friendpage-info">
+          <span className="friendpage_username bold sumtext">
+            @{friend.username}
+          </span>
+          <span className="friendpage_name sumtext">{friend.name}</span>
         </div>
         <button
-          className="friendpage-option_select"
+          className="friendpage-option_select flex a-c j-c border-n bg-n"
           onClick={(e) => {
             e.stopPropagation();
             setShowOptions(!showOptions);
@@ -105,7 +99,7 @@ const FriendComponent: React.FC<FriendComponentProps> = ({
       </div>
       <animated.button
         style={FriendOptionAnimation}
-        className="friend-option"
+        className="friend-option absolute flex a-c j-c bold border-n"
         onClick={(e) => follow(e, friend)}
       >
         {friend.following ? "팔로우 취소" : "팔로우"}
